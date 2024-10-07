@@ -8,6 +8,11 @@ import ContactUs from './Pages/ContactUs'
 import PageError from './Pages/PageError'
 import Signup from './Pages/Auth/Signup'
 import Signin from './Pages/Auth/Signin'
+import PrivateRoute from './Components/Routes/Private'
+import SellerDashboard from './Pages/Seller/SellerDashboard'
+import Dashboard from './Pages/user/Dashboard'
+
+
 
 
 
@@ -19,13 +24,16 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<HomePage/>}></Route>
+      <Route path='/admin' element={<SellerDashboard/>}></Route>
+      <Route path='/dashboard' element={<PrivateRoute/>}>
+      <Route path='' element={<Dashboard/>}></Route>
+      
+      </Route>
       <Route path='/about' element={<About/>}></Route>
       <Route path='/contact' element={<ContactUs/>}></Route>
       <Route path='/signup' element={<Signup/>}></Route>
       <Route path='/signin' element={<Signin/>}></Route>
       <Route path="*" element={<PageError/>}></Route>
-      
-     
     </Routes>
   )
 }

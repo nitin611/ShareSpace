@@ -13,8 +13,6 @@ const Signup = () => {
     password: "",
     phone: "",
     collegeId: "",
-
-
   });
   const navigate=useNavigate()
 
@@ -38,6 +36,7 @@ const Signup = () => {
       password: formData.password,
       phone: formData.phone,
       collegeId: formData.collegeId, 
+      
     };
   
     try {

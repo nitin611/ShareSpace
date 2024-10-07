@@ -3,6 +3,7 @@ import userModel from '../models/userModel.js';
 
 
 // -------------------------protecting our routes with jwt token -----------------------------
+
 export const jwtverification=async(req,res,next)=>{
     try {
         const decoded=JWT.verify(req.headers.authorization,process.env.JWT_SECRET);

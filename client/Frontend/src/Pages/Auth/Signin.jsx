@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // For navigation after successful login
 import Structure from '../../Components/structure/Structure';
 import toast from 'react-hot-toast';
+import { useAuth } from '../../context/auth';
 
 const SignIn = () => {
   const [loginData, setLoginData] = useState({
@@ -9,7 +10,9 @@ const SignIn = () => {
     password: ''
   });
 
+
   const navigate = useNavigate();
+  const [auth,setAuth]=useAuth();
 
   // Handler for input change
   const handleChange = (e) => {
@@ -33,15 +36,23 @@ const SignIn = () => {
       const data = await res.json();
 
       if (res.status >= 200 && res.status < 300) {
-        console.log("sign in done")
+    
         // Show success toast on successful login
-        toast.success("Login successful", {
-          autoClose: 2000, 
-        });
+        toast.success("Login successful");
         localStorage.setItem('token', data.token); // Storing JWT token
 
        
         setTimeout(() => {
+          setAuth({
+            ...auth,
+            user: data.user,
+            token: data.token
+          });
+          // localStorage me store karado taki refresh karne pe bhi rahe-
+          localStorage.setItem('auth',JSON.stringify({
+            user: data.user,
+            token: data.token
+          }));
           navigate('/');
         }, 500);
       } else {

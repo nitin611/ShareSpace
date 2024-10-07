@@ -1,8 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/auth';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
+  const [auth,setAuth]=useAuth();
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate(); 
+
+  const handleDropdownToggle = () => {
+      setDropdownOpen((prev) => !prev);
+  };
+  // jab user signin karle to usko logout karne pe ye function run hoga-
+  // local storage clear and using setauth user,token sab ko clear kardo state me se 
+  // agar local storage se clear krenge to refresh karna parega direct setAuth se karo without reload-
+  const Logout = () => {
+   
+    // Clear the auth state
+    setAuth({
+        user: null,
+        token: ""
+    });
+
+    // Remove auth data from localStorage
+    localStorage.removeItem('auth');
+    localStorage.removeItem('token'); 
+    toast.success("Logout successful")
+    navigate('/');
+};
+
   return (
     <nav className="bg-white shadow-lg dark:bg-gray-900 sticky top-0 z-50">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,25 +67,73 @@ const Header = () => {
               to="/contact"
               className="text-gray-900 dark:text-white font-medium text-lg hover:text-teal-500 dark:hover:text-teal-400 transition-colors relative group"
             >
-              Contact Us
+              Category
               <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-teal-500 dark:bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
             </Link>
 
             {/* Sign-in / Sign-up Buttons */}
             <div className="space-x-4">
-              <Link
-                to="/signin"
-                className="px-4 py-2 text-sm font-medium text-teal-500 border border-teal-500 rounded-lg transition duration-300 ease-in-out hover:bg-teal-500 hover:text-white dark:hover:bg-teal-400 dark:hover:border-teal-400"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/signup"
-                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 border border-teal-500 rounded-lg shadow-md transition duration-300 ease-in-out hover:bg-teal-600 dark:bg-teal-400 dark:hover:bg-teal-500"
-              >
-                Sign Up
-              </Link>
+            
+            {/* agar user nahi hai to register and login page show karo 
+            nahi to logout button show karo agar user hai to-*/}
+
+                      {!auth.user ? (
+                        <>
+                            <Link
+                                to="/signin"
+                                className="px-4 py-2 text-sm font-medium text-teal-500 border border-teal-500 rounded-lg transition duration-300 ease-in-out hover:bg-teal-500 hover:text-white"
+                            >
+                                Sign In
+                            </Link>
+                            <Link
+                                to="/signup"
+                                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 border border-teal-500 rounded-lg shadow-md transition duration-300 ease-in-out hover:bg-teal-600"
+                            >
+                                Sign Up
+                            </Link>
+                        </>
+                    ) : (
+                        <div className="relative">
+                            <button
+                                onClick={handleDropdownToggle}
+                                className="flex items-center px-4 py-2 text-sm font-medium text-white bg-teal-500 border border-teal-500 rounded-lg shadow-md transition duration-300 ease-in-out hover:bg-teal-600"
+                            >
+                                {auth.user.name} {/* Display username */}
+                                <svg
+                                    className={`w-4 h-4 ml-2 transition-transform ${dropdownOpen ? "transform rotate-180" : ""}`}
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            {dropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+                                    <Link
+                                    // role based dashboard movement-
+                                        to={`/dashboard/${
+                                          auth?.user?.role ===1 ? "seller" :"user"
+                                          }`}
+                                        className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-200"
+                                        onClick={() => setDropdownOpen(false)}
+                                    >
+                                        Dashboard
+                                    </Link>
+                                    <button
+                                        onClick={Logout}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-200"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+             
             </div>
+            
           </div>
 
           {/* Mobile Menu Button */}
