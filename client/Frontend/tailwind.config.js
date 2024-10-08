@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        black: '#000501',  // Custom black color
-        'united-nations-blue': '#3993dd',  // Custom blue color
-        'burnt-sienna': '#ee6c4d',  // Custom burnt sienna color
-        'dark-background': '#111111',  // Dark background color
-        'light-background': '#FFF8F0',  // Light background color
+        black: '#000501',
+        'united-nations-blue': '#3993dd',
+        'burnt-sienna': '#ee6c4d',
+        'dark-background': '#111111',
+        'light-background': '#FFF8F0',
       },
       backdropBlur: {
         xs: '2px',
