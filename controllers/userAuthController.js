@@ -36,7 +36,7 @@ export const signupController = async (req, res) => {
 
     const { name, email, password, phone, collegeId } = validatedData.data;
 
-    // Check if the user already exists
+    // Check karo user already exist karta hai ki nahi -
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
@@ -46,10 +46,10 @@ export const signupController = async (req, res) => {
       });
     }
 
-    // Hash the user's password
+    // user ke password ko hash karo-
     const hashed = await hashedPassword(password);
 
-    // Create the new user
+    // naya user create karo-
     const newUser = await userModel.create({
       name,
       email,
@@ -103,7 +103,7 @@ export const loginController=async(req,res)=>{
           }
 
 
-        // find user with that email id in database-
+        // user with that email id in database-
         const user=await userModel.findOne({email})
         if(!user){
             return res.status(404).send({

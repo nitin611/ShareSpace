@@ -28,7 +28,7 @@ const About = () => {
       {/* Nitin Kumar Jha */}
       <div className="bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 hover:border-burnt-sienna transition-transform duration-500">
         <img
-          src="/images/faizan.jpg"
+          src="/images/nitin.jpeg"
           alt="Nitin Kumar Jha"
           className="w-40 h-40 rounded-full mx-auto mb-4"
         />

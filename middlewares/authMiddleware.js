@@ -17,7 +17,7 @@ export const jwtverification=async(req,res,next)=>{
     }
 }
 
-// --------------------------------seller access-----------------------------
+// --------------------------------admin access-----------------------------
 export const isAdmin=async (req,res,next)=>{
     try {
         // check karo jo user hai wo seller hai ki nahi-
