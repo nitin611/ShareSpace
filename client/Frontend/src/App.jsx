@@ -12,17 +12,15 @@ import PrivateRoute from './Components/Routes/Private'
 import AdminDashboard from './Pages/Admin/AdminDashboard'
 import Dashboard from './Pages/user/Dashboard'
 import AdminRoute from './Components/Routes/AdminRoute'
+import { AppProvider } from './context/productcontext';
 
 
 
 
 
 function App() {
- 
-  // with these routes we can navigate between different pages , as there is no <a></a> tag in react we use
-  // routes to move around different pages in the application.
-
   return (
+    <AppProvider>
     <Routes>
       <Route path='/' element={<HomePage/>}></Route>
      
@@ -41,7 +39,8 @@ function App() {
       <Route path='/signin' element={<Signin/>}></Route>
       <Route path="*" element={<PageError/>}></Route>
     </Routes>
+    </AppProvider>
   )
 }
 
-export default App
+export default App;
