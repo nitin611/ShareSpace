@@ -1,9 +1,9 @@
 import React from 'react';
-import { useCart } from '../context/cartContext'; // Import Cart context
+import { useCart } from '../context/cartContext'; // Fetch cart context
 import Structure from '../Components/structure/Structure';
 
 const CartPage = () => {
-  const { cart } = useCart(); // Use the cart context
+  const { cart } = useCart(); // Access the cart
 
   return (
     <Structure>

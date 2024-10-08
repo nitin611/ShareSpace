@@ -1,4 +1,8 @@
 /* HeroSection.css */
+/* src/styles/HeroSection.css */
+.hero-section {
+  padding: 20px;
+}
 
 .hero-section {
   padding: 12rem 0;

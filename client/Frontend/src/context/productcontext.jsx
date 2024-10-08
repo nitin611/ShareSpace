@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import axios from "axios";
 
+// Creating Product Context
 const AppContext = createContext();
 
 const API = "https://fakestoreapi.com/products";
@@ -21,6 +22,7 @@ const reducer = (state, action) => {
   }
 };
 
+// AppProvider component for providing product data
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -29,9 +31,9 @@ const AppProvider = ({ children }) => {
     try {
       const res = await axios.get(API);
       const products = res.data.map(product => ({
-        ...product,
-        price: (product.price * 83).toFixed(2) // Convert price to INR (approx 1 USD = ₹83)
-      }));
+        ...product, 
+        price: (product.price * 10).toFixed(2) 
+      })); // Scaling price
       dispatch({ type: "SET_PRODUCTS", payload: products });
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -53,4 +55,4 @@ const useProductContext = () => {
   return useContext(AppContext);
 };
 
-export { AppProvider, AppContext, useProductContext };
+export { AppProvider, useProductContext };
