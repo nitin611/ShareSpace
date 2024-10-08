@@ -12,11 +12,15 @@ import PrivateRoute from './Components/Routes/Private'
 import AdminDashboard from './Pages/Admin/AdminDashboard'
 import Dashboard from './Pages/user/Dashboard'
 import AdminRoute from './Components/Routes/AdminRoute'
+import Users from './Pages/Admin/Users'
+import CreateCategory from './Pages/Admin/CreateCategory'
+import CreateProduct from './Pages/user/CreateProduct'
+import UpdateProduct from './Pages/user/UpdateProduct'
+import Products from './Pages/user/Products'
+import Profile from './Pages/user/Profile'
+import Order from './Pages/user/Order'
+
 import { AppProvider } from './context/productcontext';
-
-
-
-
 
 function App() {
   return (
@@ -27,10 +31,18 @@ function App() {
       {/* user dashboard */}
       <Route path='/dashboard' element={<PrivateRoute/>}>
       <Route path='user' element={<Dashboard/>}></Route>
+      <Route path='user/create-Product' element={<CreateProduct/>}/>
+      <Route path='user/update-Product' element={<UpdateProduct/>}/>
+      <Route path='user/products' element={<Products/>}/>
+      <Route path='user/order' element={<Order/>}/>
+      <Route path='user/profile' element={<Profile/>}/>
       </Route>
+
       {/* admin dashboard */}
       <Route path='/dashboard' element={<AdminRoute/>}>
       <Route path='admin' element={<AdminDashboard/>}></Route>
+      <Route path='admin/create-category' element={<CreateCategory/>}/>
+      <Route path='admin/users' element={<Users/>}/>
       </Route>
 
       <Route path='/about' element={<About/>}></Route>

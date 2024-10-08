@@ -33,5 +33,5 @@ export default function AdminRoute() {
         }
     }, [auth?.token]);
 
-    return ok ? <Outlet /> : <Spinner path="signin" />; // Redirect to signin if not authenticated
+    return ok ? <Outlet /> : <Spinner path="" />; // Redirect to signin if not authenticated
 }
