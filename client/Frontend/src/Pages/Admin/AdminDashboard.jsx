@@ -1,6 +1,6 @@
 import React from 'react'
 import Structure from '../../Components/structure/Structure';
-const SellerDashboard = () => {
+const AdminDashboard = () => {
   return (
     <Structure>
     <h1>Admin Dashboard</h1>
@@ -8,4 +8,4 @@ const SellerDashboard = () => {
   )
 }
 
-export default SellerDashboard
+export default AdminDashboard

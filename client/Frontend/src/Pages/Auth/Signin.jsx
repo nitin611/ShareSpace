@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation after successful login
+import { useLocation, useNavigate } from 'react-router-dom'; // For navigation after successful login
 import Structure from '../../Components/structure/Structure';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/auth';
@@ -12,6 +12,7 @@ const SignIn = () => {
 
 
   const navigate = useNavigate();
+  const location=useLocation()
   const [auth,setAuth]=useAuth();
 
   // Handler for input change
@@ -53,7 +54,7 @@ const SignIn = () => {
             user: data.user,
             token: data.token
           }));
-          navigate('/');
+          navigate( location.state || '/');
         }, 500);
       } else {
         // Handle errors

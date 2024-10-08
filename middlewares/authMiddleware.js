@@ -18,14 +18,14 @@ export const jwtverification=async(req,res,next)=>{
 }
 
 // --------------------------------seller access-----------------------------
-export const isSeller=async (req,res,next)=>{
+export const isAdmin=async (req,res,next)=>{
     try {
         // check karo jo user hai wo seller hai ki nahi-
         const user=await userModel.findById(req.user._id)
         if(user.role!==1){
             return res.status(404).send({
                success:false,
-               msg:"UnAuthorize Access you are not seller"
+               msg:"UnAuthorize Access you are not admin"
 
             });
         }

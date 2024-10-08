@@ -114,7 +114,7 @@ const Header = () => {
                                     <Link
                                     // role based dashboard movement-
                                         to={`/dashboard/${
-                                          auth?.user?.role ===1 ? "seller" :"user"
+                                          auth?.user?.role ===1 ? "admin" :"user"
                                           }`}
                                         className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-200"
                                         onClick={() => setDropdownOpen(false)}

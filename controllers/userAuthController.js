@@ -129,7 +129,8 @@ export const loginController=async(req,res)=>{
                 name:user.name,
                 email:user.email,
                 collegeId:user.collegeId,
-                phone:user.phone
+                phone:user.phone,
+                role:user.role,
             },
             token,
         });
