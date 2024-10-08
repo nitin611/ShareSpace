@@ -30,7 +30,7 @@ const HeroSection = ({ myData }) => {
                 <div className="p-4">
                   <h2 className="text-xl font-semibold">{product.title}</h2>
                   <p className="text-gray-700">{product.description}</p>
-                  <p className="text-lg font-bold">Price: ₹{(product.price * 80).toFixed(2)}</p>
+                  <p className="text-lg font-bold">Price: ₹{(product.price * 0.08).toFixed(2)}</p>
                   {/* Add to Cart Button */}
                   <button
                     className="bg-green-500 text-white px-4 py-2 rounded mt-2"
