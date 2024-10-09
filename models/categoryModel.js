@@ -6,10 +6,7 @@ const categorySchema= new mongoose.Schema({
         required:true,
         unique:true
     },
-    slug:{
-        type:String,
-        lowercase:true
-    }
+   
 
 });
 export default mongoose.model('category',categorySchema)

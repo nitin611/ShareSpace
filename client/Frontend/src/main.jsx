@@ -8,10 +8,7 @@ createRoot(document.getElementById('root')).render(
   // browsesr router se routing enable ho gayi pages ke beech me-
   <AuthProvider>
   <BrowserRouter>
-
-  
     <App />
-  
   </BrowserRouter>
   </AuthProvider>
  

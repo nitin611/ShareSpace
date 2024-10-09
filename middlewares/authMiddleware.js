@@ -20,7 +20,7 @@ export const jwtverification=async(req,res,next)=>{
 // --------------------------------admin access-----------------------------
 export const isAdmin=async (req,res,next)=>{
     try {
-        // check karo jo user hai wo seller hai ki nahi-
+        // check karo jo user hai wo admin hai ki nahi-
         const user=await userModel.findById(req.user._id)
         if(user.role!==1){
             return res.status(404).send({
@@ -38,7 +38,7 @@ export const isAdmin=async (req,res,next)=>{
         res.status(404).send({
             success:false,
             err,
-            msg:"error in seller middleware"
+            msg:"error in admin middleware"
         })
     }
 }

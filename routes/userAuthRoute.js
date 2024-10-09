@@ -21,7 +21,7 @@ router.post("/login",loginController,(req,res)=>{
 router.get("/user-auth", jwtverification, (req, res) => {
     res.status(200).send({ ok: true });
 });
-// seller route seller ka dashboard ke liye-
+// protected admin  route admin ka dashboard ke liye-
 router.get("/admin-auth", jwtverification,isAdmin, (req, res) => {
     res.status(200).send({ ok: true });
 });
