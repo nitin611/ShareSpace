@@ -32,7 +32,7 @@ const AppProvider = ({ children }) => {
       const res = await axios.get(API);
       const products = res.data.map(product => ({
         ...product, 
-        price: (product.price * 10).toFixed(2) 
+        price: (product.price * 100).toFixed(2) 
       })); // Scaling price
       dispatch({ type: "SET_PRODUCTS", payload: products });
     } catch (error) {

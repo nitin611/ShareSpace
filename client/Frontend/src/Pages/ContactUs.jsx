@@ -12,11 +12,11 @@ const ContactUs = () => {
         {/* Contact Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
           {/* Left: Animation / Illustration */}
-          <div className="hidden md:flex items-center justify-center bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500">
+          <div className="hidden md:flex items-center justify-center   shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500">
             <img
-              src="/assets/contact-animation.svg"
+              src="/images/pro.png"
               alt="Contact Us Illustration"
-              className="w-64 h-64 animate-float"
+              className="w-150 h-190 animate-float border-x-light-background"
             />
           </div>
 

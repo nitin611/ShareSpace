@@ -34,13 +34,13 @@ const Header = () => {
 };
 
   return (
-    <nav className="bg-white shadow-lg dark:bg-gray-900 sticky top-0 z-50">
+    <nav className=" bg-dark-background sticky top-0 z-50">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}
           <div className="flex-shrink-0">
             <Link to="/">
-              <img src="/images/logo.png" alt="ShareSpace Logo" className="h-10 w-auto" />
+              <img src="/images/logo1.png" alt="ShareSpace Logo" className="h-10 w-auto" />
              
             </Link>
           </div>
@@ -81,13 +81,13 @@ const Header = () => {
                         <>
                             <Link
                                 to="/signin"
-                                className="px-4 py-2 text-sm font-medium text-teal-500 border border-teal-500 rounded-lg transition duration-300 ease-in-out hover:bg-teal-500 hover:text-white"
+                                className="px-4 py-2 text-sm font-medium bg-teal-500 border border-teal-500 rounded-lg transition duration-300 ease-in-out hover:bg-teal-500 hover:text-white"
                             >
                                 Sign In
                             </Link>
                             <Link
                                 to="/signup"
-                                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 border border-teal-500 rounded-lg shadow-md transition duration-300 ease-in-out hover:bg-teal-600"
+                                className="px-4 py-2 text-sm font-medium  bg-teal-500 border border-teal-500 rounded-lg shadow-md transition duration-300 ease-in-out hover:bg-teal-500 hover:text-white"
                             >
                                 Sign Up
                             </Link>

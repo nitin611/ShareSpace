@@ -1,14 +1,21 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 
-// Creating the Cart Context
 const CartContext = createContext();
 
-const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TO_CART':
+      return [...state, action.payload]; // Add product to cart
+    default:
+      return state; // Return current state if no action matches
+  }
+};
 
-  // Function to add products to the cart
+export const CartProvider = ({ children }) => {
+  const [cart, dispatch] = useReducer(cartReducer, []); // Initialize cart state
+
   const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+    dispatch({ type: 'ADD_TO_CART', payload: product }); // Dispatch action to add product
   };
 
   return (
@@ -18,9 +25,4 @@ const CartProvider = ({ children }) => {
   );
 };
 
-// Custom hook to access the Cart Context
-const useCart = () => {
-  return useContext(CartContext);
-};
-
-export { CartProvider, useCart };
+export const useCart = () => useContext(CartContext); // Hook for using cart context

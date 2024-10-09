@@ -5,7 +5,7 @@ import { FaUsers, FaHandHoldingUsd, FaRecycle } from 'react-icons/fa';
 const About = () => {
   return (
     <Structure>
-  {/* Wrapper container */}
+  {/* Wrapper karo container ko*/}
   <div className="min-h-screen bg-floral-white text-black flex flex-col items-center py-12">
     
     {/* Heading */}
