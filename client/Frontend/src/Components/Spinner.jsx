@@ -2,7 +2,8 @@ import React,{useState,useEffect} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Spinner = ({path="signin"}) => {
-    const [count,setCount]=useState(5);
+  // default count 3 sec ka set hai-
+    const [count,setCount]=useState(3);
     const navigate=useNavigate();
     const location =useLocation();
 
@@ -23,8 +24,8 @@ const Spinner = ({path="signin"}) => {
             <div className="loader"></div>
             <style jsx>{`
                 .loader {
-                    border: 8px solid #f3f3f3; /* Light gray */
-                    border-top: 8px solid #3498db; /* Blue */
+                    border: 8px solid #f3f3f3; 
+                    border-top: 8px solid #3498db; 
                     border-radius: 50%;
                     width: 60px;
                     height: 60px;

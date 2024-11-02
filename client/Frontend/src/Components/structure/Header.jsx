@@ -67,7 +67,7 @@ const Header = () => {
               to="/contact"
               className="text-gray-900 dark:text-white font-medium text-lg hover:text-teal-500 dark:hover:text-teal-400 transition-colors relative group"
             >
-              Category
+              Contact Us
               <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-teal-500 dark:bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
             </Link>
 

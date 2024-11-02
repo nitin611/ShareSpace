@@ -46,7 +46,7 @@ export const signupController = async (req, res) => {
       });
     }
 
-    // user ke password ko hash karo-
+    // user ke password ko hash karo -
     const hashed = await hashedPassword(password);
 
     // naya user create karo-
@@ -59,7 +59,7 @@ export const signupController = async (req, res) => {
     });
 
     res.status(201).json({
-        success:true,
+      success:true,
       msg: "User created successfully!",
       user: newUser,  
     });

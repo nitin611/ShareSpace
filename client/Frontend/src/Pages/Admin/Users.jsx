@@ -6,7 +6,7 @@ const Users = () => {
   return (
     <Structure>
       <div className="flex">
-        {/* Sidebar (30%) */}
+       
         <div className="w-1/3 bg-gray-100 p-4">
           <AdminMenu />
         </div>
@@ -42,7 +42,7 @@ const Users = () => {
                     </td>
                   </tr>
 
-                  {/* User 2 */}
+              
                   <tr className="hover:bg-gray-50 transition">
                     <td className="py-2 px-4 border-b">2</td>
                     <td className="py-2 px-4 border-b">Jane Smith</td>
@@ -55,7 +55,7 @@ const Users = () => {
                     </td>
                   </tr>
 
-                  {/* User 3 */}
+                 
                   <tr className="hover:bg-gray-50 transition">
                     <td className="py-2 px-4 border-b">3</td>
                     <td className="py-2 px-4 border-b">Alex Johnson</td>
@@ -68,7 +68,7 @@ const Users = () => {
                     </td>
                   </tr>
 
-                  {/* User 4 */}
+              
                   <tr className="hover:bg-gray-50 transition">
                     <td className="py-2 px-4 border-b">4</td>
                     <td className="py-2 px-4 border-b">Emily Davis</td>
@@ -81,7 +81,7 @@ const Users = () => {
                     </td>
                   </tr>
 
-                  {/* User 5 */}
+           
                   <tr className="hover:bg-gray-50 transition">
                     <td className="py-2 px-4 border-b">5</td>
                     <td className="py-2 px-4 border-b">Michael Brown</td>

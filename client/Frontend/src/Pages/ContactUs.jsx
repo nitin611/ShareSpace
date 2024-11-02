@@ -6,13 +6,13 @@ const ContactUs = () => {
   return (
     <Structure>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-300 via-blue-300 to-purple-300 text-gray-800 px-4 py-10">
-        {/* Page Heading */}
+       
         <h1 className="text-4xl font-bold mb-10 animate-fade-in">Get in Touch with Us</h1>
 
-        {/* Contact Section */}
+      
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
-          {/* Left: Animation / Illustration */}
-          <div className="hidden md:flex items-center justify-center   shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500">
+        
+          <div className="hidden md:flex items-center justify-center bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500">
             <img
               src="/images/pro.png"
               alt="Contact Us Illustration"
@@ -20,7 +20,7 @@ const ContactUs = () => {
             />
           </div>
 
-          {/* Right: Contact Form */}
+        
           <div className="bg-white p-8 shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500">
             <form className="space-y-6">
               <div>
@@ -65,7 +65,7 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* Contact Info */}
+   
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           <div className="flex items-center space-x-3 p-4 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:scale-105">
             <FaPhoneAlt className="text-blue-500 text-xl" />

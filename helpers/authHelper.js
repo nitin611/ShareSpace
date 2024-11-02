@@ -12,5 +12,7 @@ export const hashedPassword=async(password)=>{
 
 // comaparing normal with hashedpassword-
 export const comparePassword=async(password,hashedPass)=>{
+    
     return bcrypt.compare(password,hashedPass);
+
 }

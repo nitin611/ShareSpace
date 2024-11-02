@@ -5,6 +5,8 @@ import morgan from 'morgan'
 import Dbconnection from './config/db.js';
 import userAuthRoute from './routes/userAuthRoute.js'
 import cors from 'cors'
+import categoryRoutes from './routes/categoryRoutes.js'
+import productRoutes from './routes/productRoutes.js'
 
 // yaha .env root me hai so we dont have to define path-
 dotenv.config();
@@ -18,6 +20,8 @@ app.use(morgan('dev'))
 app.use(express.json())
 // -----------------------------routes------------------
 app.use('/api/auth',userAuthRoute)
+app.use('/api/category',categoryRoutes)
+app.use('/api/product',productRoutes)
 
 // rest modules-
 app.get('/',(req,res)=>{

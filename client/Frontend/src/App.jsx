@@ -7,7 +7,7 @@ import PageError from './Pages/PageError';
 import Signup from './Pages/Auth/Signup';
 import Signin from './Pages/Auth/Signin';
 import PrivateRoute from './Components/Routes/Private';
-import AdminRoute from './Components/Routes/AdminRoute'; // Admin routes added
+import AdminRoute from './Components/Routes/AdminRoute'; 
 import Dashboard from './Pages/user/Dashboard';
 import CreateProduct from './Pages/user/CreateProduct';
 import UpdateProduct from './Pages/user/UpdateProduct';
@@ -17,7 +17,7 @@ import Order from './Pages/user/Order';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import CreateCategory from './Pages/Admin/CreateCategory';
 import Users from './Pages/Admin/Users';
-import CartPage from './Pages/CartPage'; // Importing CartPage
+import CartPage from './Pages/CartPage'; 
 
 // Wrapping context providers for the whole app
 import { AppProvider } from './context/productcontext';
@@ -25,8 +25,8 @@ import { CartProvider } from './context/cartContext';
 
 function App() {
   return (
-    <AppProvider> {/* Products context for fetching product data */}
-      <CartProvider> {/* Cart context to manage cart state */}
+    <AppProvider> 
+      <CartProvider>
         <Routes>
           {/* Public Routes */}
           <Route path='/' element={<HomePage />} />

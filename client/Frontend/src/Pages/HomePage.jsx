@@ -4,11 +4,6 @@ import { useAuth } from '../context/auth';
 import { useProductContext } from '../context/productcontext';
 import HeroSection from "../Components/HeroSection";
 import "../styles/HeroSection.css";
-
-
-
-
-
 const HomePage = () => {
   const [auth, setAuth] = useAuth();
   const { products, loading } = useProductContext();
