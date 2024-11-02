@@ -1,6 +1,5 @@
 import categoryModel from "../models/categoryModel.js";
 
-
 export const createCategoryController=async(req,res)=>{
     try {
         const {name} = req.body
