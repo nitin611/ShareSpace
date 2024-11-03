@@ -5,11 +5,15 @@ import { categoriesController, createCategoryController, deleteCategoryControlle
 const router =express.Router()
 
 // routes-
+
 // create category route-
 router.post('/create-category',jwtverification,isAdmin,createCategoryController)
+
 // update category routes-
+
 router.put('/update-category/:id',jwtverification,isAdmin,updateCategoryController)
 // get all categories-
+
 router.get('/getCategories',categoriesController)
 
 // single categories controller-

@@ -13,6 +13,7 @@
   "author": "Nitin",
   "license": "ISC",
   "dependencies": {
+    "antd": "^5.21.6",
     "bcrypt": "^5.1.1",
     "colors": "^1.4.0",
     "concurrently": "^9.0.1",

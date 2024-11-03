@@ -1,54 +1,95 @@
 import React, { useState, useEffect } from "react";
 import Structure from "../../Components/structure/Structure";
 import UserMenu from "../../Components/structure/UserMenu";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { Select } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+
+const { Option } = Select;
 
 const UpdateProduct = () => {
-  const [productId, setProductId] = useState("");
-  const [productName, setProductName] = useState("");
-  const [price, setPrice] = useState("");
+  const navigate = useNavigate();
+  const { id: productId } = useParams(); // Get product ID from URL params
+
+  const [categories, setCategories] = useState([]);
+  const [photo, setPhoto] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [shipping, setShipping] = useState("");
+  const [id,setId]=useState("");
 
-  // Simulating fetching existing product details
+  // Get all categories
   useEffect(() => {
-    // Replace with your actual API call to fetch product details
-    const fetchProductDetails = () => {
-      // Sample product data
-      const product = {
-        id: "123",
-        name: "Sample Product",
-        price: 29.99,
-        description: "This is a sample product description.",
-        // image: "image_url", // Image URL if needed
-      };
-
-      setProductId(product.id);
-      setProductName(product.name);
-      setPrice(product.price);
-      setDescription(product.description);
+    const getAllCategories = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:8080/api/category/getCategories");
+        if (data?.success) setCategories(data.category);
+      } catch (err) {
+        console.log(err);
+        toast.error("Error in getting the category");
+      }
     };
-
-    fetchProductDetails();
+    getAllCategories();
   }, []);
 
-  const handleProductUpdate = (e) => {
-    e.preventDefault();
-    // Handle product update logic (e.g., API request to update product)
-    console.log({
-      productId,
-      productName,
-      price,
-      description,
-      image,
-    });
-  };
+  // Get single product details
+  useEffect(() => {
+    const getSingleProduct = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:8080/api/product/get-product/${productId}`);
+        const product = data.product;
+        setName(product.name);
+        setId(product._id)
+        setDescription(product.description);
+        setPrice(product.price);
+        // yahan ._id karna para kyuki ye string and id dono pass horahi isliye error aaraha so we are sending id
+        setCategory(product.category._id);
+        setQuantity(product.quantity);
+        setShipping(product.shipping ? "1" : "0");
+      } catch (err) {
+        console.log(err);
+        toast.error("Error in fetching product details");
+      }
+    };
+    getSingleProduct();
+    // eslint-disable-next-line
+  }, [productId]);
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+  // Update product function
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("quantity", quantity);
+      formData.append("shipping", shipping);
+      if (photo) formData.append("photo", photo);
+
+      const { data } = await axios.put(`http://localhost:8080/api/product/updating-product/${productId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (data?.success) {
+        toast.success("Product updated successfully");
+        navigate("/dashboard/user/products");
+      } else {
+        toast.error(data?.message || "Failed to update product");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Error in updating the product");
+    }
   };
 
   return (
-    <Structure title={"Update Product - Ecommerce App"}>
+    <Structure title={"Create Product -ShareSpace App"}>
       <div className="container mx-auto p-6">
         <div className="flex">
           {/* User Menu (30%) */}
@@ -56,99 +97,126 @@ const UpdateProduct = () => {
             <UserMenu />
           </div>
 
-          {/* Update Product Form (70%) */}
-          <div className="w-2/3 bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Update Product</h2>
+          {/* Create Product Form (70%) */}
+          <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+               <h1 className="text-2xl font-semibold text-gray-800 mb-6">Update Product</h1>
+  <div className="space-y-4">
+    <Select
+      className="w-full text-gray-700 border border-gray-300 rounded-md p-2"
+      placeholder="Select a category"
+      size="large"
+      showSearch
+      bordered={false}
+      // antdesign ki madad se value change kar sakte hai directly
+      onChange={(value) => {
+        setCategory(value);
+      }}
+      value={category}
+    >
+      {/* categories ke upar map karo and return karado */}
+      {categories?.map((c) => (
+        // print value and name of categories- 
+        <Option key={c._id} value={c._id}>
+          {c.name}
+        </Option>
+      ))}
+    </Select>
 
-            <form onSubmit={handleProductUpdate} className="space-y-4">
-              {/* Product ID (hidden in form) */}
-              <input type="hidden" value={productId} />
+    <div className="w-full">
+      <label className="flex items-center justify-center w-full px-4 py-2 bg-blue-50 border border-blue-300 rounded-md cursor-pointer hover:bg-blue-100">
+        <span className="text-blue-500">
+          {/* agar photo hai to photo ka name show karo nahi to upload photo show karo */}
+          {photo ? photo.name : "Upload Photo"}
+        </span>
+        <input
+          type="file"
+          name="photo"
+          // * matlab koi bhi type ki image -jpg,png
+          accept="image/*"
+          // files array hota hai isliye [0] index liya hai-
+          onChange={(e) => setPhoto(e.target.files[0])}
+          hidden
+        />
+      </label>
+    </div>
 
-              {/* Product Name */}
-              <div>
-                <label
-                  htmlFor="productName"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  id="productName"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  placeholder="Enter product name"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  required
-                />
-              </div>
+{/* direct browser property se image display karwa rahe hai- */}
+{/* update product */}
+    {photo ? (
+      <div className="flex justify-center">
+        <img
+        // get photo from url and display below it objecturl se photo get kar lenge
+          src={URL.createObjectURL(photo)}
+          alt="product_photo"
+          className="w-48 h-48 object-cover rounded-md shadow-md"
+        />
+      </div>
+    ):(<div className="flex justify-center">
+      <img
+      // get photo from url and display below it objecturl se photo get kar lenge
+      src={`http://localhost:8080/api/product/product-photo/${id}`}
+        alt="product_photo"
+        className="w-48 h-48 object-cover rounded-md shadow-md"
+      />
+    </div>)}
 
-              {/* Product Price */}
-              <div>
-                <label
-                  htmlFor="price"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Price (in IND)
-                </label>
-                <input
-                  type="number"
-                  id="price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Enter price"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  required
-                />
-              </div>
+    <input
+      type="text"
+      value={name}
+      placeholder="Product Name"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setName(e.target.value)}
+    />
 
-              {/* Product Description */}
-              <div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Enter product description"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
+    <textarea
+      value={description}
+      placeholder="Product Description"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setDescription(e.target.value)}
+    />
 
-              {/* Product Image */}
-              <div>
-                <label
-                  htmlFor="image"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Upload New Image (Optional)
-                </label>
-                <input
-                  type="file"
-                  id="image"
-                  onChange={handleImageChange}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  accept="image/*"
-                />
-              </div>
+    <input
+      type="number"
+      value={price}
+      placeholder="Price"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setPrice(e.target.value)}
+    />
 
-              {/* Update Button */}
-              <div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
-                >
-                  Update Product
-                </button>
-              </div>
-            </form>
-          </div>
+    <input
+      type="number"
+      value={quantity}
+      placeholder="Quantity"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setQuantity(e.target.value)}
+    />
+
+    <Select
+      className="w-full text-gray-700 border border-gray-300 rounded-md p-2"
+      placeholder="Select Shipping"
+      size="large"
+      showSearch
+      bordered={false}
+      onChange={(value) => {
+        setShipping(value);
+
+      }}
+      // ye shipping ko update product ke form me update karo 
+      value={shipping?"yes":"No"}
+    >
+      <Option value="0">No</Option>
+      <Option value="1">Yes</Option>
+    </Select>
+
+    <button
+      className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
+      onClick={handleUpdate}
+    >
+      UPDATE PRODUCT
+    </button>
+  </div>
+</div>
+
         </div>
       </div>
     </Structure>

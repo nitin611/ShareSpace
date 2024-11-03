@@ -1,30 +1,81 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Structure from "../../Components/structure/Structure";
 import UserMenu from "../../Components/structure/UserMenu";
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { Select } from "antd";
+import { useNavigate } from "react-router-dom";
+const { Option } = Select;
 
 const CreateProduct = () => {
-  const [productName, setProductName] = useState("");
-  const [price, setPrice] = useState("");
+  const navigate=useNavigate()
+  const [categories,setCategories]=useState([]);
+  const [photo, setPhoto] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [shipping,setShipping]=useState("");
+  
+   // get all categories-
+   const getAllCategories=async()=>{
+    try {
+      const {data}=await axios.get('http://localhost:8080/api/category/getCategories')
+      // if data and then category then do this as res takes time -otptional chaining
+      if(data?.success){
+        setCategories(data?.category);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error('Error in getting the category')
+    }
+  }
 
-  const handleProductSubmit = (e) => {
+  useEffect(()=>{
+      getAllCategories()
+  },[])
+
+  //create handleProduct function-
+
+  const handleCreate = async (e) => {
     e.preventDefault();
-    // Handle product creation logic (e.g., API request to create product)
-    console.log({
-      productName,
-      price,
-      description,
-      image,
-    });
+
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('description', description);
+      formData.append('price', price);
+      formData.append('category', category);
+      formData.append('quantity', quantity);
+      formData.append('shipping', shipping);
+      if (photo) {
+        formData.append('photo', photo);
+      }
+
+      // Send the request
+      const { data } = await axios.post('http://localhost:8080/api/product/create-product', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (data?.success) {
+        toast.success('Product created successfully');
+        navigate('/dashboard/user/products');
+      } else {
+        toast.error(data?.message || 'Failed to create product');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Error in creating the product');
+    }
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
+  
 
   return (
-    <Structure title={"Create Product - Ecommerce App"}>
+    <Structure title={"Create Product -ShareSpace App"}>
       <div className="container mx-auto p-6">
         <div className="flex">
           {/* User Menu (30%) */}
@@ -33,96 +84,113 @@ const CreateProduct = () => {
           </div>
 
           {/* Create Product Form (70%) */}
-          <div className="w-2/3 bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Create a New Product</h2>
+          <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+               <h1 className="text-2xl font-semibold text-gray-800 mb-6">Create Product</h1>
+  <div className="space-y-4">
+    <Select
+      className="w-full text-gray-700 border border-gray-300 rounded-md p-2"
+      placeholder="Select a category"
+      size="large"
+      showSearch
+      bordered={false}
+      // antdesign ki madad se value change kar sakte hai directly
+      onChange={(value) => {
+        setCategory(value);
+      }}
+    >
+      {/* categories ke upar map karo and return karado */}
+      {categories?.map((c) => (
+        // print value and name of categories- 
+        <Option key={c._id} value={c._id}>
+          {c.name}
+        </Option>
+      ))}
+    </Select>
 
-            <form onSubmit={handleProductSubmit} className="space-y-4">
-              {/* Product Name */}
-              <div>
-                <label
-                  htmlFor="productName"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  id="productName"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  placeholder="Enter product name"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  required
-                />
-              </div>
+    <div className="w-full">
+      <label className="flex items-center justify-center w-full px-4 py-2 bg-blue-50 border border-blue-300 rounded-md cursor-pointer hover:bg-blue-100">
+        <span className="text-blue-500">
+          {/* agar photo hai to photo ka name show karo nahi to upload photo show karo */}
+          {photo ? photo.name : "Upload Photo"}
+        </span>
+        <input
+          type="file"
+          name="photo"
+          // * matlab koi bhi type ki image -jpg,png
+          accept="image/*"
+          // files array hota hai isliye [0] index liya hai-
+          onChange={(e) => setPhoto(e.target.files[0])}
+          hidden
+        />
+      </label>
+    </div>
 
-              {/* Product Price */}
-              <div>
-                <label
-                  htmlFor="price"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Price (in IND)
-                </label>
-                <input
-                  type="number"
-                  id="price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Enter price"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  required
-                />
-              </div>
+{/* direct browser property se image display karwa rahe hai- */}
+    {photo && (
+      <div className="flex justify-center">
+        <img
+        // get photo from url and display below it objecturl se photo get kar lenge
+          src={URL.createObjectURL(photo)}
+          alt="product_photo"
+          className="w-48 h-48 object-cover rounded-md shadow-md"
+        />
+      </div>
+    )}
 
-              {/* Product Description */}
-              <div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Enter product description"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
+    <input
+      type="text"
+      value={name}
+      placeholder="Product Name"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setName(e.target.value)}
+    />
 
-              {/* Product Image */}
-              <div>
-                <label
-                  htmlFor="image"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Upload Image
-                </label>
-                <input
-                  type="file"
-                  id="image"
-                  onChange={handleImageChange}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  accept="image/*"
-                  required
-                />
-              </div>
+    <textarea
+      value={description}
+      placeholder="Product Description"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setDescription(e.target.value)}
+    />
 
-              {/* Submit Button */}
-              <div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
-                >
-                  Create Product
-                </button>
-              </div>
-            </form>
-          </div>
+    <input
+      type="number"
+      value={price}
+      placeholder="Price"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setPrice(e.target.value)}
+    />
+
+    <input
+      type="number"
+      value={quantity}
+      placeholder="Quantity"
+      className="w-full border border-gray-300 rounded-md p-2 text-gray-700"
+      onChange={(e) => setQuantity(e.target.value)}
+    />
+
+    <Select
+      className="w-full text-gray-700 border border-gray-300 rounded-md p-2"
+      placeholder="Select Shipping"
+      size="large"
+      showSearch
+      bordered={false}
+      onChange={(value) => {
+        setShipping(value);
+      }}
+    >
+      <Option value="0">No</Option>
+      <Option value="1">Yes</Option>
+    </Select>
+
+    <button
+      className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
+      onClick={handleCreate}
+    >
+      CREATE PRODUCT
+    </button>
+  </div>
+</div>
+
         </div>
       </div>
     </Structure>

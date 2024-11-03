@@ -40,7 +40,7 @@ function App() {
           <Route path='/dashboard' element={<PrivateRoute />}>
             <Route path='user' element={<Dashboard />} />
             <Route path='user/create-product' element={<CreateProduct />} />
-            <Route path='user/update-product' element={<UpdateProduct />} />
+            <Route path='user/update-product/:id' element={<UpdateProduct />} />
             <Route path='user/products' element={<Products />} />
             <Route path='user/order' element={<Order />} />
             <Route path='user/profile' element={<Profile />} />

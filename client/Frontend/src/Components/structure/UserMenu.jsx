@@ -13,12 +13,7 @@ const UserMenu = () => {
         >
           Create Product
         </NavLink>
-        <NavLink
-          to="/dashboard/user/update-Product"
-          className="block px-4 py-2 mb-3 text-gray-800 bg-gray-100 hover:bg-gray-200 transition rounded-lg"
-        >
-          Update Product
-        </NavLink>
+       
         <NavLink
           to="/dashboard/user/products"
           className="block px-4 py-2 mb-3 text-gray-800 bg-gray-100 hover:bg-gray-200 transition rounded-lg"

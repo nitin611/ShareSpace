@@ -63,8 +63,9 @@ export const getProductController=async(req,res)=>{
 // get single product-
 export const getSingleProduct=async(req,res)=>{
     try {
-        const {id}=req.params.id
-        const product=await productModel.findOne({id}).select("-photo").populate("category")
+        const id=req.params.id
+        const product = await productModel.findById(id).select("-photo").populate("category");
+
         res.status(200).send({
             success:true,
             msg:'single product fetched',
