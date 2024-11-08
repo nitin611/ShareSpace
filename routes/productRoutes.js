@@ -1,6 +1,6 @@
 import express from 'express'
 import {  jwtverification } from '../middlewares/authMiddleware.js';
-import { createProductController, deleteProductController, getProductController, getSingleProduct, productPhotoController, updateProductController } from '../controllers/productController.js';
+import { createProductController, deleteProductController, getProductController, getSingleProduct, productCountController, productFilterController, productListController, productPhotoController, searchProductController, updateProductController } from '../controllers/productController.js';
 import formidable from 'express-formidable'
 
 const router=express.Router();
@@ -24,6 +24,19 @@ router.get("/product-photo/:pid",productPhotoController)
 
 // delete product-
 router.delete("/delete-product/:pid",deleteProductController)
+
+// filter routes-
+router.post("/product-filter",productFilterController)
+
+// product count- taki ek baar me sab product show na ho jab user click kare load more pe to aur product show ho-
+router.get("/productCount",productCountController)
+
+
+// product for page-
+router.get("/productList/:page",productListController)
+
+// search the product-
+router.get("/searchProduct/:keywords",searchProductController)
 
 
 

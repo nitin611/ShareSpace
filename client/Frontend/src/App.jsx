@@ -20,12 +20,12 @@ import Users from './Pages/Admin/Users';
 import CartPage from './Pages/CartPage'; 
 
 // Wrapping context providers for the whole app
-import { AppProvider } from './context/productcontext';
+
 import { CartProvider } from './context/cartContext';
 
 function App() {
   return (
-    <AppProvider> 
+    
       <CartProvider>
         <Routes>
           {/* Public Routes */}
@@ -57,7 +57,7 @@ function App() {
           <Route path="*" element={<PageError />} />
         </Routes>
       </CartProvider>
-    </AppProvider>
+  
   );
 }
 

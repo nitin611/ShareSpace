@@ -157,3 +157,93 @@ export const updateProductController=async(req,res)=>{
         })
     }
 }
+
+// fileter the products-
+
+export const productFilterController=async(req,res)=>{
+    try {
+        const {checked,radio}=req.body;
+        let args={};
+        if(checked.length>0)args.category=checked;
+        if(radio.length)args.price={$gte:radio[0],$lte:radio[1]};
+        const products=await productModel.find(args);
+        
+        res.status(200).send({
+            success:true,
+            products,
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({
+            msg:"Error in filtering product"
+        })
+    }
+}
+
+// product count-
+export const productCountController=async(req,res)=>{
+    try {
+        const total=await productModel.find({}).estimatedDocumentCount();
+        res.status(200).send({
+            success:true,
+            total
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({
+            msg:"errror in product count",
+            err,
+            success:false
+        })
+    }
+}
+
+// product list page ke basis pe-
+export const productListController = async (req, res) => {
+    try {
+      const perPage = 2;
+      const page = req.params.page ? parseInt(req.params.page) : 1;
+  
+      const products = await productModel
+        .find({})
+        .select("-photo")
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .sort({ createdAt: -1 });
+  
+      res.status(200).send({
+        success: true,
+        products,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).send({
+        success: false,
+        msg: "Error in getting product per page",
+        err,
+      });
+    }
+  };
+
+
+// search the product-
+export const searchProductController=async(req,res)=>{
+    try {
+        const {keyword}=req.params;
+        // yahape name or description ke basis pe search kar rahe hai product ko keywork basis pe -
+        // i means alphabaticaal order do not matter in this-
+        const results=await productModel.find({
+            $or:[
+                {name:{$regex:keyword,$options:"i"}},
+            ],
+        }).select("-photo");
+        res.json(results);
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({
+            success:false,
+            err
+        })
+    }
+}
+  
