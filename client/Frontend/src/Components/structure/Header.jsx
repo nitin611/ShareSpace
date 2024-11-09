@@ -4,6 +4,7 @@ import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SearchInput from '../Search';
 
 
 const Header = () => {
@@ -44,9 +45,15 @@ const Header = () => {
              
             </Link>
           </div>
+          {/* search box */}
+          <div className="flex-grow flex justify-center items-center mx-auto">
+            <SearchInput />
+          </div>
+
 
           {/* Links Section */}
           <div className="hidden md:flex space-x-8 items-center">
+          
             <Link
               to="/"
               className="text-gray-900 dark:text-white font-medium text-lg hover:text-teal-500 dark:hover:text-teal-400 transition-colors relative group"

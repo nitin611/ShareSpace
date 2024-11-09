@@ -235,6 +235,7 @@ export const searchProductController=async(req,res)=>{
         const results=await productModel.find({
             $or:[
                 {name:{$regex:keyword,$options:"i"}},
+                { description: { $regex: keyword, $options: "i" } },
             ],
         }).select("-photo");
         res.json(results);

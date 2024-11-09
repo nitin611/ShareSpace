@@ -19,9 +19,12 @@ import CreateCategory from './Pages/Admin/CreateCategory';
 import Users from './Pages/Admin/Users';
 import CartPage from './Pages/CartPage'; 
 
+
 // Wrapping context providers for the whole app
 
-import { CartProvider } from './context/cartContext';
+import { CartProvider } from './context/CartContext';
+import Search from './Pages/search';
+import ProductDetails from './Pages/ProductDetails';
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path='/' element={<HomePage />} />
+          <Route path='/product/:id' element={<ProductDetails />} />
+          <Route path='/search' element={<Search />} />
+
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<ContactUs />} />
           <Route path='/signup' element={<Signup />} />

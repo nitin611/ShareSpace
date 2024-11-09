@@ -36,7 +36,7 @@ router.get("/productCount",productCountController)
 router.get("/productList/:page",productListController)
 
 // search the product-
-router.get("/searchProduct/:keywords",searchProductController)
+router.get("/searchProduct/:keyword",searchProductController)
 
 
 

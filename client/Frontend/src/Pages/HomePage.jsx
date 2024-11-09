@@ -182,7 +182,7 @@ const HomePage = () => {
 
                     <button
                       className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
-                      onClick={() => navigate(`/product/${p.id}`)}
+                      onClick={() => navigate(`/product/${p._id}`)}
                     >
                       Details
                     </button>
@@ -210,7 +210,7 @@ const HomePage = () => {
       onClick={() => !loading && setPage(page + 1)}
       disabled={loading}
     >
-      {loading ? "Loading..." : "Load More"}
+      {loading ? "Loading..." : "Load More"}f
       <AiOutlineReload className="ml-2" />
     </button>
   </div>
