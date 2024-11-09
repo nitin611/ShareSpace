@@ -1,27 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import Structure from '../Components/structure/Structure';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import { AiOutlineReload } from 'react-icons/ai';
+import { useParams } from 'react-router-dom';
+
+// Modal Component for User Details
+const Modal = ({ show, onClose, userDetails }) => {
+    if (!show) return null;
+
+    const handleEmailClick = (email) => {
+        // Open the user's email in the default email client
+        window.location.href = `mailto:${email}`;
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-8 rounded-md w-11/12 sm:w-96 md:w-1/2 lg:w-2/3 xl:w-1/2">
+                <h2 className="text-2xl font-semibold mb-4">User Details</h2>
+                <div className="mb-4">
+                    <p><strong>Name:</strong> {userDetails?.name}</p>
+                    <p><strong>Email:</strong> 
+                        <span
+                            className="text-blue-500 cursor-pointer"
+                            onClick={() => handleEmailClick(userDetails?.email)}
+                        >
+                            {userDetails?.email}
+                        </span>
+                    </p>
+                    <p><strong>Phone:</strong> {userDetails?.phone}</p>
+                    {/* Add more fields as needed */}
+                </div>
+                <button
+                    className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600"
+                    onClick={onClose}
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    );
+};
 
 const ProductDetails = () => {
     const params = useParams();
-    const navigate = useNavigate();
     const [product, setProduct] = useState({});
-    const [relatedProducts, setRelatedProducts] = useState([]);
-    const [products, setProducts] = useState([]);
-    const [page, setPage] = useState(1);
-    const [total, setTotal] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false); // Modal visibility state
+    const [userDetails, setUserDetails] = useState({}); // User details state
 
     // Fetch product details on initial render
     useEffect(() => {
         if (params?.id) {
             getProduct();
-            fetchRelatedProducts();
         }
-        // Fetch all products when the component mounts
-        fetchAllProducts();
     }, [params?.id]);
 
     // Fetch single product data
@@ -29,44 +58,23 @@ const ProductDetails = () => {
         try {
             const { data } = await axios.get(`http://localhost:8080/api/product/get-product/${params.id}`);
             setProduct(data?.product);
+            if (data?.product?.userId) {
+                setUserDetails(data?.product?.userId); // Directly use userId from product
+            }
         } catch (err) {
             console.log(err);
         }
     };
 
-    // Fetch related products data
-    const fetchRelatedProducts = async () => {
-        try {
-            const { data } = await axios.get(`http://localhost:8080/api/product/get-all-products`);
-            setRelatedProducts(data?.products || []);
-        } catch (err) {
-            console.log(err);
-        }
+    // Show modal when "BUY NOW" button is clicked
+    const handleBuyNow = () => {
+        setShowModal(true); // Show the modal
     };
 
-    // Fetch all products with pagination
-    const fetchAllProducts = async () => {
-        try {
-            setLoading(true);
-            const { data } = await axios.get(`http://localhost:8080/api/product/get-all-products?page=${page}`);
-            setProducts(prevProducts => [...prevProducts, ...data?.products]);
-            setTotal(data?.totalProducts);
-            setLoading(false);
-        } catch (err) {
-            console.log(err);
-            setLoading(false);
-        }
+    // Close the modal
+    const handleCloseModal = () => {
+        setShowModal(false);
     };
-
-    // Load more products when "Load More" is clicked
-    const handleLoadMore = () => {
-        setPage(prevPage => prevPage + 1);
-    };
-
-    // Trigger fetchAllProducts every time the page changes
-    useEffect(() => {
-        if (page > 1) fetchAllProducts();
-    }, [page]);
 
     return (
         <Structure>
@@ -93,17 +101,21 @@ const ProductDetails = () => {
                         <p className="text-gray-700 mt-4 mb-6">{product.description}</p>
 
                         {/* Add to Cart Button */}
-                        <button className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600">
+                        <button
+                            className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600"
+                            onClick={handleBuyNow} // Show the modal on click
+                        >
                             BUY NOW
                         </button>
-
-                       
                     </div>
                 </div>
 
-                
-
-               
+                {/* Modal for User Details */}
+                <Modal
+                    show={showModal}
+                    onClose={handleCloseModal}
+                    userDetails={userDetails} // Pass user details to the modal
+                />
             </div>
         </Structure>
     );
