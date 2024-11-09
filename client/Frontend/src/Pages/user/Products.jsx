@@ -18,17 +18,14 @@ const Products = () => {
   useEffect(() => {
     const fetchUserProducts = async () => {
       try {
+      
         
-        if (!userId) {
-            console.log("User ID is not available or undefined");
-            return; // Early return if no userId is found
-        }
-          const { data } = await axios.get(`http://localhost:8080/api/product/get-userProduct/${userId}`);
-          setProducts(data.products);
-      } catch (err) {
-          console.log(err);
-          toast.error("Error in fetching user-specific products.");
-      }
+        const { data } = await axios.get(`http://localhost:8080/api/product/get-userProduct/${auth?.user._id}`);
+        setProducts(data.products);
+    } catch (error) {
+        console.error("Error fetching user products:", error);
+    }
+    
   };
   fetchUserProducts();
   }, []);
