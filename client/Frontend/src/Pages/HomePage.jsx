@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../Components/Price";
-import { useCart } from "../context/CartContext";
+
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
@@ -11,7 +11,7 @@ import Structure from "../Components/structure/Structure";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [cart, setCart] = useCart();
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -180,22 +180,13 @@ const HomePage = () => {
   }).format(p.price)}
 </span>
 
-                    <button
-                      className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
-                      onClick={() => navigate(`/product/${p._id}`)}
-                    >
-                      Details
-                    </button>
+                  
                   </div>
                   <button
                     className="mt-4 bg-green-500 w-full py-2 rounded-lg text-white hover:bg-green-600 transition"
-                    onClick={() => {
-                      setCart([...cart, p]);
-                      localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                      toast.success("Item Added to Cart");
-                    }}
+                    onClick={() => navigate(`/product/${p._id}`)}
                   >
-                    Add to Cart
+                   View Product Details
                   </button>
                 </div>
               </div>

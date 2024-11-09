@@ -4,25 +4,33 @@ import UserMenu from "../../Components/structure/UserMenu";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AuthProvider } from "../../context/auth";
+import { useAuth } from "../../context/auth";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const navigate = useNavigate();
+  const [auth] = useAuth();
 
   // Fetch all products
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchUserProducts = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/api/product/get-product");
-        setProducts(data.products);
+        
+        if (!userId) {
+            console.log("User ID is not available or undefined");
+            return; // Early return if no userId is found
+        }
+          const { data } = await axios.get(`http://localhost:8080/api/product/get-userProduct/${userId}`);
+          setProducts(data.products);
       } catch (err) {
-        console.log(err);
-        toast.error("Error in fetching products.");
+          console.log(err);
+          toast.error("Error in fetching user-specific products.");
       }
-    };
-    fetchProducts();
+  };
+  fetchUserProducts();
   }, []);
 
   // Open delete confirmation modal

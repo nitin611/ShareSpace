@@ -17,8 +17,8 @@ export const createProductController = async (req, res) => {
         if (photo && photo.size > 1 * 1024 * 1024) { // 1MB limit
             return res.status(400).send({ success: false, msg: "Photo size should be less than 1MB" });
         }
-
-        const product = new productModel({ ...req.fields });
+        const userId = req.user._id;
+        const product = new productModel({ ...req.fields,userId });
         if (photo) {
             product.photo.data = fs.readFileSync(photo.path);
             product.photo.contentType = photo.type;
@@ -43,7 +43,12 @@ export const createProductController = async (req, res) => {
 export const getProductController=async(req,res)=>{
     try {
         // yaha photo ke liye alag se route bana lenge and usko alag se get karenge taki request time jada na lage and ek baar me 12 products ko show karegne createdAt ke basis pe sort kar ke-
-        const products=await productModel.find({}).select("-photo").populate("category").limit(12).sort({createdAt:-1});
+        const products=await productModel.find({})
+        .select("-photo")
+        .populate("category")
+        .populate("userId", "name email phone")
+        .limit(12)
+        .sort({createdAt:-1});
         res.status(200).send({
             success:true,
             TotalCount:products.length,
@@ -60,11 +65,37 @@ export const getProductController=async(req,res)=>{
     }
 };
 
+// get user specific single product-
+export const getUserProductController=async(req,res)=>{
+    try {
+        const userId = req.params.userId; 
+        const products = await productModel.find({ userId: userId })
+        .select("-photo")
+        .populate("category")
+        .populate("userId", "name email phone")
+        .limit(12)
+        .sort({ createdAt: -1 });
+
+    res.status(200).send({
+        success: true,
+        TotalCount: products.length,
+        msg: "User-specific products",
+        products
+    });
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({
+            success:false,
+            msg:"error in getting user-specific product"
+        })
+        
+    }
+}
 // get single product-
 export const getSingleProduct=async(req,res)=>{
     try {
         const id=req.params.id
-        const product = await productModel.findById(id).select("-photo").populate("category");
+        const product = await productModel.findById(id).select("-photo").populate("category") .populate("userId", "name email phone");;
 
         res.status(200).send({
             success:true,

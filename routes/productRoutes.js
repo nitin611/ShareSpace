@@ -1,6 +1,6 @@
 import express from 'express'
 import {  jwtverification } from '../middlewares/authMiddleware.js';
-import { createProductController, deleteProductController, getProductController, getSingleProduct, productCountController, productFilterController, productListController, productPhotoController, searchProductController, updateProductController } from '../controllers/productController.js';
+import { createProductController, deleteProductController, getProductController, getSingleProduct, getUserProductController, productCountController, productFilterController, productListController, productPhotoController, searchProductController, updateProductController } from '../controllers/productController.js';
 import formidable from 'express-formidable'
 
 const router=express.Router();
@@ -15,6 +15,9 @@ router.put("/updating-product/:pid",jwtverification,formidable(),updateProductCo
 
 // get all products-
 router.get("/get-product",getProductController)
+
+// get user specific products-
+router.get("/get-userProduct/:userId",jwtverification,getUserProductController)
 
 // get single product-
 router.get("/get-product/:id",getSingleProduct)

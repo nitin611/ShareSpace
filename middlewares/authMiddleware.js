@@ -7,9 +7,13 @@ import userModel from '../models/userModel.js';
 export const jwtverification=async(req,res,next)=>{
     try {
         const decoded=JWT.verify(req.headers.authorization,process.env.JWT_SECRET);
-       
-        // decrypt to get id -
-        req.user=decoded;
+        const user = await userModel.findById(decoded._id); // Fetch user from DB
+
+        if (!user) {
+            return res.status(404).send({ success: false, msg: "User not found" });
+        }
+
+        req.user = user; // Attach full user document to req.user
         next();
     } 
     catch (err) {

@@ -13,6 +13,11 @@ const productSchema=new mongoose.Schema({
         type:Number,
         required:true
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        required: true
+      },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'category',  // Lowercase 'category' to match export
