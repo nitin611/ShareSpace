@@ -180,7 +180,7 @@ const HomePage = () => {
   }).format(p.price)}
 </span>
 
-                  
+                  {/* View Product details */}
                   </div>
                   <button
                     className="mt-4 bg-green-500 w-full py-2 rounded-lg text-white hover:bg-green-600 transition"
