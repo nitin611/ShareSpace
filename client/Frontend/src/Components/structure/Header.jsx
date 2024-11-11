@@ -55,6 +55,8 @@ const Header = () => {
             </div>
           </div>
 
+          
+
           {/* Sign-in / Sign-up Buttons */}
           <div className="space-x-4 flex items-center">
             {!auth.user ? (
