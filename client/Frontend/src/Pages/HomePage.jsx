@@ -146,10 +146,10 @@ const HomePage = () => {
         </div>
 
         {/* Filters Section */}
-        <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-12 lg:col-span-3 bg-white p-4 rounded-lg shadow-md">
+        <div className="grid grid-cols-12 gap-5">
+          <div className="col-span-12 lg:col-span-2 bg-white p-4 rounded-lg shadow-md">
             <div className="md:grid-cols-4 lg:grid-cols-2">
-              <h4 className="text-md font-semibold text-gray-700 mb-4">Filter By Category</h4>
+              <h4 className="text-md font-semibold text-gray-700 mb-4 ">Filter By Category</h4>
               {categories?.map((c) => (
                 <Checkbox
                   key={c._id}
