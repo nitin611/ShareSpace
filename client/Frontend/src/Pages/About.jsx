@@ -56,36 +56,50 @@ const About = () => {
 
           {/* Team Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {[
-              { name: "Nitin Kumar Jhaa", 
-                role: "Co-Founder & Developer", 
-                image: "/images/nitin.jpeg" 
-              },
-              { name: "Md Faizan", 
-                role: "Co-Founder & Designer", 
-                
-                image: "/images/faizan.jpg" 
-              },
-              { name: "Faiz",
-                 role: "Co-Founder & Strategist", 
-                 image: "/images/faiz.jpg" 
-                },
+  {[
+    {
+      name: "Nitin Kumar Jhaa",
+      role: "Co-Founder & Developer",
+      image: "/images/nitin.jpeg",
+      description:
+        "Nitin is passionate about web development and sustainability. He built this platform to help students connect and share valuable resources.",
+    },
+    {
+      name: "Md Faizan",
+      role: "Co-Founder & Designer",
+      image: "/images/faizan.jpg",
+      description:
+      "Faizan is a creative designer who ensures that the platform is user-friendly and aesthetically appealing for all students.",
 
-            ].map((member, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center"
-              >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-32 h-32 rounded-full mb-4 object-cover"
-                />
-                <h3 className="text-lg font-bold">{member.name}</h3>
-                <p className="text-sm text-gray-500">{member.role}</p>
-              </div>
-            ))}
-          </div>
+    },
+    {
+      name: "Faiz",
+      role: "Co-Founder & Strategist",
+      image: "/images/faiz.jpg",
+      description:
+      "Faiz focuses on strategy and making sure that Sharespace grows into a thriving community for students to exchange items effortlessly.",
+    },
+  ].map((member, index) => (
+    <div
+      key={index}
+      className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center"
+    >
+      <img
+        src={member.image}
+        alt={member.name}
+        className="w-50 h-40 rounded-full mb-4 object-cover"
+      />
+      <h3 className="text-lg font-bold">{member.name}</h3>
+      <p className="text-sm text-gray-500">{member.role}</p>
+
+      {/* Add the description only for Nitin */}
+      {member.description && (
+        <p className="mt-4 text-center text-gray-700">{member.description}</p>
+      )}
+    </div>
+  ))}
+</div>
+
 
           {/* Features Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">

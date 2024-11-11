@@ -31,7 +31,7 @@ const HomePage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % banners.length);
-    }, 3000); 
+    }, 3000);
     return () => clearInterval(interval);
   }, [banners.length]);
 
@@ -137,22 +137,30 @@ const HomePage = () => {
           />
         </div>
 
+        {/* Centered Flash Sales Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800">Today's Flash Sales</h1>
+          <p className="bg-red-100 text-red-600 inline-block px-4 py-2 mt-2 text-lg rounded-lg">
+            New Items added!
+          </p>
+        </div>
+
         {/* Filters Section */}
-        <div className="grid grid-cols-12 gap-4 ">
-          <div className="col-span-12 lg:col-span-3 bg-white p-4 rounded-lg shadow-md ">
-            <div className=" md:grid-cols-4 lg:grid-cols-2">
-            <h4 className="text-md font-semibold text-gray-700 mb-4">Filter By Category</h4>
-            {categories?.map((c) => (
-              <Checkbox
-                key={c._id}
-                onChange={(e) => handleFilter(e.target.checked, c._id)}
-                className="mb-1 text-sm text-gray-600"
-              >
-                {c.name}
-              </Checkbox>
-            ))}
+        <div className="grid grid-cols-12 gap-4">
+          <div className="col-span-12 lg:col-span-3 bg-white p-4 rounded-lg shadow-md">
+            <div className="md:grid-cols-4 lg:grid-cols-2">
+              <h4 className="text-md font-semibold text-gray-700 mb-4">Filter By Category</h4>
+              {categories?.map((c) => (
+                <Checkbox
+                  key={c._id}
+                  onChange={(e) => handleFilter(e.target.checked, c._id)}
+                  className="mb-1 text-sm text-gray-600"
+                >
+                  {c.name}
+                </Checkbox>
+              ))}
             </div>
-            
+
             <h4 className="text-md font-semibold text-gray-700 mt-4 mb-3">Filter By Price</h4>
             <Radio.Group
               onChange={(e) => setRadio(e.target.value)}
@@ -174,45 +182,40 @@ const HomePage = () => {
 
           {/* Products Section */}
           <div className="col-span-12 lg:col-span-9">
-            <div className="mb-4">
-              <h1 className="text-xl font-semibold text-center">Today's Flash Sales</h1>
-              <div className="flex justify-center">
-                <p className="bg-red-100 text-red-600 px-2 py-1 text-xs rounded-lg">New Items added!</p>
-              </div>
-            </div>
-
             <div className="grid gap-4 grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
               {products?.map((p) => (
                 <div
                   key={p._id}
-                  className="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105"
+                  className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-between h-full transform transition hover:scale-105"
                 >
                   <img
                     src={`http://localhost:8080/api/product/product-photo/${p._id}`}
-                    className="w-full h-38 object-cover"
+                    className="w-full h-30 object-cover"
                     alt={p.name}
                   />
-                  <div className="p-3">
+                  <div className="p-3 flex-grow">
                     <h5 className="text-md font-bold text-gray-700">{p.name}</h5>
                     <p className="text-sm text-gray-600">{p.description.substring(0, 60)}...</p>
                     <div className="flex items-center justify-between mt-3">
                       <span className="text-md font-semibold text-blue-600">
-                        {new Intl.NumberFormat('en-IN', {
-                          style: 'currency',
-                          currency: 'INR',
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
                         }).format(p.price)}
                       </span>
                     </div>
-                    <button
-                      className="mt-3 bg-green-500 w-full py-1 text-sm rounded text-white hover:bg-green-600 transition"
-                      onClick={() => navigate(`/product/${p._id}`)}
-                    >
-                      View Product Details
-                    </button>
                   </div>
+
+                  <button
+                    className="bg-green-500 w-full py-2 text-sm rounded text-white hover:bg-green-600 transition"
+                    onClick={() => navigate(`/product/${p._id}`)}
+                  >
+                    View Product Details
+                  </button>
                 </div>
               ))}
             </div>
+
             {products.length < total && (
               <div className="flex justify-center mt-6">
                 <button
