@@ -229,10 +229,11 @@ export const productCountController=async(req,res)=>{
     }
 }
 
+
 // product list page ke basis pe-
 export const productListController = async (req, res) => {
     try {
-      const perPage = 2;
+      const perPage = 8;
       const page = req.params.page ? parseInt(req.params.page) : 1;
   
       const products = await productModel
