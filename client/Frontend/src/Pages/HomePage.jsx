@@ -133,7 +133,7 @@ const HomePage = () => {
           <img
             src={banners[currentSlide]}
             alt={`Banner ${currentSlide + 1}`}
-            className="w-full object-cover h-48"
+            className="w-full h-[300px] object-cover"
           />
         </div>
 

@@ -7,12 +7,10 @@ const About = () => {
     <Structure>
       <div className="min-h-screen bg-white text-black">
         {/* Breadcrumb */}
-        <div className="py-4 px-8">
-          {/* <p className="text-sm text-gray-500">Home / About</p> */}
-        </div>
+        
 
         {/* Main Section */}
-        <div className="container mx-auto px-8 lg:px-16">
+        <div className="container mx-auto py-3 px-8 lg:px-16">
           {/* Our Story Section */}
           <div className="grid lg:grid-cols-2 gap-8 items-center mb-16">
             <div>
@@ -39,15 +37,15 @@ const About = () => {
           {/* Metrics Section */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16 text-center">
             <div className="bg-gray-100 py-6 rounded-lg">
-              <h2 className="text-2xl font-bold text-black">10.5k</h2>
+              <h2 className="text-2xl font-bold text-black">2.5k</h2>
               <p className="text-gray-600">Sellers online on our site</p>
             </div>
             <div className="bg-red-100 py-6 rounded-lg">
-              <h2 className="text-2xl font-bold text-red-600">33k</h2>
+              <h2 className="text-2xl font-bold text-red-600">13k</h2>
               <p className="text-gray-600">Monthly product sales</p>
             </div>
             <div className="bg-gray-100 py-6 rounded-lg">
-              <h2 className="text-2xl font-bold text-black">45.5k</h2>
+              <h2 className="text-2xl font-bold text-black">4.5k</h2>
               <p className="text-gray-600">Customer online in our site</p>
             </div>
             <div className="bg-gray-100 py-6 rounded-lg">
@@ -94,7 +92,7 @@ const About = () => {
             {[
               {
                 title: "Free and Fast Delivery",
-                description: "Enjoy fast delivery on every order above $20.",
+                description: "Enjoy fast delivery ",
                 icon: <FaHandHoldingUsd />,
               },
               {
@@ -103,8 +101,8 @@ const About = () => {
                 icon: <FaUsers />,
               },
               {
-                title: "Money Back Guarantee",
-                description: "We offer a 30-day money-back guarantee.",
+                title: "ReUse items",
+                description: "Good Quality items",
                 icon: <FaRecycle />,
               },
             ].map((feature, index) => (

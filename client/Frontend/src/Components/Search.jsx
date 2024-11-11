@@ -22,21 +22,22 @@ const SearchInput = () => {
   };
 
   return (
-    <div className="flex justify-center mt-4 w-full ">
+    <div className="flex justify-center mt-1 w-full ">
       <form
         className="relative w-half max-w-lg"
         onSubmit={handleSubmit}
       >
         <input
           type="text"
-          className="w-full h-12 px-4 pr-10 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300"
-          placeholder="Search for products, categories, etc..."
+          className="w-full h-10 px-10 pr-10 text-white bg-gray-800 border border-gray-500 
+            rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black transition-all duration-300"
+          placeholder="Search for products..."
           value={values.keyword}
           onChange={(e) => setValues({ ...values, keyword: e.target.value })}
         />
         <button
           type="submit"
-          className="absolute top-1/2 right-3 transform -translate-y-1/2 text-purple-500 hover:text-purple-700 transition-all duration-300"
+          className="absolute top-1/2 right-3 transform -translate-y-1/2 text-black hover:text-purple-700 transition-all duration-300"
         >
           <FiSearch size={20} />
         </button>
