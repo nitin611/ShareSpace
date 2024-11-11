@@ -5,112 +5,124 @@ import { FaUsers, FaHandHoldingUsd, FaRecycle } from 'react-icons/fa';
 const About = () => {
   return (
     <Structure>
-  {/* Wrapper karo container ko*/}
-  <div className="min-h-screen bg-floral-white text-black flex flex-col items-center py-12">
-    
-    {/* Heading */}
-    <h1 className="text-5xl font-bold mb-6 text-center">
-      About <span className="text-united-nations-blue">Sharespace</span>
-    </h1>
-    
-    {/* Introduction Section */}
-    <div className="max-w-4xl text-center mb-12">
-      <p className="text-lg">
-        Sharespace is a platform designed for VIT college students where they can buy and sell college items. 
-        Our mission is to help students connect and share second-hand items, like books, electronics, and more. 
-        Juniors can easily buy items from seniors, making college life more affordable and sustainable.
-      </p>
-    </div>
-    
-    {/* Founders Section */}
-    <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-      
-      {/* Nitin Kumar Jha */}
-      <div className="bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 hover:border-burnt-sienna transition-transform duration-500">
-        <img
-          src="/images/nitin.jpeg"
-          alt="Nitin Kumar Jha"
-          className="w-40 h-40 rounded-full mx-auto mb-4"
-        />
-        <h2 className="text-2xl font-bold text-united-nations-blue text-center">Nitin Kumar Jha</h2>
-        <p className="text-center text-black">Co-Founder & Developer</p>
-        <p className="mt-4 text-center">
-          Nitin is passionate about web development and sustainability. He built this platform to help students connect and share valuable resources.
-        </p>
-      </div>
-      
-      {/* Md Faizan */}
-      <div className="bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 hover:border-burnt-sienna transition-transform duration-500">
-        <img
-          src="/images/faizan.jpg"
-          alt="Md Faizan"
-          className="w-40 h-40 rounded-full mx-auto mb-4"
-        />
-        <h2 className="text-2xl font-bold text-united-nations-blue text-center">Md Faizan</h2>
-        <p className="text-center text-black">Co-Founder & Designer</p>
-        <p className="mt-4 text-center">
-          Faizan is a creative designer who ensures that the platform is user-friendly and aesthetically appealing for all students.
-        </p>
-      </div>
-      
-      {/* Faiz */}
-      <div className="bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 hover:border-burnt-sienna transition-transform duration-500">
-        <img
-          src="/images/faiz.jpg"
-          alt="Faiz"
-          className="w-40 h-40 rounded-full mx-auto mb-4"
-        />
-        <h2 className="text-2xl font-bold text-united-nations-blue text-center">Faiz</h2>
-        <p className="text-center text-black">Co-Founder & Strategist</p>
-        <p className="mt-4 text-center">
-          Faiz focuses on strategy and making sure that Sharespace grows into a thriving community for students to exchange items effortlessly.
-        </p>
-      </div>
-    </div>
-    
-    {/* Our Mission */}
-    <div className="text-center max-w-4xl mb-16">
-      <h2 className="text-3xl font-bold text-united-nations-blue mb-4">Our Mission</h2>
-      <p className="text-lg">
-        At Sharespace, we aim to build a sustainable and community-driven platform where students can buy, sell, and exchange college items. 
+      <div className="min-h-screen bg-white text-black">
+        {/* Breadcrumb */}
+        <div className="py-4 px-8">
+          {/* <p className="text-sm text-gray-500">Home / About</p> */}
+        </div>
+
+        {/* Main Section */}
+        <div className="container mx-auto px-8 lg:px-16">
+          {/* Our Story Section */}
+          <div className="grid lg:grid-cols-2 gap-8 items-center mb-16">
+            <div>
+              <h1 className="text-4xl font-bold mb-4">Our Story</h1>
+              <p className="text-lg leading-relaxed text-gray-600">
+              At Sharespace, we aim to build a sustainable and community-driven platform where students can buy, sell, and exchange college items. 
         Whether it's books, electronics, or other resources, we believe in reusing items to reduce waste and make college life more affordable for everyone.
-      </p>
-    </div>
-    
-    {/* Platform Features */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-      <div className="flex items-center space-x-4 bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 hover:border-burnt-sienna transition-transform duration-500">
-        <FaHandHoldingUsd className="text-united-nations-blue text-4xl" />
-        <div>
-          <h3 className="text-xl font-bold">Affordable Deals</h3>
-          <p>Find great deals from fellow students, making college essentials more affordable for everyone.</p>
-        </div>
-      </div>
-      <div className="flex items-center space-x-4 bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 hover:border-burnt-sienna transition-transform duration-500">
-        <FaRecycle className="text-united-nations-blue text-4xl" />
-        <div>
-          <h3 className="text-xl font-bold">Sustainable</h3>
-          <p>Reduce waste by reusing items, contributing to a more sustainable campus environment.</p>
-        </div>
-      </div>
-      <div className="flex items-center space-x-4 bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 hover:border-burnt-sienna transition-transform duration-500">
-        <FaUsers className="text-united-nations-blue text-4xl" />
-        <div>
-          <h3 className="text-xl font-bold">Community Driven</h3>
-          <p>Built for students, by students. Sharespace is a community-driven platform connecting juniors and seniors.</p>
-        </div>
-      </div>
-    </div>
 
-    {/* Action Button */}
-    <div className="mt-8">
-      {/* <button className="px-6 py-3 bg-united-nations-blue text-floral-white font-bold rounded-lg hover:bg-burnt-sienna hover:text-black transition duration-300">
-        Get Started
-      </button> */}
-    </div>
-  </div>
-</Structure>
+              </p>
+              <p className="text-lg leading-relaxed text-gray-600 mt-4">
+                Currently, we offer a wide variety of products, from books to gadgets, helping to foster a community-driven
+                and sustainable ecosystem.
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <img
+                src="/images/ban-2.jpg" 
+                alt="About Us"
+                className="rounded-lg shadow-lg w-full lg:w-4/4"
+              />
+            </div>
+          </div>
 
+          {/* Metrics Section */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16 text-center">
+            <div className="bg-gray-100 py-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-black">10.5k</h2>
+              <p className="text-gray-600">Sellers online on our site</p>
+            </div>
+            <div className="bg-red-100 py-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-red-600">33k</h2>
+              <p className="text-gray-600">Monthly product sales</p>
+            </div>
+            <div className="bg-gray-100 py-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-black">45.5k</h2>
+              <p className="text-gray-600">Customer online in our site</p>
+            </div>
+            <div className="bg-gray-100 py-6 rounded-lg">
+              <h2 className="text-2xl font-bold text-black">25k</h2>
+              <p className="text-gray-600">Annual gross sales on our site</p>
+            </div>
+          </div>
+
+          {/* Team Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {[
+              { name: "Nitin Kumar Jhaa", 
+                role: "Co-Founder & Developer", 
+                image: "/images/nitin.jpeg" 
+              },
+              { name: "Md Faizan", 
+                role: "Co-Founder & Designer", 
+                
+                image: "/images/faizan.jpg" 
+              },
+              { name: "Faiz",
+                 role: "Co-Founder & Strategist", 
+                 image: "/images/faiz.jpg" 
+                },
+
+            ].map((member, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center"
+              >
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-32 h-32 rounded-full mb-4 object-cover"
+                />
+                <h3 className="text-lg font-bold">{member.name}</h3>
+                <p className="text-sm text-gray-500">{member.role}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Features Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {[
+              {
+                title: "Free and Fast Delivery",
+                description: "Enjoy fast delivery on every order above $20.",
+                icon: <FaHandHoldingUsd />,
+              },
+              {
+                title: "24/7 Customer Service",
+                description: "Friendly 24/7 support available for all queries.",
+                icon: <FaUsers />,
+              },
+              {
+                title: "Money Back Guarantee",
+                description: "We offer a 30-day money-back guarantee.",
+                icon: <FaRecycle />,
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 shadow-lg rounded-lg flex items-center space-x-4"
+              >
+                <div className="text-red-500 text-3xl">{feature.icon}</div>
+                <div>
+                  <h3 className="text-lg font-bold">{feature.title}</h3>
+                  <p className="text-sm text-gray-600">{feature.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Structure>
   );
 };
 

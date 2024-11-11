@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../Components/Price";
-
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
 import Structure from "../Components/structure/Structure";
-
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -19,6 +17,23 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const banners = [
+    "/images/Banner-1.jpg",
+    "/images/Banner-2.avif",
+    "/images/Banner-2.avif",
+    "/images/Banner-4.jpg",
+    "/images/Banner-5.jpg",
+  ];
+
+  // Automatically change banner slide
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % banners.length);
+    }, 3000); 
+    return () => clearInterval(interval);
+  }, [banners.length]);
 
   // Get categories
   const getAllCategory = async () => {
@@ -62,12 +77,11 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    // agar page 
     if (page === 1) return;
     loadMore();
   }, [page]);
 
-  // Load more products after clicking on the load more button-
+  // Load more products after clicking on the load more button
   const loadMore = async () => {
     try {
       setLoading(true);
@@ -79,7 +93,6 @@ const HomePage = () => {
       setLoading(false);
     }
   };
-  
 
   // Filter by category
   const handleFilter = (value, id) => {
@@ -91,15 +104,14 @@ const HomePage = () => {
     }
     setChecked(all);
   };
+
   useEffect(() => {
     if (checked.length || radio.length) {
       filterProduct();
-       // Fetch all products if no filter is applied
     } else {
-      getAllProducts(); 
+      getAllProducts();
     }
   }, [checked, radio]);
-
 
   const filterProduct = async () => {
     try {
@@ -114,105 +126,111 @@ const HomePage = () => {
   };
 
   return (
-    <Structure title={"HomePage-ShareSpace"}>
-        <div className="min-h-screen bg-gray-100 p-3">
-      {/* Banner */}
-      <div className="mb-2">
-        <img
-          src="/images/banner.png"
-          className="rounded-lg w-full object-cover h-64"
-          alt="Banner"
-        />
-      </div>
-
-      {/* Filters Section */}
-      <div className="grid grid-cols-12 gap-8">
-        <div className="col-span-12 lg:col-span-3 bg-white p-6 rounded-lg shadow-md">
-          <h4 className="text-lg font-semibold text-gray-700 mb-4">Filter By Category</h4>
-          {categories?.map((c) => (
-            <Checkbox
-              key={c._id}
-              onChange={(e) => handleFilter(e.target.checked, c._id)}
-              className="mb-2 text-gray-600"
-            >
-              {c.name}
-            </Checkbox>
-          ))}
-          <h4 className="text-lg font-semibold text-gray-700 mt-6 mb-4">Filter By Price</h4>
-          <Radio.Group
-            onChange={(e) => setRadio(e.target.value)}
-            className="flex flex-col space-y-2 text-gray-600"
-          >
-            {Prices?.map((p) => (
-              <Radio value={p.array} key={p._id}>{p.name}</Radio>
-            ))}
-          </Radio.Group>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-6 bg-red-500 text-white py-2 rounded-lg w-full hover:bg-red-600 transition"
-          >
-            Reset Filters
-          </button>
+    <Structure title={"HomePage - Super Iconic"}>
+      <div className="min-h-screen bg-gray-50 p-4">
+        {/* Banner */}
+        <div className="relative rounded-lg overflow-hidden mb-6">
+          <img
+            src={banners[currentSlide]}
+            alt={`Banner ${currentSlide + 1}`}
+            className="w-full object-cover h-48"
+          />
         </div>
 
-        {/* Products Section */}
-        <div className="col-span-12 lg:col-span-9">
-          <h1 className="text-2xl font-semibold text-center mb-6">All Products</h1>
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {products?.map((p) => (
-              <div
-                key={p._id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105"
+        {/* Filters Section */}
+        <div className="grid grid-cols-12 gap-4 ">
+          <div className="col-span-12 lg:col-span-3 bg-white p-4 rounded-lg shadow-md ">
+            <div className=" md:grid-cols-4 lg:grid-cols-2">
+            <h4 className="text-md font-semibold text-gray-700 mb-4">Filter By Category</h4>
+            {categories?.map((c) => (
+              <Checkbox
+                key={c._id}
+                onChange={(e) => handleFilter(e.target.checked, c._id)}
+                className="mb-1 text-sm text-gray-600"
               >
-                <img
-                  src={`http://localhost:8080/api/product/product-photo/${p._id}`}
-                  className="w-full h-48 object-cover"
-                  alt={p.name}
-                />
-                <div className="p-4">
-                  <h5 className="text-lg font-bold text-gray-700">{p.name}</h5>
-                  <p className="text-gray-600">{p.description.substring(0, 60)}...</p>
-                  <div className="flex items-center justify-between mt-4">
-                  <span className="text-xl font-semibold text-blue-600">
-  {new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-  }).format(p.price)}
-</span>
-
-                  {/* View Product details */}
-                  </div>
-                  <button
-                    className="mt-4 bg-green-500 w-full py-2 rounded-lg text-white hover:bg-green-600 transition"
-                    onClick={() => navigate(`/product/${p._id}`)}
-                  >
-                   View Product Details
-                  </button>
-                </div>
-              </div>
+                {c.name}
+              </Checkbox>
             ))}
+            </div>
+            
+            <h4 className="text-md font-semibold text-gray-700 mt-4 mb-3">Filter By Price</h4>
+            <Radio.Group
+              onChange={(e) => setRadio(e.target.value)}
+              className="flex flex-col space-y-1 text-sm text-gray-600"
+            >
+              {Prices?.map((p) => (
+                <Radio value={p.array} key={p._id}>
+                  {p.name}
+                </Radio>
+              ))}
+            </Radio.Group>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 bg-red-500 text-white py-1 text-sm rounded w-full hover:bg-red-600 transition"
+            >
+              Reset Filters
+            </button>
           </div>
-          {products.length < total && (
-  <div className="flex justify-center mt-8">
-    <button
-      className={`bg-purple-500 text-white py-2 px-4 rounded-lg flex items-center transition ${
-        loading ? "opacity-50 cursor-not-allowed" : "hover:bg-purple-600"
-      }`}
-      onClick={() => !loading && setPage(page + 1)}
-      disabled={loading}
-    >
-      {loading ? "Loading..." : "Load More"}f
-      <AiOutlineReload className="ml-2" />
-    </button>
-  </div>
-)}
 
+          {/* Products Section */}
+          <div className="col-span-12 lg:col-span-9">
+            <div className="mb-4">
+              <h1 className="text-xl font-semibold text-center">Today's Flash Sales</h1>
+              <div className="flex justify-center">
+                <p className="bg-red-100 text-red-600 px-2 py-1 text-xs rounded-lg">New Items added!</p>
+              </div>
+            </div>
+
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
+              {products?.map((p) => (
+                <div
+                  key={p._id}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden transform transition hover:scale-105"
+                >
+                  <img
+                    src={`http://localhost:8080/api/product/product-photo/${p._id}`}
+                    className="w-full h-38 object-cover"
+                    alt={p.name}
+                  />
+                  <div className="p-3">
+                    <h5 className="text-md font-bold text-gray-700">{p.name}</h5>
+                    <p className="text-sm text-gray-600">{p.description.substring(0, 60)}...</p>
+                    <div className="flex items-center justify-between mt-3">
+                      <span className="text-md font-semibold text-blue-600">
+                        {new Intl.NumberFormat('en-IN', {
+                          style: 'currency',
+                          currency: 'INR',
+                        }).format(p.price)}
+                      </span>
+                    </div>
+                    <button
+                      className="mt-3 bg-green-500 w-full py-1 text-sm rounded text-white hover:bg-green-600 transition"
+                      onClick={() => navigate(`/product/${p._id}`)}
+                    >
+                      View Product Details
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {products.length < total && (
+              <div className="flex justify-center mt-6">
+                <button
+                  className={`bg-red-500 text-white py-1 px-3 text-sm rounded-lg flex items-center transition ${
+                    loading ? "opacity-50 cursor-not-allowed" : "hover:bg-red-600"
+                  }`}
+                  onClick={() => !loading && setPage(page + 1)}
+                  disabled={loading}
+                >
+                  {loading ? "Loading..." : "Load More"}
+                  <AiOutlineReload className="ml-1" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-
     </Structure>
-  
   );
 };
 
