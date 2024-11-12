@@ -65,7 +65,7 @@ export const getProductController=async(req,res)=>{
     }
 };
 
-// get user specific single product-
+// get user specific 
 export const getUserProductController=async(req,res)=>{
     try {
         const userId = req.params.userId; 

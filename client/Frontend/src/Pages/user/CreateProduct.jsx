@@ -62,7 +62,9 @@ const CreateProduct = () => {
 
       if (data?.success) {
         toast.success('Product created successfully');
-        navigate('/dashboard/user/products');
+        setTimeout(() => {
+          navigate('/dashboard/user/products');
+        }, 1000);
       } else {
         toast.error(data?.message || 'Failed to create product');
       }

@@ -1,0 +1,50 @@
+.sidebar {
+    width: 18%;
+    min-height: 100vh;
+    border: 1.5px solid var(--borderGrey);
+    border-top: 0;
+  }
+  .option_holder {
+    padding-top: 50px;
+    padding-left: clamp(10%, 1vw, 20%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    border: 1px solid var(--borderGrey);
+    border-right: 0;
+    padding: 8px 10px;
+    border-radius: 3px 0 0 3px;
+    cursor: pointer;
+  }
+  .option.active {
+    background: var(--gradientLight);
+    border: 1px solid rgb(var(--borderColored));
+    border-right: none;
+  }
+  .option:hover {
+    background-color: #108693; /* Change to your desired hover color */
+    transform: scale(1.05); /* Slightly enlarges on hover */
+  }
+  .option img {
+    margin-right: 8px; /* Adds spacing between icon and text */
+  }
+  .option span {
+    font-size: clamp(0.7rem, 1.6vw, 1rem);
+  }
+  .option img {
+    margin-left: -6px;
+    width: clamp(38px, 4vw, 45px);
+    aspect-ratio: 3/2;
+    object-fit: contain;
+  }
+  @media (max-width: 700px) {
+    .option span {
+      display: none;
+    }
+  }
+  
