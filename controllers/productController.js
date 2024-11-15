@@ -1,5 +1,8 @@
 import productModel from '../models/productModel.js';
 import fs from 'fs';
+import axios from 'axios';
+import FormData from 'form-data';
+
 
 // crud operation on products-
 export const createProductController = async (req, res) => {
@@ -7,23 +10,44 @@ export const createProductController = async (req, res) => {
         const { name, description, price, category, quantity, shipping } = req.fields;
         const { photo } = req.files;
 
-        // Validation-
+        // Validation
         if (!name) return res.status(400).send({ success: false, msg: "Name is required" });
         if (!description) return res.status(400).send({ success: false, msg: "Description is required" });
         if (!price || isNaN(price) || price <= 0) return res.status(400).send({ success: false, msg: "Valid price is required" });
         if (!category) return res.status(400).send({ success: false, msg: "Category is required" });
         if (!quantity || isNaN(quantity) || quantity <= 0) return res.status(400).send({ success: false, msg: "Valid quantity is required" });
         if (typeof shipping === 'undefined') return res.status(400).send({ success: false, msg: "Shipping information is required" });
-        if (photo && photo.size > 1 * 1024 * 1024) { // 1MB limit
+        if (photo && photo.size > 1 * 1024 * 1024) {
             return res.status(400).send({ success: false, msg: "Photo size should be less than 1MB" });
         }
+
+        // Compliance Check
+        const formData = new FormData();
+        formData.append('photo', fs.createReadStream(photo.path), {
+            filename: photo.name,
+            contentType: photo.type || 'image/jpeg' // set MIME type explicitly
+        }); // Use fs.createReadStream for file input
+        formData.append('description', description);
+        formData.append('name', name);
+
+        const complianceResponse = await axios.post(
+            'https://supervisor-matrix-invest-does.trycloudflare.com/check_compliance',
+            formData,
+            { headers: { ...formData.getHeaders() } }
+        );
+
+        if (!complianceResponse.data.compliant) {
+            return res.status(400).send({ success: false, msg: "Product does not meet compliance standards" });
+        }
+
+        // Create product
         const userId = req.user._id;
-        const product = new productModel({ ...req.fields,userId });
+        const product = new productModel({ ...req.fields, userId });
         if (photo) {
             product.photo.data = fs.readFileSync(photo.path);
             product.photo.contentType = photo.type;
-
         }
+        
         await product.save();
         res.status(200).send({
             success: true,
@@ -31,6 +55,7 @@ export const createProductController = async (req, res) => {
             product
         });
     } catch (err) {
+        console.error("Error in creating product:", err); // Log error for debugging
         res.status(500).send({
             success: false,
             msg: 'Error in creating product',
