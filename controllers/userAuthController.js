@@ -3,6 +3,8 @@ import userModel from "../models/userModel.js";
 import { z } from 'zod';
 import JWT from 'jsonwebtoken'
 
+
+
 // ---------------------input validation schema zod ka use--------------
 
 const signupSchema = z.object({
@@ -16,6 +18,9 @@ const signupSchema = z.object({
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   collegeId: z.string().min(1, "College ID is required"),
 });
+
+// ----------------------------send OTP----------------------------
+
 
 
 // ----------------------------signup the user----------------------------

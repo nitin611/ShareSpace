@@ -13,6 +13,10 @@ const productSchema=new mongoose.Schema({
         type:Number,
         required:true
     },
+    ratingAndReview:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"RatingAndReview",
+    }],
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
