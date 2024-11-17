@@ -31,7 +31,7 @@ export const createProductController = async (req, res) => {
         formData.append('name', name);
 
         const complianceResponse = await axios.post(
-            'https://supervisor-matrix-invest-does.trycloudflare.com/check_compliance',
+            'https://sharespace-apis.onrender.com/check_compliance',
             formData,
             { headers: { ...formData.getHeaders() } }
         );

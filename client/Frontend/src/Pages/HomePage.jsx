@@ -20,11 +20,10 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const banners = [
-    "/images/Banner-1.jpg",
-    "/images/Banner-2.avif",
-    "/images/Banner-2.avif",
-    "/images/Banner-4.jpg",
-    "/images/Banner-5.jpg",
+    "/images/banner01.png",
+    "/images/banner02.png",
+    "/images/banner03.png",
+    "/images/banner05.png",
   ];
 
   // Automatically change banner slide
@@ -127,13 +126,13 @@ const HomePage = () => {
 
   return (
     <Structure title={"HomePage - Super Iconic"}>
-      <div className="min-h-screen bg-gray-50 p-4">
+      <div className="min-h-screen bg-gray-50 p-2">
         {/* Banner */}
-        <div className="relative rounded-lg overflow-hidden mb-6">
+        <div className="relative rounded-lg overflow-hidden mb-4">
           <img
             src={banners[currentSlide]}
             alt={`Banner ${currentSlide + 1}`}
-            className="w-full h-[300px] object-cover"
+            className="w-full h-[340px] object-cover"
           />
         </div>
 
