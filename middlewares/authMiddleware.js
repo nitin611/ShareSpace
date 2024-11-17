@@ -1,7 +1,10 @@
 import JWT from 'jsonwebtoken'
 import userModel from '../models/userModel.js';
 
+import dotenv from 'dotenv';
 
+// Load environment variables
+dotenv.config();
 // -------------------------protecting our routes with jwt token -----------------------------
 
 export const jwtverification=async(req,res,next)=>{

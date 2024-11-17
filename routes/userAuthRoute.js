@@ -1,13 +1,18 @@
 import express from "express";
-import { signupController,loginController } from "../controllers/userAuthController.js";
+import { signupController,loginController, sendOTP } from "../controllers/userAuthController.js";
 import {isAdmin,jwtverification} from "../middlewares/authMiddleware.js"
 
 // router objec create karo-
 const router=express.Router();
 
-//user  signup-
+//user  signup -
 
 router.post("/signup",signupController,(req,res)=>{
+
+});
+
+// otp route-
+router.post("/otp",sendOTP,(req,res)=>{
 
 });
 

@@ -1,6 +1,8 @@
-const mongoose = require ("mongoose");
-const mailSender = require("../utils/mailSender");
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import mailSender from "../utils/mailSender.js";
 
+dotenv.config();
 const OTPSchema = new mongoose.Schema({
 
     email:{
@@ -14,11 +16,23 @@ const OTPSchema = new mongoose.Schema({
 
     createdAt:{
         type:Date,
-        default: Date.now(),
+        default: () => Date.now(),
         expires:5*60, //5 Min k liye valid rahega
     }
 
 });
+export default  mongoose.model("OTP", OTPSchema);
+
+
+
+
+//pre- middleware
+
+OTPSchema.pre("save",async function(next){
+    console.log("ddsdsee")
+    await sendVarificationEmail(this.email,this.otp);
+    next();
+})
 
 
 // a function -> to send mail
@@ -34,12 +48,5 @@ async function sendVarificationEmail(email,otp) {
     }
 }
 
-//pre- middleware
-
-OTPSchema.pre("save",async function(next){
-    await sendVarificationEmail(this.email,this.otp);
-    next();
-})
 
 
-module.exports = mongoose.model("OTP",OTPSchema);
