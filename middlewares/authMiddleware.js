@@ -19,8 +19,8 @@ export const jwtverification=async(req,res,next)=>{
         req.user = user; // Attach full user document to req.user
         next();
     } 
-    catch (err) {
-        console.log(err)
+    catch (error) {
+        console.log(error)
     }
 }
 
@@ -40,11 +40,11 @@ export const isAdmin=async (req,res,next)=>{
             next()
         }
     } 
-    catch (err) {
-        console.log(err);
+    catch (error) {
+        console.log(error);
         res.status(404).send({
             success:false,
-            err,
+            error,
             msg:"error in admin middleware"
         })
     }
