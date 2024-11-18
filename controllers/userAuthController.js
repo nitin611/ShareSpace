@@ -33,7 +33,7 @@ const signupSchema = z.object({
 export const sendOTP = async (req, res) => {
   try {
     //fetch email from request ki body '
-    console.log("hhh");
+    
     const { email } = req.body;
 
     //check users already exists

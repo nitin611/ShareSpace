@@ -2,7 +2,7 @@ import express from "express";
 import { signupController,loginController, sendOTP } from "../controllers/userAuthController.js";
 import {isAdmin,jwtverification} from "../middlewares/authMiddleware.js"
 
-// router objec create karo-
+// router object create karo-
 const router=express.Router();
 
 //user  signup -
