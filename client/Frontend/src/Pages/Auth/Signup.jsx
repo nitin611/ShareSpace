@@ -107,7 +107,7 @@ const Signup = () => {
         <div className="w-1/2 relative flex justify-center items-center">
           <video
             autoPlay
-            loop
+            
             muted
             className="absolute inset-0 w-full h-full object-cover"
           >
@@ -136,7 +136,7 @@ const Signup = () => {
                   <input
                     type="email"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Email  (Only Vit mail Id)"
                     value={formData.email}
                     onChange={handleInputChange}
                     required
