@@ -237,3 +237,38 @@ export const loginController = async (req, res) => {
     });
   }
 };
+
+
+// edit user profile controller-
+export const edituserProfileController=async(req,res)=>{
+  try {
+    const { name,password, phone, collegeId}=req.body
+
+  const user=await userModel.findById(req.user._id)
+  // passowrd-
+  if(password && password.length<5){
+    return res.json({error:'password is required and 5 char long'})
+  }
+  const hashPassword=password ?await hashedPassword(password):undefined
+  const updatedUser=await userModel.findByIdAndUpdate(req.user._id,{
+    name:name || user.name,
+    password:hashPassword||user.password,
+    phone:phone ||user.phone,
+    collegeId:collegeId ||user.collegeId
+
+  },{new:true})
+  res.status(200).send({
+    success:true,
+    msg:"user updated successfully",
+    updatedUser
+  })
+
+  } catch (err) {
+    console.log(err)
+    res.status(400).send({
+      success:false,
+      msg:"Error while updating the profile",
+      err
+    })
+  }
+}
