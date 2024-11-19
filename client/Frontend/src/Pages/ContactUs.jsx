@@ -1,54 +1,103 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Structure from '../Components/structure/Structure';
+import toast from 'react-hot-toast';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import emailjs from 'emailjs-com';
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .send(
+        'YOUR_SERVICE_ID', // Replace with your EmailJS Service ID
+        'YOUR_TEMPLATE_ID', // Replace with your EmailJS Template ID
+        formData,
+        'YOUR_USER_ID' // Replace with your EmailJS User ID
+      )
+      .then(
+        () => {
+          toast.success('Message sent successfully!');
+          setFormData({ name: '', email: '', message: '' }); // Reset form
+        },
+        (error) => {
+          console.error('EmailJS Error:', error);
+          toast.error('Failed to send the message. Please try again.');
+        }
+      );
+  };
+
   return (
     <Structure>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-300 via-blue-300 to-purple-300 text-gray-800 px-4 py-10">
-       
-        <h1 className="text-4xl font-bold mb-10 animate-fade-in">Get in Touch with Us</h1>
-
-      
+        <h1 className="text-4xl font-bold mb-10">Get in Touch with Us</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
-        
-          <div className="hidden md:flex items-center justify-center bg-white p-6 shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500">
+          <div className="hidden md:flex items-center justify-center bg-white p-6 shadow-xl rounded-lg">
             <img
               src="/images/pro.png"
               alt="Contact Us Illustration"
-              className="w-150 h-190 animate-float border-x-light-background"
+              className="w-150 h-190"
             />
           </div>
-
-        
-          <div className="bg-white p-8 shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500">
-            <form className="space-y-6">
+          <div className="bg-white p-8 shadow-xl rounded-lg">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Name
+                </label>
                 <input
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Message
+                </label>
                 <textarea
                   id="message"
                   name="message"
                   rows="4"
+                  value={formData.message}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 ></textarea>
@@ -64,8 +113,6 @@ const ContactUs = () => {
             </form>
           </div>
         </div>
-
-   
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           <div className="flex items-center space-x-3 p-4 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:scale-105">
             <FaPhoneAlt className="text-blue-500 text-xl" />
