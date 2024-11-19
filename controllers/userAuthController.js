@@ -310,16 +310,26 @@ export const addOrderController = async (req, res) => {
   }
 };
 
-// get all orders in order received section-
-export const getallOrdersController=async(req,res)=>{
-  try {
-   
-  } catch (err) {
-    console.log(err)
-    res.status(400).send({
-      success:false,
-      msg:"Cant get all orders of the users"
+// get all orders-
 
-    })
+export const getAllOrdersController = async (req, res) => {
+  try {
+    const orders = await orderModel 
+      .find({})
+      .populate("products", "-photo")
+      .populate("buyer", "name")
+      .sort({ createdAt: -1});
+      res.status(200).json({
+        success: true,
+        data: orders,
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "error while getting orders",
+      error,
+    });
   }
-}
+};
+

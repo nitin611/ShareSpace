@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import loadingGif from "../../assets/White Clean Now Loading Animation Youtube Video.gif"; 
 const { Option } = Select;
 
+
 const CreateProduct = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);

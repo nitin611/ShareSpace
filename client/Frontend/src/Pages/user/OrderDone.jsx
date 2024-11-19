@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../../context/auth";
 import Structure from "../../Components/structure/Structure";
 import moment from 'moment';
+import UserMenu from "../../Components/structure/UserMenu";
 
 
 const Orders = () => {
@@ -28,7 +29,13 @@ const Orders = () => {
 
   return (
     <Structure>
-      <h2 className="text-2xl font-bold mb-4">Your Orders</h2>
+        <div className="container mx-auto p-6">
+        <div className="flex">
+        <div className="w-1/3 pr-4">
+            <UserMenu />
+          </div>
+     <div>
+     <h2 className="text-2xl font-bold mb-4">Your Orders</h2>
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
@@ -72,6 +79,11 @@ const Orders = () => {
           </tbody>
         </table>
       )}
+     </div>
+        </div>
+        </div>
+       
+       
     </Structure>
   );
 };

@@ -1,163 +1,138 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import orderStyles from "./Orders.module.css";
 import { assets } from "../../assets/assets";
-import { AuthProvider } from "../../context/auth";
+import { useAuth } from "../../context/auth";
+import UserMenu from "../../Components/structure/UserMenu";
 import Structure from "../../Components/structure/Structure";
 
+const getStatusClass = (status) => {
+  switch(status) {
+    case "Not Process": return orderStyles.status_not_processed;
+    case "Processing": return orderStyles.status_processing;
+    case "Shipped": return orderStyles.status_shipped;
+    case "Delivered": return orderStyles.status_delivered;
+    case "Cancelled": return orderStyles.status_cancelled;
+    default: return orderStyles.status_not_processed;
+  }
+};
 
 const Orders = () => {
-
   const [orders, setOrders] = useState([]);
+  const [auth] = useAuth();
 
   const fetchAllOrders = async () => {
     try {
-      const {data} = await axios.post(
-        backendURL + "/api/order/list",
-        {},
-        { headers: { token } }
-      );
-
-      if (data.success) {
-        setOrders(data.orders.reverse());
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message);
-    }
-  };
-  const permissionHandler = async (orderId, permission) => {
-    try {
-      const { data } = await axios.post(backendURL + "/api/order/permission", {
-        orderId,
-        permission,
+      const response = await axios.get("http://localhost:8080/api/auth/allOrders", {
+        headers: {
+          Authorization: `${auth?.token}`,
+        },
       });
-      await fetchAllOrders();
-      data.success ? toast.success(data.message) : toast.error(data.message);
-    } catch (e) {
-      console.log(e);
-      toast.error(e.message);
-    }
-  };
-  const statusHandler = async (e, orderId) => {
-   
-    try {
-      const response = await axios.post(
-        backendURL + "/api/order/status",
-        { orderId, status: e.target.value },
-        { headers: { token } }
-      );
-      if (response.data.success) {
-        await fetchAllOrders();
+      
+      if (response.data && response.data.data && Array.isArray(response.data.data)) {
+        setOrders(response.data.data);
+      } else {
+        toast.error("Invalid order data format");
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      console.error(error);
+      toast.error(error.response?.data?.message || "Failed to fetch orders");
+    }
+  };
+
+  const orderStatusHandler = async (orderId, newStatus) => {
+    try {
+      const { data } = await axios.put(`/api/v1/order/update-status/${orderId}`, 
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: `${auth?.token}`
+          }
+        }
+      );
+      
+      if (data.success) {
+        toast.success("Order status updated successfully");
+        fetchAllOrders();
+      } else {
+        toast.error(data.message || "Failed to update order status");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Error updating order status");
     }
   };
 
   useEffect(() => {
-    fetchAllOrders();
-  }, [token]);
+    if (auth?.token) fetchAllOrders();
+  }, [auth?.token]);
+
   return (
-    <div className={orderStyles.order_page}>
-      <div className={orderStyles.order_holder}>
-        {orders.map((order, idx) => (
-          <div
-            className={`${orderStyles.order}
-               ${order.status === "Delivered" ? orderStyles.delivered : ""}
-                ${order.permission === false ? orderStyles.reject : ""}`}
-            key={idx}
-          >
-            <div className={orderStyles.order_left}>
-              <img src={assets.parcel_icon} loading="lazy" />
-              <div className={orderStyles.order_info}>
-                <div className={orderStyles.product_info}>
-                  {order.items.map((item, index) => {
-                    if (index === order.items.length - 1) {
-                      return (
-                        <p key={index}>
-                          {item.name} X {item.quantity},{" "}
-                          <span>{item.size}</span>
-                        </p>
-                      );
-                    } else {
-                      return (
-                        <p key={index}>
-                          {item.name} X {item.quantity},{" "}
-                          <span>{item.size}</span>,
-                        </p>
-                      );
-                    }
-                  })}
-                </div>
-                <p>{order.address.firstName + " " + order.address.lastName}</p>
-                <div className={orderStyles.address_holder}>
-                  <p>{order.address.street + ","}</p>
-                  <p>
-                    {order.address.city +
-                      ", " +
-                      order.address.state +
-                      ", " +
-                      order.address.country +
-                      ", " +
-                      order.address.zipcode}
-                  </p>
-                </div>
-                <p>{order.address.phone}</p>
-              </div>
-            </div>
-            <div className={orderStyles.order_center}>
-              <p>Items: {order.items.length}</p>
-              <p>
-                Price: {currency}
-                {order.amount}
-              </p>
-              <p>Method: {order.paymentMethod}</p>
-              <p>Payment: {order.payment ? "Done" : "Pending"}</p>
-              <p>Date: {new Date(order.date).toLocaleDateString()}</p>
-            </div>
-            <div className={orderStyles.order_right}>
-              {order.permission === null && (
-                <>
-                  <button onClick={() => permissionHandler(order._id, true)}>
-                    ACCEPT ORDER
-                  </button>
-                  <button
-                    onClick={() => permissionHandler(order._id, false)}
-                    className={orderStyles.red}
-                  >
-                    REJECT ORDER
-                  </button>
-                </>
-              )}
-              {order.permission === true && (
-                <select
-                  onChange={(e) => statusHandler(e, order._id)}
-                  value={order.status}
-                  disabled={order.status === "Delivered"}
-                  className={
-                    order.status === "Delivered"
-                      ? orderStyles.select_disable
-                      : ""
-                  }
-                >
-                  <option value="Order Placed">Order Placed</option>
-                  <option value="Out for delivery">Out for delivery</option>
-                  <option value="Delivered">Delivered</option>
-                </select>
-              )}
-              {order.permission === false && (
-                <p className={orderStyles.reject}>Order Rejected.</p>
-              )}
+    <Structure>
+      <div className="container mx-auto p-6">
+        <div className="flex">
+          <div className="w-1/3 pr-4">
+            <UserMenu />
+          </div>
+          <div className="w-2/3">
+            <div className={orderStyles.orders_container}>
+              <table className={orderStyles.orders_table}>
+                <thead className={orderStyles.orders_header}>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Products</th>
+                    <th>Buyer</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order._id} className={orderStyles.orders_row}>
+                      <td>{order._id?.slice(-6) || 'N/A'}</td>
+                      <td>
+                        {order.products && order.products.length > 0 
+                          ? order.products.map(product => 
+                              `${product.name || 'Unknown Product'} (x${product.quantity || 1})`
+                            ).join(", ")
+                          : 'No Products'}
+                      </td>
+                      <td>{order.buyer?.name || 'Unknown Buyer'}</td>
+                      <td>₹{order.products 
+                          ? order.products.reduce((total, product) => 
+                              total + ((product.price || 0) * (product.quantity || 1)), 0) 
+                          : 0}
+                      </td>
+                      <td>
+                        <span className={`${orderStyles.status_badge} ${getStatusClass(order.status)}`}>
+                          {order.status || 'Unknown Status'}
+                        </span>
+                      </td>
+                      <td>
+                        <select 
+                          value={order.status || ''} 
+                          onChange={(e) => orderStatusHandler(order._id, e.target.value)}
+                          disabled={order.status === "Delivered"}
+                          className={orderStyles.action_select}
+                        >
+                          <option value="Not Process">Not Processed</option>
+                          <option value="Processing">Processing</option>
+                          <option value="Shipped">Shipped</option>
+                          <option value="Delivered">Delivered</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    </Structure>
   );
 };
 
