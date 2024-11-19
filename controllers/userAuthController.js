@@ -34,7 +34,7 @@ const signupSchema = z.object({
 export const sendOTP = async (req, res) => {
   try {
     //fetch email from request ki body '
-    
+   
     const { email } = req.body;
 
     //check users already exists
@@ -277,12 +277,13 @@ export const edituserProfileController=async(req,res)=>{
 // order controller-
 export const getOrderController=async(req,res)=>{
   try {
+   
     const orders=await orderModel
     .find({buyer:req.user._id})
     .populate("products","-photo")
     .populate("buyer","name email")
     res.json(orders)
-    
+   
   } catch (err) {
     console.log(err)
     res.status(400).send({
@@ -290,7 +291,7 @@ export const getOrderController=async(req,res)=>{
       msg:"Error in getting order",
       err
     })
-    
+   
   }
 }
 
@@ -309,3 +310,16 @@ export const addOrderController = async (req, res) => {
   }
 };
 
+// get all orders in order received section-
+export const getallOrdersController=async(req,res)=>{
+  try {
+   
+  } catch (err) {
+    console.log(err)
+    res.status(400).send({
+      success:false,
+      msg:"Cant get all orders of the users"
+
+    })
+  }
+}

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Structure from '../Components/structure/Structure';
 import toast from 'react-hot-toast';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
-import emailjs from 'emailjs-com';
+import emailjs from "emailjs-com";
+
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
