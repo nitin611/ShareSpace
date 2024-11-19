@@ -21,10 +21,10 @@ const ContactUs = () => {
 
     emailjs
       .send(
-        'YOUR_SERVICE_ID', // Replace with your EmailJS Service ID
-        'YOUR_TEMPLATE_ID', // Replace with your EmailJS Template ID
+        'service_6a9rho8', // Replace with your EmailJS Service ID
+        'template_je5ru27', // Replace with your EmailJS Template ID
         formData,
-        'YOUR_USER_ID' // Replace with your EmailJS User ID
+        '8HLBd9ela5wOFI6qG' // Replace with your EmailJS User ID
       )
       .then(
         () => {
