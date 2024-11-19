@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // For navigation after successful login
+import { useLocation, useNavigate } from 'react-router-dom';
 import Structure from '../../Components/structure/Structure';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/auth';

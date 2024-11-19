@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Select } from "antd";
 import { useNavigate } from "react-router-dom";
-import loadingGif from "../../assets/White Clean Now Loading Animation Youtube Video.gif"; // Add a loading image here
+import loadingGif from "../../assets/White Clean Now Loading Animation Youtube Video.gif"; 
 const { Option } = Select;
 
 
@@ -19,7 +19,7 @@ const CreateProduct = () => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false); 
 
   const getAllCategories = async () => {
     try {
@@ -39,7 +39,7 @@ const CreateProduct = () => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true); 
     try {
       const formData = new FormData();
       formData.append('name', name);
@@ -70,7 +70,7 @@ const CreateProduct = () => {
       console.error(err);
       toast.error('Does not meet with ShareSpace Norms');
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false); 
     }
   };
 
