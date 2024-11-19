@@ -1,5 +1,5 @@
 import express from "express";
-import { signupController,loginController, sendOTP, edituserProfileController } from "../controllers/userAuthController.js";
+import { signupController,loginController, sendOTP, edituserProfileController, getOrderController, addOrderController } from "../controllers/userAuthController.js";
 import {isAdmin,jwtverification} from "../middlewares/authMiddleware.js"
 
 // router object create karo-
@@ -33,5 +33,10 @@ router.get("/admin-auth", jwtverification,isAdmin, (req, res) => {
 
 // edit user profile-
 router.put("/Editprofile",jwtverification,edituserProfileController)
+// order route-
+router.get('/orders',jwtverification,getOrderController)
+// add order-
+router.post('/add-order', jwtverification, addOrderController);
+
 
 export default router

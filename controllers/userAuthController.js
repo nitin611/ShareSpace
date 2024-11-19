@@ -1,5 +1,6 @@
 import { comparePassword, hashedPassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
+import orderModel from "../models/orderModel.js"
 import { z } from "zod";
 import JWT from "jsonwebtoken";
 import { message } from "antd";
@@ -272,3 +273,39 @@ export const edituserProfileController=async(req,res)=>{
     })
   }
 }
+
+// order controller-
+export const getOrderController=async(req,res)=>{
+  try {
+    const orders=await orderModel
+    .find({buyer:req.user._id})
+    .populate("products","-photo")
+    .populate("buyer","name email")
+    res.json(orders)
+    
+  } catch (err) {
+    console.log(err)
+    res.status(400).send({
+      success:false,
+      msg:"Error in getting order",
+      err
+    })
+    
+  }
+}
+
+// add order-
+export const addOrderController = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const order = new orderModel({
+      products: [productId],
+      buyer: req.user._id,
+    });
+    await order.save();
+    res.status(201).json({ success: true, order });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
+};
+

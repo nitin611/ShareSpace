@@ -30,7 +30,13 @@ const UserMenu = () => {
           to="/dashboard/user/order"
           className="block px-4 py-2 text-gray-800 bg-gray-100 hover:bg-gray-200 transition rounded-lg"
         >
-          Orders
+          Orders Recevied
+        </NavLink>
+        <NavLink
+          to="/dashboard/user/orders"
+          className="block px-4 py-2 text-gray-800 bg-gray-100 hover:bg-gray-200 transition rounded-lg"
+        >
+          Order done
         </NavLink>
       </div>
     </div>
