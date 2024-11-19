@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import API_BASE_URL from '../../apiConfig';
 
 const { Option } = Select;
 
@@ -26,7 +27,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     const getAllCategories = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/api/category/getCategories");
+        const { data } = await axios.get(`${API_BASE_URL}/api/category/getCategories`);
         if (data?.success) setCategories(data.category);
       } catch (err) {
         console.log(err);
@@ -40,7 +41,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     const getSingleProduct = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:8080/api/product/get-product/${productId}`);
+        const { data } = await axios.get(`${API_BASE_URL}/api/product/get-product/${productId}`);
         const product = data.product;
         setName(product.name);
         setId(product._id)
@@ -72,7 +73,7 @@ const UpdateProduct = () => {
       formData.append("shipping", shipping);
       if (photo) formData.append("photo", photo);
 
-      const { data } = await axios.put(`http://localhost:8080/api/product/updating-product/${productId}`, formData, {
+      const { data } = await axios.put(`${API_BASE_URL}/api/product/updating-product/${productId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -154,7 +155,7 @@ const UpdateProduct = () => {
     ):(<div className="flex justify-center">
       <img
       // get photo from url and display below it objecturl se photo get kar lenge
-      src={`http://localhost:8080/api/product/product-photo/${id}`}
+      src={`${API_BASE_URL}/api/product/product-photo/${id}`}
         alt="product_photo"
         className="w-48 h-48 object-cover rounded-md shadow-md"
       />

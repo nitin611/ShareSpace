@@ -3,6 +3,7 @@ import Structure from '../../Components/structure/Structure';
 import AdminMenu from '../../Components/structure/AdminMenu';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import API_BASE_URL from '../../apiConfig';
 
 const CreateCategory = () => {
   const [categoryName, setCategoryName] = useState('');
@@ -12,7 +13,7 @@ const CreateCategory = () => {
   // Fetch all categories from backend
   const getAllCategories = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8080/api/category/getCategories');
+      const { data } = await axios.get(`${API_BASE_URL}/api/category/getCategories`);
       if (data.success) {
         setCategories(data.category);
       } else {
@@ -36,7 +37,7 @@ const CreateCategory = () => {
       return;
     }
     try {
-      const { data } = await axios.post('http://localhost:8080/api/category/create-category', { name: categoryName });
+      const { data } = await axios.post(`${API_BASE_URL}/api/category/create-category`, { name: categoryName });
       if (data.success) {
         toast.success('Category created successfully');
         setCategories([...categories, data.category]);
@@ -61,7 +62,7 @@ const CreateCategory = () => {
     e.preventDefault();
     if (!editingCategory) return;
     try {
-      const { data } = await axios.put(`http://localhost:8080/api/category/update-category/${editingCategory._id}`, {
+      const { data } = await axios.put(`${API_BASE_URL}/api/category/update-category/${editingCategory._id}`, {
         name: categoryName,
       });
       if (data.success) {
@@ -81,7 +82,7 @@ const CreateCategory = () => {
   // Handle category delete
   const handleDeleteCategory = async (categoryId) => {
     try {
-      const { data } = await axios.delete(`http://localhost:8080/api/category/delete-category/${categoryId}`);
+      const { data } = await axios.delete(`${API_BASE_URL}/api/category/delete-category/${categoryId}`);
       if (data.success) {
         toast.success('Category deleted successfully');
         setCategories(categories.filter((category) => category._id !== categoryId));

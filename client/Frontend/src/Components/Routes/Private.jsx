@@ -3,6 +3,7 @@ import { useAuth } from "../../context/auth";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner";
+import API_BASE_URL from '../../apiConfig';
 
 export default function PrivateRoute() {
     const [ok, setOk] = useState(false);
@@ -12,7 +13,7 @@ export default function PrivateRoute() {
         const authCheck = async () => {
             try {
                
-                const res = await axios.get('http://localhost:8080/api/auth/user-auth');
+                const res = await axios.get(`${API_BASE_URL}/api/auth/user-auth`);
                 console.log("Received response:", res.data); 
                 if (res.data.ok) {
                     setOk(true);

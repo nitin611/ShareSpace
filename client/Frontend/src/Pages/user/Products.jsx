@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AuthProvider } from "../../context/auth";
 import { useAuth } from "../../context/auth";
+import API_BASE_URL from '../../apiConfig';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,7 @@ const Products = () => {
       try {
       
         
-        const { data } = await axios.get(`http://localhost:8080/api/product/get-userProduct/${auth?.user._id}`);
+        const { data } = await axios.get(`${API_BASE_URL}/api/product/get-userProduct/${auth?.user._id}`);
         setProducts(data.products);
     } catch (error) {
         console.error("Error fetching user products:", error);
@@ -39,7 +40,7 @@ const Products = () => {
   // Confirm delete action
   const confirmDelete = async () => {
     try {
-      const { data } = await axios.delete(`http://localhost:8080/api/product/delete-product/${productToDelete}`);
+      const { data } = await axios.delete(`${API_BASE_URL}/api/product/delete-product/${productToDelete}`);
       if (data?.success) {
         toast.success("Product deleted successfully");
         setProducts(products.filter((product) => product._id !== productToDelete));
@@ -70,7 +71,7 @@ const Products = () => {
               {products.map((product) => (
                 <div key={product._id} className="bg-white rounded-lg shadow-md p-4">
                   <img
-                    src={`http://localhost:8080/api/product/product-photo/${product._id}`}
+                    src={`${API_BASE_URL}/api/product/product-photo/${product._id}`}
                     alt={product.name}
                     className="w-full h-48 object-cover rounded-md mb-4"
                   />

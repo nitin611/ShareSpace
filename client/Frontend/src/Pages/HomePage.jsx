@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
 import Structure from "../Components/structure/Structure";
+import API_BASE_URL from '../apiConfig';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const HomePage = () => {
   // Get categories
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/category/getCategories");
+      const { data } = await axios.get(`${API_BASE_URL}/api/category/getCategories`);
       if (data?.success) {
         setCategories(data.category);
       }
@@ -56,7 +57,7 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:8080/api/product/productList/${page}`);
+      const { data } = await axios.get(`${API_BASE_URL}/api/product/productList/${page}`);
       setLoading(false);
       setProducts(data.products);
     } catch (error) {
@@ -68,7 +69,7 @@ const HomePage = () => {
   // Get total product count
   const getTotal = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/product/productCount");
+      const { data } = await axios.get(`${API_BASE_URL}/api/product/productCount`);
       setTotal(data.total);
     } catch (error) {
       console.error(error);
@@ -84,7 +85,7 @@ const HomePage = () => {
   const loadMore = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:8080/api/product/productList/${page}`);
+      const { data } = await axios.get(`${API_BASE_URL}/api/product/productList/${page}`);
       setLoading(false);
       setProducts([...products, ...data.products]);
     } catch (error) {
@@ -114,7 +115,7 @@ const HomePage = () => {
 
   const filterProduct = async () => {
     try {
-      const { data } = await axios.post("http://localhost:8080/api/product/product-filter", {
+      const { data } = await axios.post(`${API_BASE_URL}/api/product/product-filter`, {
         checked,
         radio,
       });
@@ -188,7 +189,7 @@ const HomePage = () => {
                   className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-between h-full transform transition hover:scale-105"
                 >
                   <img
-                    src={`http://localhost:8080/api/product/product-photo/${p._id}`}
+                    src={`${API_BASE_URL}/api/product/product-photo/${p._id}`}
                     className="w-full h-30 object-cover"
                     alt={p.name}
                   />

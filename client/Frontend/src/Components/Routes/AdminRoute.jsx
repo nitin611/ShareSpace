@@ -3,6 +3,7 @@ import { useAuth } from "../../context/auth";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner";
+import API_BASE_URL from '../../apiConfig';
 
 export default function AdminRoute() {
     const [ok, setOk] = useState(false);
@@ -12,7 +13,7 @@ export default function AdminRoute() {
         const authCheck = async () => {
             try {
                 console.log("Sending request to auth endpoint..."); 
-                const res = await axios.get('http://localhost:8080/api/auth/admin-auth');
+                const res = await axios.get(`${API_BASE_URL}/api/auth/admin-auth`);
                 console.log("Received response:", res.data); 
                 if (res.data.ok) {
                     setOk(true);

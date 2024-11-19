@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import loadingGif from "../../assets/White Clean Now Loading Animation Youtube Video.gif"; 
+import API_BASE_URL from '../../apiConfig';
 const { Option } = Select;
 
 
@@ -23,7 +24,7 @@ const CreateProduct = () => {
 
   const getAllCategories = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8080/api/category/getCategories');
+      const { data } = await axios.get(`${API_BASE_URL}/api/category/getCategories`);
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -52,7 +53,7 @@ const CreateProduct = () => {
         formData.append('photo', photo);
       }
 
-      const { data } = await axios.post('http://localhost:8080/api/product/create-product', formData, {
+      const { data } = await axios.post(`${API_BASE_URL}/api/product/create-product`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

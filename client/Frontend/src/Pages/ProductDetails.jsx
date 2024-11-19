@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
 import toast from 'react-hot-toast';
+import API_BASE_URL from '../apiConfig';
 
 // Modal Component for User Details
 const Modal = ({ show, onClose, userDetails }) => {
@@ -88,7 +89,7 @@ const ProductDetails = () => {
 
   const getProduct = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:8080/api/product/get-product/${params.id}`);
+      const { data } = await axios.get(`${API_BASE_URL}/api/product/get-product/${params.id}`);
       setProduct(data?.product);
       setUserDetails(data?.product?.userId);
       getRelatedProducts();
@@ -99,7 +100,7 @@ const ProductDetails = () => {
 
   const getRelatedProducts = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8080/api/product/productList/1');
+      const { data } = await axios.get(`${API_BASE_URL}/api/product/productList/1`);
       setRelatedProducts(data.products);
     } catch (err) {
       console.log(err);
@@ -121,7 +122,7 @@ const ProductDetails = () => {
     }
     try {
       const { data } = await axios.post(
-        `http://localhost:8080/api/auth/add-order`,
+        `${API_BASE_URL}/api/auth/add-order`,
         { productId: product._id },
         {
           headers: {
@@ -143,7 +144,7 @@ const ProductDetails = () => {
         <div className="flex flex-col lg:flex-row gap-60">
           <div className="w-full lg:w-1/3">
             <img
-              src={`http://localhost:8080/api/product/product-photo/${product._id}`}
+              src={`${API_BASE_URL}/api/product/product-photo/${product._id}`}
               alt={product.name}
               className="w-full h-100 object-cover rounded-md mb-5"
             />
@@ -188,7 +189,7 @@ const ProductDetails = () => {
                 onClick={() => navigate(`/product/${p._id}`)}
               >
                 <img
-                  src={`http://localhost:8080/api/product/product-photo/${p._id}`}
+                  src={`${API_BASE_URL}/api/product/product-photo/${p._id}`}
                   alt={p.name}
                   className="w-50 h-50 object-cover rounded-md mb-2"
                 />

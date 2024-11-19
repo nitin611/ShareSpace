@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Structure from '../../Components/structure/Structure';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/auth';
+import API_BASE_URL from '../../apiConfig';
 
 const SignIn = () => {
   const [loginData, setLoginData] = useState({
@@ -25,7 +26,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:8080/api/auth/login', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

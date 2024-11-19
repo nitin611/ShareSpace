@@ -3,6 +3,7 @@ import Structure from '../../Components/structure/Structure';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../../apiConfig';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -49,7 +50,7 @@ const Signup = () => {
     }
   
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/otp', { email, collegeId });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/otp`, { email, collegeId });
       if (res.data.success) {
         toast.success('OTP sent successfully. Check your email!');
         setOtpSent(true);
@@ -88,7 +89,7 @@ const Signup = () => {
     e.preventDefault();
     const otp = formData.otp.join(''); 
     try {
-      const res = await axios.post('http://localhost:8080/api/auth/signup', { ...formData, otp });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/signup`, { ...formData, otp });
       if (res.data.success) {
         toast.success('Signup successful!');
         navigate('/signin');

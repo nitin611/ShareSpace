@@ -4,7 +4,7 @@ import { useAuth } from "../../context/auth";
 import Structure from "../../Components/structure/Structure";
 import moment from 'moment';
 import UserMenu from "../../Components/structure/UserMenu";
-
+import API_BASE_URL from '../../apiConfig';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,7 +12,7 @@ const Orders = () => {
 
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/auth/orders", {
+      const { data } = await axios.get(`${API_BASE_URL}/api/auth/orders`, {
         headers: {
           Authorization: `${auth?.token}`,
         },

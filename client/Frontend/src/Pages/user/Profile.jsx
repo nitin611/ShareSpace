@@ -5,6 +5,7 @@ import Structure from "../../Components/structure/Structure";
 import UserMenu from "../../Components/structure/UserMenu";
 import axios from "axios";
 import toast from "react-hot-toast"; // Assuming you're using react-hot-toast
+import API_BASE_URL from '../../apiConfig';
 
 const Profile = () => {
   const [auth, setAuth] = useAuth(); // Fetch user data from context
@@ -29,7 +30,7 @@ const Profile = () => {
 
     try {
       const { data } = await axios.put(
-        "http://localhost:8080/api/auth/Editprofile",
+        `${API_BASE_URL}/api/auth/Editprofile`,
         { name, phone, password, collegeId },
         {
           headers: {

@@ -4,6 +4,7 @@ import { useSearch } from '../context/search';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineReload } from 'react-icons/ai';
 import toast from 'react-hot-toast';
+import API_BASE_URL from '../apiConfig';
 
 const Search = () => {
     const [values] = useSearch();
@@ -33,7 +34,7 @@ const Search = () => {
                             className="bg-white rounded-lg shadow-lg overflow-hidden transition transform hover:scale-105 relative card"
                         >
                             <img
-                                src={`http://localhost:8080/api/product/product-photo/${p._id}`}
+                                src={`${API_BASE_URL}/api/product/product-photo/${p._id}`}
                                 className="w-full h-52 object-cover"
                                 alt={p.name}
                             />

@@ -24,7 +24,7 @@ const Orders = () => {
 
   const fetchAllOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/auth/allOrders", {
+      const response = await axios.get(`${API_BASE_URL}/api/auth/allOrders`, {
         headers: {
           Authorization: `${auth?.token}`,
         },

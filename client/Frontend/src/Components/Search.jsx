@@ -3,6 +3,7 @@ import { useSearch } from "../context/search.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
+import API_BASE_URL from '../apiConfig';
 
 const SearchInput = () => {
   const [values, setValues] = useSearch();
@@ -12,7 +13,7 @@ const SearchInput = () => {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/product/searchProduct/${values.keyword}`
+        `${API_BASE_URL}/api/product/searchProduct/${values.keyword}`
       );
       setValues({ ...values, results: data });
       navigate("/search");
