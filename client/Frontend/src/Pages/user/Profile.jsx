@@ -55,6 +55,8 @@ const Profile = () => {
     }
   };
 
+  
+
   return (
     <Structure title={"User Profile - ShareSpace"}>
       <div className="container mx-auto p-6">
@@ -144,11 +146,33 @@ const Profile = () => {
               ) : (
                 <div>
                   <div className="flex items-center mb-6">
-                    <img
-                      src={auth?.user?.profilePicture || "https://via.placeholder.com/150"}
-                      alt="Profile"
-                      className="w-24 h-24 rounded-full border-2 border-blue-500 mr-4 shadow-lg"
-                    />
+                  <div
+  className={`w-24 h-24 rounded-full border-2 border-blue-500 mr-4 shadow-lg flex items-center justify-center`}
+  style={{
+    backgroundColor: auth?.user?.profilePicture ? "transparent" :"#4C6EF5", // Fixed stylish blue background
+    boxShadow: "0 8px 16px rgba(76, 110, 245, 0.5)",
+  }}
+>
+  {auth?.user?.profilePicture ? (
+    <img
+      src={auth?.user?.profilePicture}
+      alt="Profile"
+      className="w-full h-full rounded-full object-cover"
+    />
+  ) : (
+    <span
+    className="text-white text-3xl font-bold tracking-widest uppercase"
+    style={{
+      letterSpacing: "0.2em", // Add spacing between letters
+      textShadow: "2px 2px 5px rgba(0, 0, 0, 0.4)", // Add shadow for a stylish effect
+    }}
+  >
+    {auth?.user?.email?.substring(0, 2) || ""}
+  </span>
+  
+  )}
+</div>
+
                     <div>
                       <h3 className="text-2xl font-semibold text-gray-800">{auth?.user?.name}</h3>
                       <p className="text-gray-600 flex items-center">
