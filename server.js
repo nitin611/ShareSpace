@@ -1,5 +1,4 @@
 import express from 'express'
-import colors from 'colors'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 import Dbconnection from './config/db.js';

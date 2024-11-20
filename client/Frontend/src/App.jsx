@@ -19,8 +19,6 @@ import AdminDashboard from './Pages/Admin/AdminDashboard';
 import CreateCategory from './Pages/Admin/CreateCategory';
 import Users from './Pages/Admin/Users';
 import CartPage from './Pages/CartPage'; 
-
-
 // Wrapping context providers for the whole app
 
 import { CartProvider } from './context/CartContext';
@@ -41,7 +39,7 @@ function App() {
           <Route path='/contact' element={<ContactUs />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/signin' element={<Signin />} />
-          <Route path='/cart' element={<CartPage />} /> {/* Route to CartPage */}
+          <Route path='/cart' element={<CartPage />} /> 
 
           {/* User Dashboard Routes */}
           <Route path='/dashboard' element={<PrivateRoute />}>

@@ -6,6 +6,8 @@ import { assets } from "../../assets/assets";
 import { useAuth } from "../../context/auth";
 import UserMenu from "../../Components/structure/UserMenu";
 import Structure from "../../Components/structure/Structure";
+import API_BASE_URL from '../../apiConfig';
+
 
 const getStatusClass = (status) => {
   switch(status) {
