@@ -68,7 +68,7 @@ const SignIn = () => {
       <div className="flex justify-center items-center min-h-screen bg-gray-100 bg-cover bg-center" style={{ backgroundImage: 'url(/path/to/your/background-image.jpg)' }}>
         <div className="bg-gray-300 shadow-lg rounded-lg p-8 max-w-md w-full opacity-95">
           <div className="flex justify-center mb-6">
-            <img src="/images/logo1.png" alt="Logo" className="w-50 h-32" />
+            <img src="/logo1.png" alt="Logo" className="w-50 h-32" />
           </div>
           <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">Welcome Back!</h2>
           <form onSubmit={handleSubmit}>
