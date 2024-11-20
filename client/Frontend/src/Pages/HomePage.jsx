@@ -21,10 +21,10 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const banners = [
-    "/images/banner01.png",
-    "/images/banner02.png",
-    "/images/banner03.png",
-    "/images/banner05.png",
+    "/banner01.png",
+    "/banner02.png",
+    "/banner03.png",
+    "/banner05.png",
   ];
 
   // Automatically change banner slide
