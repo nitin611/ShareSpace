@@ -21,10 +21,10 @@ const ContactUs = () => {
 
     emailjs
       .send(
-        'service_6a9rho8', // Replace with your EmailJS Service ID
-        'template_je5ru27', // Replace with your EmailJS Template ID
+        'service_6a9rho8', 
+        'template_je5ru27', 
         formData,
-        '8HLBd9ela5wOFI6qG' // Replace with your EmailJS User ID
+        '8HLBd9ela5wOFI6qG' 
       )
       .then(
         () => {
@@ -45,7 +45,7 @@ const ContactUs = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
           <div className="hidden md:flex items-center justify-center bg-white p-6 shadow-xl rounded-lg">
             <img
-              src="/images/pro.png"
+              src="/pro.png"
               alt="Contact Us Illustration"
               className="w-150 h-190"
             />
@@ -119,7 +119,7 @@ const ContactUs = () => {
             <FaPhoneAlt className="text-blue-500 text-xl" />
             <div>
               <p className="text-lg font-medium">Call Us</p>
-              <p className="text-sm text-gray-500">+91 98765 43210</p>
+              <p className="text-sm text-gray-500">+91 7992265461</p>
             </div>
           </div>
           <div className="flex items-center space-x-3 p-4 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:scale-105">
