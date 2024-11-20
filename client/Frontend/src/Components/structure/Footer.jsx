@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col md:flex-row justify-between items-center  border-gray-200 dark:border-gray-700">
           <div className="flex items-center mb-4 md:mb-0">
-            <img src="/images/logo1.png" alt="ShareSpace Logo" className="h-8 mr-3" />
+            <img src="/logo1.png" alt="ShareSpace Logo" className="h-8 mr-3" />
             {/* <span className="text-2xl font-semibold text-gray-900 dark:text-white">ShareSpace</span> */}
           </div>
           <ul className="flex flex-wrap items-center mb-4 md:mb-0 text-sm font-medium text-gray-500 dark:text-gray-400">

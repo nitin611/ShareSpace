@@ -27,7 +27,7 @@ const About = () => {
             </div>
             <div className="flex justify-center">
               <img
-                src="/images/ban-2.jpg" 
+                src="/ban-2.jpg" 
                 alt="About Us"
                 className="rounded-lg shadow-lg w-full lg:w-4/4"
               />
@@ -60,14 +60,14 @@ const About = () => {
     {
       name: "Nitin Kumar Jhaa",
       role: "Co-Founder & Developer",
-      image: "/images/nitin.jpeg",
+      image: "/nitin.jpeg",
       description:
         "Nitin is passionate about web development and sustainability. He built this platform to help students connect and share valuable resources.",
     },
     {
       name: "Md Faizan",
       role: "Co-Founder & Designer",
-      image: "/images/faizan.jpg",
+      image: "/faizan.jpg",
       description:
       "Faizan is a creative designer who ensures that the platform is user-friendly and aesthetically appealing for all students.",
 
@@ -75,7 +75,7 @@ const About = () => {
     {
       name: "Faiz",
       role: "Co-Founder & Strategist",
-      image: "/images/faiz.jpg",
+      image: "/faiz.jpg",
       description:
       "Faiz focuses on strategy and making sure that Sharespace grows into a thriving community for students to exchange items effortlessly.",
     },
