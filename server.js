@@ -17,6 +17,7 @@ const app=express();
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
+
 // -----------------------------routes------------------
 app.use('/api/auth',userAuthRoute)
 app.use('/api/category',categoryRoutes)

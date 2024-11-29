@@ -31,7 +31,7 @@ export const createProductController = async (req, res) => {
         formData.append('name', name);
 
         const complianceResponse = await axios.post(
-            'https://sharespace-apis.onrender.com/check_compliance',
+            'https://service-api-ljg7.onrender.com/check_compliance',
             formData,
             { headers: { ...formData.getHeaders() } }
         );
