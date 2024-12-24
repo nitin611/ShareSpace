@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
-
+import dotenv from "dotenv";
+dotenv.config();
 const mailSender = async (email,title,body) => {
     try{
         // console.log("Email sent:",info);
@@ -12,7 +13,7 @@ const mailSender = async (email,title,body) => {
             service: 'gmail',
             auth:{
                 user: 'jhanitin906@gmail.com',
-                pass: 'quhf raed tkok kxlm',
+                pass: process.env.EMAIL_PASS,
             }
         })
 
