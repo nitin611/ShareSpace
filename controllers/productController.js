@@ -49,6 +49,7 @@ export const createProductController = async (req, res) => {
         }
         
         await product.save();
+        
         res.status(200).send({
             success: true,
             msg: "Product created successfully",

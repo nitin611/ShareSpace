@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Structure from '../Components/structure/Structure';
 import toast from 'react-hot-toast';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
@@ -11,6 +11,21 @@ const ContactUs = () => {
     email: '',
     message: '',
   });
+  useEffect(() => {
+    // Dynamically load the Tidio script when the page loads
+    const script = document.createElement("script");
+    script.src = "//code.tidio.co/5y8qw2frnrgdyzbpwbaoqu8beo5ubkdi.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Remove the script when leaving the page
+      const tidioScript = document.querySelector(
+        'script[src="//code.tidio.co/5y8qw2frnrgdyzbpwbaoqu8beo5ubkdi.js"]'
+      );
+      if (tidioScript) document.body.removeChild(tidioScript);
+    };
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

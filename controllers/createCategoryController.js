@@ -16,6 +16,7 @@ export const createCategoryController=async(req,res)=>{
                     msg:'Category already exists'
                 })
             }
+            
             // agar category nahi mili to-
             const category =await new categoryModel({name}).save();
             res.status(201).send({
@@ -114,3 +115,4 @@ export const singleCategoryController=async(req,res)=>{
         })
     }
 }
+

@@ -6,13 +6,10 @@ import JWT from "jsonwebtoken";
 import { message } from "antd";
 import OTP from "../models/OTP.js";
 import mailSender from "../utils/mailSender.js";
-
-
 // require("dotenv").config();
-
 // const OTP = require("../models/OTP.js");
-
 import otpGenerator from "otp-generator";
+import productModel from "../models/productModel.js";
 // ---------------------input validation schema zod ka use--------------
 
 const signupSchema = z.object({
@@ -29,7 +26,7 @@ const signupSchema = z.object({
   otp: z.string().min(6, "OTP must be 6 digits").max(6, "OTP must be 6 digits"),
 });
 
-// ----------------------------send OTP----------------------------
+// -------------------------------------send OTP--------------------------------
 
 export const sendOTP = async (req, res) => {
   try {
@@ -274,7 +271,7 @@ export const edituserProfileController=async(req,res)=>{
   }
 }
 
-// order controller-
+// ------------------------------------user order controller------------------------------------------
 export const getOrderController=async(req,res)=>{
   try {
    
@@ -295,7 +292,7 @@ export const getOrderController=async(req,res)=>{
   }
 }
 
-// add order-
+// ---------------------------------------add order--------------------------------------------
 export const addOrderController = async (req, res) => {
   try {
     const { productId } = req.body;
@@ -304,32 +301,61 @@ export const addOrderController = async (req, res) => {
       buyer: req.user._id,
     });
     await order.save();
+    const productDetails=await productModel.findById(productId)
+     // Mark the product as unavailable
+     productDetails.status = "unavailable";
+     await productDetails.save();
     res.status(201).json({ success: true, order });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
   }
 };
 
-// get all orders-
+// ----------------------------------sellers order controller-------------------------------------------
 
-export const getAllOrdersController = async (req, res) => {
+
+
+export const getOrderReceived = async (req, res) => {
   try {
-    const orders = await orderModel 
-      .find({})
-      .populate("products", "-photo")
-      .populate("buyer", "name")
-      .sort({ createdAt: -1});
-      res.status(200).json({
-        success: true,
-        data: orders,
-      });
+    // Get users id
+    const sellerId = req.user._id; 
+    console.log("Seller ID:", sellerId);
+
+    // sab product id find karo ish seller ka-
+    const sellerProducts = await productModel.find({ userId: sellerId }).select("_id");
+    const sellerProductIds = sellerProducts.map(product => product._id); 
+    console.log("Seller Product IDs:", sellerProductIds);
+
+    // fetch orders that include products from this signin user-
+    const orders = await orderModel
+      .find({ products: { $in: sellerProductIds } }) // Match product IDs directly
+      .populate({
+        path: "products",
+        select: "-photo", 
+      })
+      .populate("buyer", "name") // Populate buyer details
+      .sort({ createdAt: -1 }); // Sort by most recent orders
+
+    // Step 3: Log and filter orders (if necessary)
+    console.log("Orders:", orders);
+    const filteredOrders = orders.filter(order => order.products.length > 0);
+    // send kardo result ko-
+    res.status(200).json({
+      success: true,
+      data: filteredOrders,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error("Error fetching orders:", error.message);
+    
+    res.status(500).json({
       success: false,
-      message: "error while getting orders",
-      error,
+      message: error.message,
     });
   }
 };
+
+
+
+
+
 

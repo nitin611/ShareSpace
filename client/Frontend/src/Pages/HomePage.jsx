@@ -215,7 +215,7 @@ const HomePage = () => {
                 </div>
               ))}
             </div>
-
+              
             {products.length < total && (
               <div className="flex justify-center mt-6">
                 <button

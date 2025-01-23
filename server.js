@@ -6,6 +6,7 @@ import userAuthRoute from './routes/userAuthRoute.js'
 import cors from 'cors'
 import categoryRoutes from './routes/categoryRoutes.js'
 import productRoutes from './routes/productRoutes.js'
+import chatRoutes from './routes/chatRoutes.js'
 
 // yaha .env root me hai so we dont have to define path-
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json())
 app.use('/api/auth',userAuthRoute)
 app.use('/api/category',categoryRoutes)
 app.use('/api/product',productRoutes)
+app.use('/api/chat',chatRoutes)
 
 // rest modules-
 app.get('/',(req,res)=>{

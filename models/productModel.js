@@ -42,8 +42,12 @@ const productSchema=new mongoose.Schema({
     // order status show karne ke liye-
     shipping:{
         type:Boolean,
-
-    }
+    },
+    status: {
+        type: String,
+        enum: ["available", "unavailable"],
+        default: "available",
+      },
 
 },{timestamps:true});
 
