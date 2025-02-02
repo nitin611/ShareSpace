@@ -19,6 +19,7 @@ import AdminDashboard from './Pages/Admin/AdminDashboard';
 import CreateCategory from './Pages/Admin/CreateCategory';
 import Users from './Pages/Admin/Users';
 import CartPage from './Pages/CartPage'; 
+import Chat from './Pages/user/Chat';
 // Wrapping context providers for the whole app
 
 import { CartProvider } from './context/CartContext';
@@ -50,6 +51,7 @@ function App() {
             <Route path='user/order' element={<Order />} />
             <Route path='user/orders' element={<Orders />} />
             <Route path='user/profile' element={<Profile />} />
+            <Route path='user/chat' element={<Chat />} />
           </Route>
 
           {/* Admin Dashboard Routes */}
