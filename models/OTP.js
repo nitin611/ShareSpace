@@ -6,6 +6,7 @@ dotenv.config();
 const OTPSchema = new mongoose.Schema({
 
     email:{
+
         type:String,
         required: true,
     },
@@ -21,21 +22,17 @@ const OTPSchema = new mongoose.Schema({
     }
 
 });
+
 export default  mongoose.model("OTP", OTPSchema);
 
-
-
-
-//pre- middleware
-
+//-----------------------------------------pre-middleware-------------------------------------
 OTPSchema.pre("save",async function(next){
    
     await sendVarificationEmail(this.email,this.otp);
     next();
 })
 
-
-// a function -> to send mail
+// ---------------------------a function -> to send mail--------------------------
 
 async function sendVarificationEmail(email,otp) {
     try{
@@ -47,6 +44,7 @@ async function sendVarificationEmail(email,otp) {
         throw error;
     }
 }
+
 
 
 

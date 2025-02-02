@@ -5,7 +5,7 @@ import {isAdmin,jwtverification} from "../middlewares/authMiddleware.js"
 // router object create karo-
 const router=express.Router();
 
-//user  signup -
+//-----------------------user  signup --------
 
 router.post("/signup",signupController,(req,res)=>{
 

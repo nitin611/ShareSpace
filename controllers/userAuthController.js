@@ -53,6 +53,7 @@ export const sendOTP = async (req, res) => {
       specialChars: false,
     });
     console.log("OTP Generated : ", otp);
+    
 
     //check unique OTP or not
     let result = await OTP.findOne({ otp: otp });
@@ -64,6 +65,7 @@ export const sendOTP = async (req, res) => {
         specialChars: false,
       });
       console.log("OTP Generated : ", otp);
+      result = await OTP.findOne({ otp });
     }
 
     const otpPayload = { email, otp };
