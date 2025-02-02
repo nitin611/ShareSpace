@@ -1,22 +1,20 @@
 import express from "express";
-import {createMessage,getMessages,updateMessage,deleteMessage}  from "../controllers/chatController.js";
-
-
-
+import { buyerSend,sellerSend,getAllMessages}  from "../controllers/chatController.js";
 import { jwtverification } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 // Create a new chat message
-router.post("/chats",jwtverification, createMessage);
+// Buyer is sending message to Seller-
+router.post("/BuyerSend/:orderId",jwtverification, buyerSend);
 
-// Get chat messages between two users
-router.get("/chats/:sender/:receiver",jwtverification, getMessages);
+// Seller is sending message to buyer-
 
-// Update a message (e.g., mark as read)
-router.put("/chats/:id",jwtverification, updateMessage);
+router.post("/SellerSend/:orderId",jwtverification,sellerSend);
 
-// Delete a message
-router.delete("/chats/:id", jwtverification, deleteMessage);
+// fetch message from database-
+router.get("/chats/:orderId",jwtverification, getAllMessages);
+
+
 
 export default router;

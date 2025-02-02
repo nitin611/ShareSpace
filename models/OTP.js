@@ -29,7 +29,7 @@ export default  mongoose.model("OTP", OTPSchema);
 //pre- middleware
 
 OTPSchema.pre("save",async function(next){
-    console.log("ddsdsee")
+   
     await sendVarificationEmail(this.email,this.otp);
     next();
 })

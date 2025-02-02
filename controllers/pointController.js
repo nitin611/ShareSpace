@@ -18,9 +18,6 @@ export const getUserPoints = async (req, res) => {
     }
   };
 
-
-
-
 export const addPoints = async (req, res) => {
   const { userId, action, points, productId } = req.body;
 

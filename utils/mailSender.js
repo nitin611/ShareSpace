@@ -4,8 +4,7 @@ dotenv.config();
 const mailSender = async (email,title,body) => {
     try{
         // console.log("Email sent:",info);
-        console.log(process.env.MAIL_HOST)
-        console.log(process.env.MAIL_PASS)
+        
         let transporter = nodemailer.createTransport({
             host:'smtp.gmail.com',
             port: 587,
