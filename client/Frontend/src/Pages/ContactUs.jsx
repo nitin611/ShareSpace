@@ -141,14 +141,14 @@ const ContactUs = () => {
             <FaEnvelope className="text-blue-500 text-xl" />
             <div>
               <p className="text-lg font-medium">Email Us</p>
-              <p className="text-sm text-gray-500">support@sharespace.com</p>
+              <p className="text-sm text-gray-500">sharespacestore@gmail.com</p>
             </div>
           </div>
           <div className="flex items-center space-x-3 p-4 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:scale-105">
             <FaMapMarkerAlt className="text-blue-500 text-xl" />
             <div>
               <p className="text-lg font-medium">Visit Us</p>
-              <p className="text-sm text-gray-500">VIT University, Vellore</p>
+              <p className="text-sm text-gray-500">VIT University, Chennai</p>
             </div>
           </div>
         </div>

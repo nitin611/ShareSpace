@@ -190,8 +190,8 @@ const ProductDetails = () => {
               >
                 <img
                   src={`${API_BASE_URL}/api/product/product-photo/${p._id}`}
+                  className="w-60 h-60 object-cover"
                   alt={p.name}
-                  className="w-50 h-50 object-cover rounded-md mb-2"
                 />
                 <h3 className="text-lg font-semibold">{p.name}</h3>
                 <p className="text-red-500 font-bold">₹{p.price}</p>
