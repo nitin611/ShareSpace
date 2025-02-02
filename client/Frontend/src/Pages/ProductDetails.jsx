@@ -146,10 +146,10 @@ const ProductDetails = () => {
             <img
               src={`${API_BASE_URL}/api/product/product-photo/${product._id}`}
               alt={product.name}
-              className="w-full h-100 object-cover rounded-md mb-5"
+              className="w-80 h-80 object-cover rounded-md mb-5"
             />
           </div>
-          <div className="w-full lg:w-2/3">
+          <div className="w-full lg:w-6/4">
             <h1 className="text-3xl font-semibold">{product.name}</h1>
             <p className="text-2xl font-bold text-gray-800">₹{product.price}</p>
             <p className="text-gray-700 mt-4 mb-6">{product.description}</p>

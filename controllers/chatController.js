@@ -100,19 +100,10 @@ export const getAllMessages=async(req,res)=>{
     
   }
 }
- 
 
 
-// app.get('/api/products/:productId', async (req, res) => {
-//   try {
-//     const product = await productModel
-//       .findById(req.params.productId)
-//       .populate('userId', 'name email'); // Include the owner's name and email
-//     res.status(200).json({ success: true, product });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// });
+
+
 
   
   

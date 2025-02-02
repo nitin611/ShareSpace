@@ -190,7 +190,7 @@ const HomePage = () => {
                 >
                   <img
                     src={`${API_BASE_URL}/api/product/product-photo/${p._id}`}
-                    className="w-full h-30 object-cover"
+                    className="w-full h-60 object-cover"
                     alt={p.name}
                   />
                   <div className="p-3 flex-grow">
