@@ -1,92 +1,37 @@
 
 import ChatModel from "../models/messageModel.js"
+import orderModel from "../models/orderModel.js";
 
-export const createMessage = async (req, res) => {
-    try {
-      const { sender, receiver, message } = req.body;
-  
-      if (!sender || !receiver || !message) {
-        return res.status(400).json({ success: false, message: "All fields are required" });
-      }
-      const newMessage = new ChatModel({ sender, receiver, message });
-      await newMessage.save();
-  
-      res.status(201).json({
-        success: true,
-        data: newMessage,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-  export const getMessages = async (req, res) => {
+// message is sent from buyer to seller-
+export const  buyerSend = async (req, res) => {
     try {
       const senderId=req.user._id;
-      const productId=req.body
+      const orderId = req.params.orderId;
+
+      const {message} = req.body;
+      const order=await orderModel.findById(orderId).populate('products');
+      if (!order) {
+        return res.status(404).json({ success: false, message: "Order not found" });
+      }
+      const receiverId = order.products[0].userId;
       
   
-      const messages = await ChatModel.find({
-        $or: [
-          { sender, receiver },
-          { sender: receiver, receiver: sender },
-        ],
-      })
-        .sort({ createdAt: 1 }) // Sort messages by creation time
-        .populate("sender", "name email") // Populate sender details
-        .populate("receiver", "name email"); // Populate receiver details
-  
-      res.status(200).json({
-        success: true,
-        data: messages,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-  export const updateMessage = async (req, res) => {
-    try {
-      const { id } = req.params;
-  
-      const updatedMessage = await ChatModel.findByIdAndUpdate(
-        id,
-        { read: true },
-        { new: true }
-      );
-  
-      if (!updatedMessage) {
-        return res.status(404).json({ success: false, message: "Message not found" });
+      if (!senderId || !receiverId || !message) {
+        return res.status(400).json({ success: false, message: "All fields are required" });
       }
-  
-      res.status(200).json({
-        success: true,
-        data: updatedMessage,
+      const newMessage = new ChatModel({
+        sender: senderId,
+        receiver: receiverId,
+        message,
+        order: order._id
+
       });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-  export const deleteMessage = async (req, res) => {
-    try {
-      const { id } = req.params;
+      await newMessage.save();
   
-      const deletedMessage = await ChatModel.findByIdAndDelete(id);
-  
-      if (!deletedMessage) {
-        return res.status(404).json({ success: false, message: "Message not found" });
-      }
-  
-      res.status(200).json({
+      return res.status(201).json({
         success: true,
-        message: "Message deleted successfully",
+        data: newMessage,
+        
       });
     } catch (error) {
       res.status(500).json({
@@ -96,17 +41,69 @@ export const createMessage = async (req, res) => {
     }
   };
 
+  // sending message from seller to buyer-
+  export const sellerSend = async (req, res) => {
+    try {
+      const senderId = req.user._id;
+      const orderId = req.params.orderId;
+      const { message } = req.body;
+  
+      const order = await orderModel.findById(orderId).populate('products');
+  
+      if (!order) {
+        return res.status(404).json({ success: false, message: "Order not found" });
+      }
+  
+      const receiverId = order.buyer; // Ensure 'buyer' exists in the order schema
+      console.log(receiverId);
+  
+      const newMessage = new ChatModel({
+        sender: senderId,
+        receiver: receiverId,
+        message,
+        order: order._id
 
-// app.get('/api/products/:productId', async (req, res) => {
-//   try {
-//     const product = await productModel
-//       .findById(req.params.productId)
-//       .populate('userId', 'name email'); // Include the owner's name and email
-//     res.status(200).json({ success: true, product });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// });
+      });
+  
+      await newMessage.save();
+  
+      return res.status(200).json({
+        success: true,
+        data: newMessage,
+       
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+  
+  // fetching all messages of same orderId-
+export const getAllMessages=async(req,res)=>{
+  try {
+    // take order id from params-
+    const {orderId}=req.params;
+    const allMessages=await ChatModel.find({ order: orderId })
+    return res.status(200).send({
+      success:true,
+      msg:"All messages fetched for this orderId",
+      data:allMessages
+    });
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send({
+      success:false,
+      msg:err.message
+    })
+    
+  }
+}
+
+
+
+
 
   
   

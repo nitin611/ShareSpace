@@ -130,7 +130,7 @@ const CreateProduct = () => {
                     <img
                       src={URL.createObjectURL(photo)}
                       alt="product_photo"
-                      className="w-48 h-48 object-cover rounded-md shadow-md"
+                      className="w-60 h-60 object-cover rounded-md shadow-md"
                     />
                   </div>
                 )}

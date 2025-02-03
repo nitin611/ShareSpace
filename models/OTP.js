@@ -5,6 +5,7 @@ dotenv.config();
 const OTPSchema = new mongoose.Schema({
 
     email:{
+
         type:String,
         required: true,
     },

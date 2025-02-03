@@ -1,5 +1,6 @@
 const Point = require('../models/pointModel');
 
+
 export const getUserPoints = async (req, res) => {
     const { userId } = req.params;
     try {
@@ -17,9 +18,6 @@ export const getUserPoints = async (req, res) => {
       return res.status(500).json({ message: 'Error fetching user points.', error });
     }
   };
-
-
-
 
 export const addPoints = async (req, res) => {
   const { userId, action, points, productId } = req.body;

@@ -17,7 +17,7 @@ const Dashboard = () => {
             <UserMenu />
           </div>
 
-        
+          
            {/* Dashboard Content (70%) */}
            <div className="w-2/3 bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">

@@ -4,12 +4,12 @@ const chatSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users", // Reference to the users model
+      ref: "users", 
       required: true,
     },
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users", // Reference to the users model
+      ref: "users", 
       required: true,
     },
     message: {
@@ -19,10 +19,6 @@ const chatSchema = new mongoose.Schema(
     order:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Order"
-    },
-    read: {
-      type: Boolean,
-      default: false, 
     },
   },
   { timestamps: true } 
