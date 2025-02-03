@@ -1,6 +1,7 @@
 import express from "express";
 import { isAdmin ,jwtverification} from "../middlewares/authMiddleware.js";
 import { categoriesController, createCategoryController, deleteCategoryController, singleCategoryController, updateCategoryController } from "../controllers/createCategoryController.js";
+import { deleteUser, getAllUsers, searchUsers } from "../controllers/adminController.js";
 
 const router =express.Router()
 
@@ -24,6 +25,9 @@ router.delete('/delete-category/:id',jwtverification,isAdmin,deleteCategoryContr
 // -----------------------------------------Manage User in Admin Panel---------------------------
 // get all user details in admin panel-
 
+router.get("/allUsers",jwtverification,isAdmin,getAllUsers);
+router.get("/searchUsers",jwtverification,isAdmin, searchUsers);
+router.delete("/users/:userId",jwtverification,isAdmin, deleteUser);
 
 
 export default router

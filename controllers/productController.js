@@ -288,7 +288,7 @@ export const productListController = async (req, res) => {
 export const searchProductController=async(req,res)=>{
     try {
         const {keyword}=req.params;
-        // yahape name or description ke basis pe search kar rahe hai product ko keywork basis pe -
+        // yahape name or description ke basis pe search kar rahe hai product ko keyword basis pe -
         // i means alphabaticaal order do not matter in this-
         const results=await productModel.find({
             $or:[
