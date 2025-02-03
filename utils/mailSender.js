@@ -1,40 +1,42 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
-const mailSender = async (email,title,body) => {
-    try{
-        // console.log("Email sent:",info);
-        console.log(process.env.MAIL_HOST)
-        console.log(process.env.MAIL_PASS)
+
+const generateEmailTemplate = (bodyhtml) => {
+    return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
+        <h2 style="color: #4CAF50; text-align: center;">ShareSpace - Sharing Platform</h2>
+        ${bodyhtml}
+        <hr>
+        <p style="font-size: 12px; color: #777; text-align: center;">This is an automated email from ShareSpace. Please do not reply.</p>
+    </div>`;
+};
+
+const mailSender = async (email, subject, bodyhtml) => {
+    try {
         let transporter = nodemailer.createTransport({
-            host:'smtp.gmail.com',
+            host: 'smtp.gmail.com',
             port: 587,
-            secure:false,
+            secure: false,
             service: 'gmail',
-            auth:{
-                user: 'jhanitin906@gmail.com',
+            auth: {
+                user: 'sharespacestore@gmail.com',
                 pass: process.env.EMAIL_PASS,
             }
-        })
-
+        });
 
         let info = await transporter.sendMail({
-            from: '"Sharespace || Sharing Platform" <jhanitin9006@gmail.com>',
-            to: `${email}` ,
-            subject:`${title}` ,
-            html: `${body}`,
-        })
-        
+            from: '"Sharespace || Sharing Platform" <sharespacestore@gmail.com>',
+            to: email,
+            subject: subject,
+            html: generateEmailTemplate(bodyhtml),
+        });
+
         return info;
-
-
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error in sending email:", error.message);
         throw new Error(error.message);
     }
-}
+};
 
-
-
-export default mailSender
+export default mailSender;

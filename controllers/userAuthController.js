@@ -55,31 +55,39 @@ export const sendOTP = async (req, res) => {
     console.log("OTP Generated : ", otp);
 
     //check unique OTP or not
-    let result = await OTP.findOne({ otp: otp });
+    // let result = await OTP.findOne({ otp: otp });
 
-    while (result) {
-      otp = otpGenerator.generate(6, {
-        upperCaseAlphabets: false,
-        lowerCaseAlphabets: false,
-        specialChars: false,
-      });
-      console.log("OTP Generated : ", otp);
-    }
+    // while (result) {
+    //   otp = otpGenerator.generate(6, {
+    //     upperCaseAlphabets: false,
+    //     lowerCaseAlphabets: false,
+    //     specialChars: false,
+    //   });
+    //   console.log("OTP Generated : ", otp);
+    // }
 
     const otpPayload = { email, otp };
 
     //create an entry for OTP in dB
-    const otpBody = await OTP.create(otpPayload);
-    console.log(otpBody);
+    try {
+      const otpBody = await OTP.create(otpPayload);
+      console.log("OTP added to db successfully", otpBody);
+    } catch (error) {
+      console.log("Unable to add OTP to db. Error: ", error);
+    }
 
+    //craft otp email body
+    const otpBodyHtml = `<p style="color: #333;  text-align: center;">Your OTP is:</p>
+                        <h3 style="color: #555;  text-align: center;">${otp}</h3>
+                        <p style="font-size: 13px; color: #666; text-align: center;">Valid for 5 mins</p>`;
     //return response successful
     try {
       const mailResponse = await mailSender(
         email,
         "Verification Email from Sharespace",
-        otp
+        otpBodyHtml
       );
-      console.log("Email send successfully : ", mailResponse);
+      console.log("OTP Email send successfully : ", mailResponse);
     } catch (error) {
       console.log("error occured while sending email :", error);
       throw error;
@@ -301,8 +309,29 @@ export const addOrderController = async (req, res) => {
       buyer: req.user._id,
     });
     await order.save();
+
+    //Send email notification of order placed
+    const product = await productModel.findById(productId);
+    const productName = product.name;
+    const productDesc = product.description;
+    const seller = await userModel.findById(product.userId);
+    const sellerEmail = seller.email;
+
+    const productBodyHtml = `<p style="color: #333;">An order was placed for the following product of yours:</p>
+        <h3 style="color: #555;">Name: ${productName}</h3>
+  <p>Description: ${productDesc}</p>
+  <p style="font-size: 13px; color: #666;">Open your ShareSpace dashboard to know more and complete the process.</p>`;
+
+  
+  const mailResponse = await mailSender(
+    sellerEmail,
+    "ShareSpace - Order placed for your Product",
+    productBodyHtml
+  );
+  console.log("Order placed Email sent successfully : ", mailResponse);
+
+    // Mark the product as unavailable
     const productDetails=await productModel.findById(productId)
-     // Mark the product as unavailable
      productDetails.status = "unavailable";
      await productDetails.save();
     res.status(201).json({ success: true, order });
