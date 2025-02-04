@@ -27,7 +27,7 @@ router.delete('/delete-category/:id',jwtverification,isAdmin,deleteCategoryContr
 
 router.get("/allUsers",jwtverification,isAdmin,getAllUsers);
 router.get("/searchUsers",jwtverification,isAdmin, searchUsers);
-router.delete("/users/:userId",jwtverification,isAdmin, deleteUser);
+router.delete("/deleteUsers/:userId",jwtverification,isAdmin, deleteUser);
 
 
 export default router

@@ -8,7 +8,6 @@ const router=express.Router();
 //-----------------------user  signup --------
 
 router.post("/signup",signupController,(req,res)=>{
-
 });
 
 // otp route-
@@ -30,6 +29,11 @@ router.get("/user-auth", jwtverification, (req, res) => {
 router.get("/admin-auth", jwtverification,isAdmin, (req, res) => {
     res.status(200).send({ ok: true });
 });
+
+
+
+
+
 
 // edit user profile-
 router.put("/Editprofile",jwtverification,edituserProfileController);

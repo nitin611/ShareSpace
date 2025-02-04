@@ -1,4 +1,11 @@
 import userModel from "../models/userModel.js";
+// import productModel from "../models/productModel.js";
+// import orderModel from "../models/orderModel.js";
+// import chatModel from "../models/messageModel.js";
+import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
+import Order from '../models/orderModel.js';
+
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -44,34 +51,82 @@ export const getAllUsers = async (req, res) => {
       });
     }
   };
-  
-
-
-
 
 
 // ------------------------------------delete user--------------------
-  export const deleteUser = async (req, res) => {
-    try {
-      const { userId } = req.params;
-      const deletedUser = await userModel.findByIdAndDelete(userId);
+// Assuming you have imported your models:
+/**
+ * 
+ * Delete all orders where the user is the buyer.
+ * @param {String} userId - The id of the user.
+ */
+async function deleteUserOrders(userId) {
+  // Delete orders where the user is the buyer (orders placed by the user)
+  await Order.deleteMany({ buyer: userId });
+}
+
+/**
+ * Delete orders associated with the given product IDs.
+ * These orders include products created by the user (orders the user received as a seller).
+ * @param {Array} productIds - Array of product ObjectIds.
+ */
+async function deleteOrdersForProducts(productIds) {
+  if (productIds.length > 0) {
+    await Order.deleteMany({ products: { $in: productIds } });
+  }
+}
+
+/**
+ * Delete all products created by the user.
+ * Also deletes orders associated with those products.
+ * @param {String} userId - The id of the user.
+ */
+async function deleteUserProducts(userId) {
+  // Find all products created by the user
+  const products = await Product.find({ userId });
   
-      if (!deletedUser) {
-        return res.status(404).send({ success: false, msg: "User not found" });
-      }
+  // Extract the product IDs for deletion in orders
+  const productIds = products.map(product => product._id);
   
-      return res.status(200).send({
-        success: true,
-        msg: "User deleted successfully",
-        data: deletedUser
-      });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).send({
-        success: false,
-        msg: err.message
-      });
+  // Delete orders that contain these products
+  await deleteOrdersForProducts(productIds);
+  
+  // Delete the products themselves
+  await Product.deleteMany({ userId });
+}
+
+/**
+ * Delete a user and all related data (products and orders).
+ * This is the controller that you would call (for example, in your Express route).
+ */
+export const deleteUser=async(req, res) =>{
+  try {
+    const userId = req.params.userId;  // Correct
+    console.log(userId);
+    
+    // First, delete orders placed by the user
+    await deleteUserOrders(userId);
+    
+    // Then, delete the products (and orders associated with these products)
+    await deleteUserProducts(userId);
+    
+    // Finally, delete the user
+    const deletedUser = await User.findByIdAndDelete(userId);
+    
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
     }
-  };
+    
+    res.status(200).json({ message: "User, their products, and associated orders have been deleted." });
+  } catch (error) {
+    console.error("Error deleting user and related data:", error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// module.exports = {deleteUser};
+
+
+
   
   
