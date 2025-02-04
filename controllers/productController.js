@@ -2,6 +2,9 @@ import productModel from '../models/productModel.js';
 import fs from 'fs';
 import axios from 'axios';
 import FormData from 'form-data';
+import Order from '../models/orderModel.js'
+import Chat from '../models/messageModel.js'
+import Product from '../models/productModel.js'
 
 
 // crud operation on products-
@@ -158,24 +161,75 @@ export const productPhotoController=async(req,res)=>{
     }
 }
 
-// delete product-
-export const deleteProductController=async(req,res)=>{
+// ---------------------------------delete product---------------------------------------------
+// Delete Chats Associated with Orders
+async function deleteChatsForProduct(orderIds) {
+    await Chat.deleteMany({ order: { $in: orderIds } });
+  }
+  
+  // Delete Orders Associated with the Product
+  async function deleteOrdersForProduct(productId) {
+    const orders = await Order.find({ products: productId });
+    const orderIds = orders.map(order => order._id);
+  
+    await deleteChatsForProduct(orderIds);
+    await Order.deleteMany({ products: productId });
+  
+    // Check if orders are deleted
+    const remainingOrders = await Order.find({ products: productId });
+    if (remainingOrders.length > 0) return false;
+  
+    return true;
+  }
+  
+  // Final Delete Product Controller
+  export const deleteProductController = async (req, res) => {
     try {
-        await productModel.findByIdAndDelete(req.params.pid).select("-photo");
-        res.status(200).send({
-            success:true,
-            msg:"product deleted successfully"
+      const productId = req.params.pid;
+  
+      //  Delete related orders and chats
+      const ordersDeleted = await deleteOrdersForProduct(productId);
+  
+    //    Check if all orders are deleted before deleting the product
+      if (!ordersDeleted) {
+        return res.status(400).json({
+          success: false,
+          msg: "Failed to delete associated orders or chats.",
         });
+      }
+  
+     
+      const deletedProduct = await Product.findByIdAndDelete(productId).select("-photo");
+      if (!deletedProduct) {
+        return res.status(404).json({
+          success: false,
+          msg: "Product not found.",
+        });
+      }
+  
+      res.status(200).json({
+        success: true,
+        msg: "Product, associated orders, and chats deleted successfully.",
+      });
     } catch (err) {
-        console.log(err)
-        res.status(500).send({
-            success:false,
-            msg:"error in deleting the product"
-        })
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        msg: "Error in deleting the product.",
+      });
     }
-}
+  };
+  
 
-// update product-
+
+
+
+
+
+
+
+
+//---------------------------------------- update product------------------
 export const updateProductController=async(req,res)=>{
     try {
         const { name, description, price, category, quantity, shipping } = req.fields;

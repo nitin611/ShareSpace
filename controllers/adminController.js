@@ -53,7 +53,7 @@ export const getAllUsers = async (req, res) => {
 
 // ------------------------------------delete user--------------------
 
-// Assuming you have imported your models:
+// Assuming you have imported your models:-
 /**
  * 
  * 
