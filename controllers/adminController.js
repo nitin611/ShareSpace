@@ -1,10 +1,8 @@
 import userModel from "../models/userModel.js";
-// import productModel from "../models/productModel.js";
-// import orderModel from "../models/orderModel.js";
-// import chatModel from "../models/messageModel.js";
 import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
 import Order from '../models/orderModel.js';
+import Chat from '../models/messageModel.js'
 
 
 export const getAllUsers = async (req, res) => {
@@ -54,14 +52,23 @@ export const getAllUsers = async (req, res) => {
 
 
 // ------------------------------------delete user--------------------
+
 // Assuming you have imported your models:
 /**
+ * 
  * 
  * Delete all orders where the user is the buyer.
  * @param {String} userId - The id of the user.
  */
+async function deleteChat(orderIds){
+  await Chat.deleteMany({ order: { $in: orderIds } });
+}
 async function deleteUserOrders(userId) {
+
   // Delete orders where the user is the buyer (orders placed by the user)
+  const orders=await Order.find({buyer:userId});
+  const orderIds=orders.map(order=>order._id)
+  await deleteChat(orderIds);
   await Order.deleteMany({ buyer: userId });
 }
 
@@ -87,6 +94,10 @@ async function deleteUserProducts(userId) {
   
   // Extract the product IDs for deletion in orders
   const productIds = products.map(product => product._id);
+  const orders = await Order.find({ products: { $in: productIds } });
+  const orderIds = orders.map(order => order._id);
+  await deleteChat(orderIds)
+
   
   // Delete orders that contain these products
   await deleteOrdersForProducts(productIds);
