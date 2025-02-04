@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   return (
     <Structure>
        <div className="min-h-screen bg-gray-100 flex">
-      {/* Sidebar */}
+      
       <div className="w-1/3 bg-white shadow-md p-6">
         <AdminMenu />
       </div>

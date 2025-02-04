@@ -64,7 +64,7 @@ function App() {
 </Route>
 
 
-          {/* Catch-all route for undefined pages */}
+          
           <Route path="*" element={<PageError />} />
         </Routes>
       </CartProvider>

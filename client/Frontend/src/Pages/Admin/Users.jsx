@@ -11,16 +11,14 @@ const Users = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const navigate = useNavigate();
 
-  // Initially fetch all users
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Fetch all users API call
   const fetchUsers = async () => {
     try {
       const response = await axios.get('http://localhost:8080/api/category/allUsers');
-      // Your backend sends users in response.data.users
+      
       setUsers(response.data.users);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -42,7 +40,7 @@ const Users = () => {
       console.error('Error searching users:', error);
     }
   };
-  // Delete API call for a user
+  
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:8080/api/category/deleteUsers/${selectedUserId}`);
@@ -121,7 +119,7 @@ const Users = () => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Confirmation wala Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
