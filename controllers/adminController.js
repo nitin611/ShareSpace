@@ -135,7 +135,54 @@ export const deleteUser=async(req, res) =>{
   }
 }
 
-// module.exports = {deleteUser};
+export const viewUserDetails = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Fetch User Details
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        msg: "User not found",
+      });
+    }
+
+    // Products Created by the User
+    const products = await Product.find({ userId });
+
+    //  Orders (as Buyer)
+    const ordersPlaced = await Order.find({ buyer: userId }).populate("products");
+
+    // Orders (as Seller - Orders containing the user's products)
+    const productIds = products.map((product) => product._id);
+    const ordersReceived = await Order.find({ products: { $in: productIds } }).populate("buyer");
+
+    // Fetch Chats Related to the User (Based on Orders)
+    const orderIds = [...ordersPlaced, ...ordersReceived].map((order) => order._id);
+    const chats = await Chat.find({ order: { $in: orderIds } });
+
+    // Response
+    return res.status(200).send({
+      success: true,
+      msg: "User details fetched successfully",
+      data: {
+        user,
+        products,
+        ordersPlaced,
+        ordersReceived,
+        chats,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      success: false,
+      msg: err.message,
+    });
+  }
+};
+
 
 
 

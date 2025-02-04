@@ -1,7 +1,7 @@
 import express from "express";
 import { isAdmin ,jwtverification} from "../middlewares/authMiddleware.js";
 import { categoriesController, createCategoryController, deleteCategoryController, singleCategoryController, updateCategoryController } from "../controllers/createCategoryController.js";
-import { deleteUser, getAllUsers, searchUsers } from "../controllers/adminController.js";
+import { deleteUser, getAllUsers, searchUsers,viewUserDetails } from "../controllers/adminController.js";
 
 const router =express.Router()
 
@@ -28,6 +28,9 @@ router.delete('/delete-category/:id',jwtverification,isAdmin,deleteCategoryContr
 router.get("/allUsers",jwtverification,isAdmin,getAllUsers);
 router.get("/searchUsers",jwtverification,isAdmin, searchUsers);
 router.delete("/deleteUsers/:userId",jwtverification,isAdmin, deleteUser);
+
+// ---------------------------------------manage individual user in admin panel-
+router.get("/userDetails/:id",jwtverification,isAdmin,viewUserDetails)
 
 
 export default router
