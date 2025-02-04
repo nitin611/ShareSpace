@@ -29,7 +29,7 @@ router.get("/allUsers",jwtverification,isAdmin,getAllUsers);
 router.get("/searchUsers",jwtverification,isAdmin, searchUsers);
 router.delete("/deleteUsers/:userId",jwtverification,isAdmin, deleteUser);
 
-// ---------------------------------------manage individual user in admin panel-
+// ---------------------------------------manage individual user in admin panel------------------------
 router.get("/userDetails/:id",jwtverification,isAdmin,viewUserDetails)
 
 

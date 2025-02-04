@@ -305,6 +305,16 @@ export const getOrderController=async(req,res)=>{
 export const addOrderController = async (req, res) => {
   try {
     const { productId } = req.body;
+     // Check if the product exists and its status
+     const productDes = await productModel.findById(productId);
+     if (!productDes) {
+       return res.status(404).json({ success: false, message: "Product not found" });
+     }
+ 
+     if (productDes.status === "unavailable") {
+       return res.status(400).json({ success: false, message: "Product is unavailable for purchase" });
+     }
+
     const order = new orderModel({
       products: [productId],
       buyer: req.user._id,
@@ -343,31 +353,29 @@ export const addOrderController = async (req, res) => {
 
 // ----------------------------------sellers order controller-------------------------------------------
 
-
-
 export const getOrderReceived = async (req, res) => {
   try {
     // Get users id
     const sellerId = req.user._id; 
-    console.log("Seller ID:", sellerId);
+    
 
     // sab product id find karo ish seller ka-
     const sellerProducts = await productModel.find({ userId: sellerId }).select("_id");
     const sellerProductIds = sellerProducts.map(product => product._id); 
-    console.log("Seller Product IDs:", sellerProductIds);
+    
 
     // fetch orders that include products from this signin user-
     const orders = await orderModel
-      .find({ products: { $in: sellerProductIds } }) // Match product IDs directly
+      .find({ products: { $in: sellerProductIds } }) 
       .populate({
         path: "products",
         select: "-photo", 
       })
-      .populate("buyer", "name") // Populate buyer details
+      .populate("buyer", "name") 
       .sort({ createdAt: -1 }); // Sort by most recent orders
 
     // Step 3: Log and filter orders (if necessary)
-    console.log("Orders:", orders);
+   
     const filteredOrders = orders.filter(order => order.products.length > 0);
     // send kardo result ko-
     res.status(200).json({
@@ -383,6 +391,43 @@ export const getOrderReceived = async (req, res) => {
     });
   }
 };
+// Update Order Status (Delivered, Cancelled, etc.)
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { orderId } = req.params; // Get order ID from URL
+    const { status } = req.body;    // Get new status from request body
+
+    // Validate status
+    const validStatuses = ["Not Process", "delivered", "cancelled"];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ success: false, message: "Invalid status" });
+    }
+
+    // Update the order status
+    const updatedOrder = await orderModel.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Order status updated successfully",
+      data: updatedOrder,
+    });
+  } catch (error) {
+    console.error("Error updating order status:", error.message);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 
 
 
