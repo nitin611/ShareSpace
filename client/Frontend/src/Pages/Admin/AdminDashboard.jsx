@@ -23,11 +23,6 @@ const AdminDashboard = () => {
           <p><strong>Email:</strong> {auth?.user?.email}</p>
           <p><strong>Contact:</strong> {auth?.user?.phone}</p>
         </div>
-
-        {/* Placeholder for the content */}
-        <div className="card bg-white shadow-lg p-6">
-          <Outlet />
-        </div>
       </div>
     </div>
     </Structure>

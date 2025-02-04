@@ -19,6 +19,7 @@ import AdminDashboard from './Pages/Admin/AdminDashboard';
 import CreateCategory from './Pages/Admin/CreateCategory';
 import Users from './Pages/Admin/Users';
 import CartPage from './Pages/CartPage'; 
+import ViewUserDetails from './Pages/Admin/ViewUserDetails';
 
 // Wrapping context providers for the whole app
 
@@ -56,10 +57,12 @@ function App() {
 
           {/* Admin Dashboard Routes */}
           <Route path='/dashboard' element={<AdminRoute />}>
-            <Route path='admin' element={<AdminDashboard />} />
-            <Route path='admin/create-category' element={<CreateCategory />} />
-            <Route path='admin/users' element={<Users />} />
-          </Route>
+  <Route path='admin' element={<AdminDashboard />} />
+  <Route path='admin/create-category' element={<CreateCategory />} />
+  <Route path='admin/users' element={<Users />} />
+  <Route path="admin/viewUserDetails/:id" element={<ViewUserDetails />} />
+</Route>
+
 
           {/* Catch-all route for undefined pages */}
           <Route path="*" element={<PageError />} />
