@@ -73,11 +73,11 @@ const About = () => {
 
     },
     {
-      name: "Faiz",
-      role: "Co-Founder & Strategist",
+      name: "Faiz Ahmed",
+      role: "Co-Founder & Architect",
       image: "/faiz.jpg",
       description:
-      "Faiz focuses on strategy and making sure that Sharespace grows into a thriving community for students to exchange items effortlessly.",
+      "Faiz leads the technical vision and architecture of ShareSpace, ensuring a seamless and scalable platform for students to exchange items effortlessly.",
     },
   ].map((member, index) => (
     <div

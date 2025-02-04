@@ -21,17 +21,20 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const banners = [
-    "/banner01.png",
-    "/banner02.png",
-    "/banner03.png",
-    "/banner05.png",
+    "/banner1.gif",
+    "/banner2.jpg",
+    "/banner3.jpg",
+    "/banner4.jpg",
+    "/banner5.jpg",
+    "/banner6.jpg",
+    "/banner7.png"
   ];
 
   // Automatically change banner slide
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % banners.length);
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [banners.length]);
 
