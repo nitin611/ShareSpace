@@ -135,6 +135,11 @@ const ViewUserDetails = () => {
                     <p>
                       <span className="font-medium">Order ID:</span> {order._id}
                     </p>
+                    {order.products[0].name && (
+                      <p>
+                        <span className="font-medium">Order Name:</span> {order.products[0].name}
+                      </p>
+                    )}
                     {order.status && (
                       <p>
                         <span className="font-medium">Status:</span>{" "}
@@ -159,6 +164,11 @@ const ViewUserDetails = () => {
                     <p>
                       <span className="font-medium">Order ID:</span> {order._id}
                     </p>
+                    {order.products[0].name && (
+                      <p>
+                        <span className="font-medium">Order Name:</span> {order.products[0].name}
+                      </p>
+                    )}
                     {order.status && (
                       <p>
                         <span className="font-medium">Status:</span>{" "}
