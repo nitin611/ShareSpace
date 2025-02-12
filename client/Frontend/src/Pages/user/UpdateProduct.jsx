@@ -91,16 +91,16 @@ const UpdateProduct = () => {
 
   return (
     <Structure title={"Create Product -ShareSpace App"}>
-      <div className="container mx-auto p-6">
-        <div className="flex">
+      <div className="container mx-auto p-4 sm:p-6">
+        <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}
-          <div className="w-1/3 pr-4">
+          <div className="w-full md:w-1/3 md:pr-4 mb-4 md:mb-0">
             <UserMenu />
           </div>
 
           {/* Create Product Form (70%) */}
-          <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-               <h1 className="text-2xl font-semibold text-gray-800 mb-6">Update Product</h1>
+          <div className="w-full md:w-2/3 max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+              <h1 className="text-2xl font-semibold text-gray-800 mb-6">Update Product</h1>
   <div className="space-y-4">
     <Select
       className="w-full text-gray-700 border border-gray-300 rounded-md p-2"
@@ -149,7 +149,7 @@ const UpdateProduct = () => {
         // get photo from url and display below it objecturl se photo get kar lenge
           src={URL.createObjectURL(photo)}
           alt="product_photo"
-          className="w-48 h-48 object-cover rounded-md shadow-md"
+          className="w-full sm:w-48 sm:h-48 object-cover rounded-md shadow-md"
         />
       </div>
     ):(<div className="flex justify-center">
@@ -157,7 +157,7 @@ const UpdateProduct = () => {
       // get photo from url and display below it objecturl se photo get kar lenge
       src={`${API_BASE_URL}/api/product/product-photo/${id}`}
         alt="product_photo"
-        className="w-48 h-48 object-cover rounded-md shadow-md"
+        className="w-full sm:w-48 sm:h-48 object-cover rounded-md shadow-md"
       />
     </div>)}
 

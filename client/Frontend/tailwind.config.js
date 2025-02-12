@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '360px', // For very small devices
+      },
       colors: {
         black: '#000501',
         'united-nations-blue': '#3993dd',

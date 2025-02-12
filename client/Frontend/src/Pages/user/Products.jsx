@@ -56,15 +56,15 @@ const Products = () => {
 
   return (
     <Structure title={"All Products - ShareSpace App"}>
-      <div className="container mx-auto p-6">
-        <div className="flex">
+      <div className="container mx-auto p-4 sm:p-6">
+        <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}
-          <div className="w-1/3 pr-4">
+          <div className="w-full md:w-1/3 md:pr-4 mb-4 md:mb-0">
             <UserMenu />
           </div>
 
           {/* Products List (70%) */}
-          <div className="w-2/3">
+          <div className="w-full md:w-2/3">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">All Products</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -73,7 +73,7 @@ const Products = () => {
                   <img
                     src={`${API_BASE_URL}/api/product/product-photo/${product._id}`}
                     alt={product.name}
-                    className="w-full h-48 object-cover rounded-md mb-4"
+                    className="w-full h-48 sm:h-56 object-cover rounded-md mb-4"
                   />
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h3>
                   <p className="text-gray-600 mb-2">{product.description}</p>
@@ -103,7 +103,7 @@ const Products = () => {
         {/* Delete Confirmation Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-            <div className="bg-white p-6 rounded shadow-lg text-center max-w-sm">
+            <div className="bg-white p-6 rounded shadow-lg text-center w-11/12 sm:max-w-sm">
               <h3 className="text-xl font-semibold mb-4">Are you sure you want to delete this product?</h3>
               <div className="flex justify-center space-x-4">
                 <button

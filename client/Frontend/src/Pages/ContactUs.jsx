@@ -55,14 +55,14 @@ const ContactUs = () => {
 
   return (
     <Structure>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-300 via-blue-300 to-purple-300 text-gray-800 px-4 py-10">
-        <h1 className="text-4xl font-bold mb-10">Get in Touch with Us</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-5xl">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-300 via-blue-300 to-purple-300 text-gray-800 px-4 sm:px-8 py-10">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10">Get in Touch with Us</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 w-full max-w-5xl">
           <div className="hidden md:flex items-center justify-center bg-white p-6 shadow-xl rounded-lg">
             <img
               src="/pro.png"
               alt="Contact Us Illustration"
-              className="w-150 h-190"
+              className="w-full md:w-[300px] md:h-[380px] object-contain"
             />
           </div>
           <div className="bg-white p-8 shadow-xl rounded-lg">
@@ -121,7 +121,7 @@ const ContactUs = () => {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-md"
+                  className="w-full px-6 py-3 bg-blue-500 text-white text-xs sm:text-sm md:text-base rounded-lg hover:bg-blue-600 transition-all duration-300 shadow-md"
                 >
                   Send Message
                 </button>
@@ -131,10 +131,10 @@ const ContactUs = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           <div className="flex items-center space-x-3 p-4 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:scale-105">
-            <FaPhoneAlt className="text-blue-500 text-xl" />
+            <FaPhoneAlt className="text-blue-500 text-lg sm:text-xl" />
             <div>
-              <p className="text-lg font-medium">Call Us</p>
-              <p className="text-sm text-gray-500">+91 7992265461</p>
+            <p className="text-base sm:text-lg font-medium">Call Us</p>
+            <p className="text-xs sm:text-sm text-gray-500">+91 7992265461</p>
             </div>
           </div>
           <div className="flex items-center space-x-3 p-4 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:scale-105">

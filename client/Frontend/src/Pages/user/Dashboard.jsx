@@ -11,15 +11,15 @@ const Dashboard = () => {
   return (
     <Structure title={"User Dashboard"}>
       <div className="container mx-auto p-6">
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}
-          <div className="w-1/3 pr-4">
+          <div className="w-full md:w-1/3 md:pr-4 mb-4 md:mb-0">
             <UserMenu />
           </div>
 
           
            {/* Dashboard Content (70%) */}
-           <div className="w-2/3 bg-white rounded-lg shadow-lg p-6">
+           <div className="w-full md:w-2/3 bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-3xl font-bold text-gray-800">Welcome, {auth?.user?.name}</h2>
               <div className="flex items-center">
