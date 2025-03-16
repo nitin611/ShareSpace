@@ -1,7 +1,7 @@
 {
-  "name": "sharespace",
+  "name": "CampusCart",
   "version": "1.0.0",
-  "description": "ShareSpace for college level ",
+  "description": "CampusCart for college level ",
   "main": "server.js",
   "type": "module",
   "scripts": {

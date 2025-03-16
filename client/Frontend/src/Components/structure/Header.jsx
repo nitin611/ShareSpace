@@ -33,7 +33,7 @@ const Header = () => {
           {/* Logo Section */}
           <div className="flex-shrink-0 mb-2 md:mb-0">
             <Link to="/">
-              <img src="/logo1.png" alt="ShareSpace Logo" className="h-10 w-auto" />
+              <img src="/CCL1.png" alt="CampusCart Logo" className="h-10 w-auto" />
             </Link>
           </div>
 

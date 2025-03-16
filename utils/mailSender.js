@@ -5,10 +5,10 @@ dotenv.config();
 const generateEmailTemplate = (bodyhtml) => {
     return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
-        <h2 style="color: #4CAF50; text-align: center;">ShareSpace - Sharing Platform</h2>
+        <h2 style="color: #4CAF50; text-align: center;">CampusCart - Sharing Platform</h2>
         ${bodyhtml}
         <hr>
-        <p style="font-size: 12px; color: #777; text-align: center;">This is an automated email from ShareSpace. Please do not reply.</p>
+        <p style="font-size: 12px; color: #777; text-align: center;">This is an automated email from CampusCart. Please do not reply.</p>
     </div>`;
 };
 
@@ -26,7 +26,7 @@ const mailSender = async (email, subject, bodyhtml) => {
         });
 
         let info = await transporter.sendMail({
-            from: '"Sharespace || Sharing Platform" <sharespacestore@gmail.com>',
+            from: '"CampusCart || Sharing Platform" <sharespacestore@gmail.com>',
             to: email,
             subject: subject,
             html: generateEmailTemplate(bodyhtml),

@@ -55,7 +55,7 @@ const Products = () => {
   };
 
   return (
-    <Structure title={"All Products - ShareSpace App"}>
+    <Structure title={"All Products - CampusCart App"}>
       <div className="container mx-auto p-4 sm:p-6">
         <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}

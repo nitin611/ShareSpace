@@ -16,7 +16,7 @@ const About = () => {
             <div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Our Story</h1>
               <p className="text-lg leading-relaxed text-gray-600">
-              At Sharespace, we aim to build a sustainable and community-driven platform where students can buy, sell, and exchange college items. 
+              At CampusCart, we aim to build a sustainable and community-driven platform where students can buy, sell, and exchange college items. 
         Whether it's books, electronics, or other resources, we believe in reusing items to reduce waste and make college life more affordable for everyone.
 
               </p>
@@ -77,7 +77,7 @@ const About = () => {
       role: "Co-Founder & Architect",
       image: "/faiz.jpg",
       description:
-      "Faiz leads the technical vision and architecture of ShareSpace, ensuring a seamless and scalable platform for students to exchange items effortlessly.",
+      "Faiz leads the technical vision and architecture of CampusCart, ensuring a seamless and scalable platform for students to exchange items effortlessly.",
     },
   ].map((member, index) => (
     <div

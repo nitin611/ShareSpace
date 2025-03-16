@@ -27,7 +27,7 @@ app.use('/api/chat',chatRoutes)
 
 // rest modules-
 app.get('/',(req,res)=>{
-   res.send("<h1>Welcome to shareSpace</h1>")
+   res.send("<h1>Welcome to CampusCart</h1>")
 })
 
 

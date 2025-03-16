@@ -70,14 +70,14 @@ const CreateProduct = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error('Does not meet with ShareSpace Norms');
+      toast.error('Does not meet with CampusCart Norms');
     } finally {
       setLoading(false); 
     }
   };
 
   return (
-    <Structure title={"Create Product -ShareSpace App"}>
+    <Structure title={"Create Product -CampusCart App"}>
       <div className="container mx-auto p-4 sm:p-6">
         <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}

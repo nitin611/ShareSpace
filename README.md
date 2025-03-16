@@ -1,7 +1,7 @@
-# 🌟 Sharespace-Platform for vit student
+# 🌟 CampusCart-Platform for vit student
 
 ## Overview
-Sharespace is a platform designed for college students to buy and sell products easily. It creates a community-driven marketplace where students can connect and trade goods in a secure and user-friendly environment.
+CampusCart is a platform designed for college students to buy and sell products easily. It creates a community-driven marketplace where students can connect and trade goods in a secure and user-friendly environment.
 
 ---
 
@@ -23,11 +23,11 @@ Sharespace is a platform designed for college students to buy and sell products 
 ---
 
 ## Installation
-To get started with Sharespace, clone the repository and install the required dependencies:
+To get started with CampusCart, clone the repository and install the required dependencies:
 
 ```bash
-git clone https://github.com/yourusername/sharespace.git
-cd sharespace
+git clone https://github.com/yourusername/CampusCart.git
+cd CampusCart
 
 
-# ShareSpace
+# CampusCart

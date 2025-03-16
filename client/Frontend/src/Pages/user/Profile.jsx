@@ -59,7 +59,7 @@ const Profile = () => {
   
 
   return (
-    <Structure title={"User Profile - ShareSpace"}>
+    <Structure title={"User Profile - CampusCart"}>
       <div className="container mx-auto p-4 sm:p-6">
         <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}

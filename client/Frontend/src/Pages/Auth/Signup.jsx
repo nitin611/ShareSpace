@@ -112,7 +112,7 @@ const Signup = () => {
             muted
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="/signup.mp4" type="video/mp4" />
+            <source src="/signup1.mp4" type="video/mp4" />
           </video>
         </div>
 
