@@ -6,12 +6,12 @@ const Footer = () => {
 
     <footer className="bg-dark-background shadow-lg mt-10">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-col md:flex-row justify-between items-center  border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col md:flex-row justify-between items-center border-gray-200 dark:border-gray-700">
           <div className="flex items-center mb-4 md:mb-0">
-            <img src="/logo1.png" alt="ShareSpace Logo" className="h-8 mr-3" />
-            {/* <span className="text-2xl font-semibold text-gray-900 dark:text-white">ShareSpace</span> */}
+            <img src="/logo1.png" alt="CampusCart Logo" className="h-8 md:h-10 mr-3" />
+            {/* <span className="text-2xl font-semibold text-gray-900 dark:text-white">CampusCart</span> */}
           </div>
-          <ul className="flex flex-wrap items-center mb-4 md:mb-0 text-sm font-medium text-gray-500 dark:text-gray-400">
+          <ul className="flex flex-wrap items-center justify-center mb-4 md:mb-0 text-sm font-medium text-gray-500 dark:text-gray-400">
             <li className="mr-4">
               <Link
                 to="/"
@@ -59,8 +59,8 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-          © 2024 <Link to="/" className="hover:underline text-teal-500 dark:text-teal-400">ShareSpace™</Link>. All Rights Reserved.
+        <div className="mt-6 text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+          © 2024 <Link to="/" className="hover:underline text-teal-500 dark:text-teal-400">CampusCart™</Link>. All Rights Reserved.
         </div>
       </div>
     </footer>

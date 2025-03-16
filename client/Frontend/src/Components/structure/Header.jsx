@@ -29,16 +29,16 @@ const Header = () => {
   return (
     <nav className="bg-dark-background sticky top-0 z-50">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex flex-col md:flex-row justify-between items-center py-4">
           {/* Logo Section */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 mb-2 md:mb-0">
             <Link to="/">
-              <img src="/logo1.png" alt="ShareSpace Logo" className="h-10 w-auto" />
+              <img src="/CCL1.png" alt="CampusCart Logo" className="h-10 w-auto" />
             </Link>
           </div>
 
           {/* Navigation and Search Section */}
-          <div className="flex flex-1 items-center justify-center space-x-8">
+          <div className="flex flex-col md:flex-row flex-1 items-center justify-center space-y-2 md:space-y-0 md:space-x-8">
             <Link to="/" className="text-gray-900 dark:text-white font-medium text-lg hover:text-teal-500 dark:hover:text-teal-400 transition-colors">
               Home
             </Link>
@@ -50,7 +50,7 @@ const Header = () => {
             </Link>
 
             {/* Search Input Box */}
-            <div className="ml-9 w-1/3">
+            <div className="w-full md:w-1/3">
               <SearchInput className="bg-gray-800 text-white rounded-md px-5 py-2" />
             </div>
           </div>
@@ -58,7 +58,7 @@ const Header = () => {
           
 
           {/* Sign-in / Sign-up Buttons */}
-          <div className="space-x-4 flex items-center">
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 mt-2 md:mt-0">
             {!auth.user ? (
               <>
                 <Link

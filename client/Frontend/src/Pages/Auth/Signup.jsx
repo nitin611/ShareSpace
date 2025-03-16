@@ -103,22 +103,22 @@ const Signup = () => {
 
   return (
     <Structure>
-      <div className="min-h-screen flex ">
+      <div className="min-h-screen flex flex-col md:flex-row">
         {/* Left Side */}
-        <div className="w-1/2 relative flex justify-center items-center">
+        <div className="w-full md:w-1/2 relative flex justify-center items-center mb-4 md:mb-0">
           <video
             autoPlay
             
             muted
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="/signup.mp4" type="video/mp4" />
+            <source src="/signup1.mp4" type="video/mp4" />
           </video>
         </div>
 
         {/* Right Side */}
-        <div className="w-1/2 bg-gradient-to-r from-blue-100 to-blue-200 relative flex justify-center items-center">
-          <div className="w-full max-w-md p-6 rounded-lg shadow-lg bg-white bg-opacity-80">
+        <div className="w-full md:w-1/2 bg-gradient-to-r from-blue-100 to-blue-200 relative flex justify-center items-center">
+        <div className="w-full max-w-md p-4 sm:p-6 rounded-lg shadow-lg bg-white bg-opacity-80">
             <h2 className="text-3xl font-semibold text-center text-blue-800">
               {otpSent ? 'Verify OTP & Sign Up' : 'Sign Up'}
             </h2>
@@ -184,14 +184,14 @@ const Signup = () => {
                   <div className="flex space-x-2">
                     {formData.otp.map((otpValue, index) => (
                       <input
-                        key={index}
-                        type="text"
-                        maxLength="1"
-                        value={otpValue}
-                        onChange={(e) => handleOtpChange(e, index)}
-                        ref={otpRefs[index]} 
-                        className="w-16 p-4 text-center text-gray-700 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
+                      key={index}
+                      type="text"
+                      maxLength="1"
+                      value={otpValue}
+                      onChange={(e) => handleOtpChange(e, index)}
+                      ref={otpRefs[index]} 
+                      className="w-full sm:w-16 p-3 text-center text-gray-700 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />                    
                     ))}
                   </div>
                   <button type="submit" className="w-full py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">

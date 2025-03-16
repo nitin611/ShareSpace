@@ -10,13 +10,13 @@ const About = () => {
         
 
         {/* Main Section */}
-        <div className="container mx-auto py-3 px-8 lg:px-16">
+        <div className="container mx-auto py-3 px-4 sm:px-8 lg:px-16">
           {/* Our Story Section */}
-          <div className="grid lg:grid-cols-2 gap-8 items-center mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-16">
             <div>
-              <h1 className="text-4xl font-bold mb-4">Our Story</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Our Story</h1>
               <p className="text-lg leading-relaxed text-gray-600">
-              At Sharespace, we aim to build a sustainable and community-driven platform where students can buy, sell, and exchange college items. 
+              At CampusCart, we aim to build a sustainable and community-driven platform where students can buy, sell, and exchange college items. 
         Whether it's books, electronics, or other resources, we believe in reusing items to reduce waste and make college life more affordable for everyone.
 
               </p>
@@ -29,13 +29,13 @@ const About = () => {
               <img
                 src="/ban-2.jpg" 
                 alt="About Us"
-                className="rounded-lg shadow-lg w-full lg:w-4/4"
+                className="rounded-lg shadow-lg w-full"
               />
             </div>
           </div>
 
           {/* Metrics Section */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16 text-center">
             <div className="bg-gray-100 py-6 rounded-lg">
               <h2 className="text-2xl font-bold text-black">2.5k</h2>
               <p className="text-gray-600">Sellers online on our site</p>
@@ -77,7 +77,7 @@ const About = () => {
       role: "Co-Founder & Architect",
       image: "/faiz.jpg",
       description:
-      "Faiz leads the technical vision and architecture of ShareSpace, ensuring a seamless and scalable platform for students to exchange items effortlessly.",
+      "Faiz leads the technical vision and architecture of CampusCart, ensuring a seamless and scalable platform for students to exchange items effortlessly.",
     },
   ].map((member, index) => (
     <div
@@ -87,7 +87,7 @@ const About = () => {
       <img
         src={member.image}
         alt={member.name}
-        className="w-50 h-40 rounded-full mb-4 object-cover"
+        className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full mb-4 object-cover"
       />
       <h3 className="text-lg font-bold">{member.name}</h3>
       <p className="text-sm text-gray-500">{member.role}</p>
@@ -124,7 +124,7 @@ const About = () => {
                 key={index}
                 className="bg-white p-6 shadow-lg rounded-lg flex items-center space-x-4"
               >
-                <div className="text-red-500 text-3xl">{feature.icon}</div>
+                <div className="text-red-500 text-2xl sm:text-3xl">{feature.icon}</div>
                 <div>
                   <h3 className="text-lg font-bold">{feature.title}</h3>
                   <p className="text-sm text-gray-600">{feature.description}</p>

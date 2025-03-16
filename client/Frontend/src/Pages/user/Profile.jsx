@@ -59,16 +59,16 @@ const Profile = () => {
   
 
   return (
-    <Structure title={"User Profile - ShareSpace"}>
-      <div className="container mx-auto p-6">
-        <div className="flex">
+    <Structure title={"User Profile - CampusCart"}>
+      <div className="container mx-auto p-4 sm:p-6">
+        <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}
-          <div className="w-1/3 pr-4">
+          <div className="w-full md:w-1/3 md:pr-4 mb-4 md:mb-0">
             <UserMenu />
           </div>
 
           {/* Profile Details (70%) */}
-          <div className="w-2/3">
+          <div className="w-full md:w-2/3">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">User Profile</h2>
 
             <div className="bg-white rounded-lg shadow-md p-6">
@@ -148,9 +148,9 @@ const Profile = () => {
                 <div>
                   <div className="flex items-center mb-6">
                   <div
-  className={`w-24 h-24 rounded-full border-2 border-blue-500 mr-4 shadow-lg flex items-center justify-center`}
+  className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-blue-500 mr-4 shadow-lg flex items-center justify-center`}
   style={{
-    backgroundColor: auth?.user?.profilePicture ? "transparent" :"#4C6EF5", // Fixed stylish blue background
+    backgroundColor: auth?.user?.profilePicture ? "transparent" : "#4C6EF5",
     boxShadow: "0 8px 16px rgba(76, 110, 245, 0.5)",
   }}
 >
@@ -162,10 +162,10 @@ const Profile = () => {
     />
   ) : (
     <span
-    className="text-white text-3xl font-bold tracking-widest uppercase"
+    className="text-white text-2xl sm:text-3xl font-bold tracking-widest uppercase"
     style={{
-      letterSpacing: "0.2em", // Add spacing between letters
-      textShadow: "2px 2px 5px rgba(0, 0, 0, 0.4)", // Add shadow for a stylish effect
+      letterSpacing: "0.2em", 
+      textShadow: "2px 2px 5px rgba(0, 0, 0, 0.4)", 
     }}
   >
     {auth?.user?.email?.substring(0, 2) || ""}
@@ -192,7 +192,7 @@ const Profile = () => {
                   </div>
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+                    className="w-full sm:w-auto mt-6 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
                   >
                     Edit Profile
                   </button>

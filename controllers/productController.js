@@ -185,7 +185,9 @@ async function deleteChatsForProduct(orderIds) {
   // Final Delete Product Controller
   export const deleteProductController = async (req, res) => {
     try {
+
       const productId = req.params.pid;
+      //YAHA PR DELETE KRNE SE PHELE USER ID CHECK KARO
   
       //  Delete related orders and chats
       const ordersDeleted = await deleteOrdersForProduct(productId);

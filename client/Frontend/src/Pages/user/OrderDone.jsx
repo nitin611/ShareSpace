@@ -85,7 +85,7 @@ const ChatModal = ({ show, onClose, order }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-      <div className="bg-white w-96 p-4 rounded-md shadow-lg">
+      <div className="bg-white w-11/12 sm:w-96 p-4 rounded-md shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold">Chat - Order: {order?._id}</h3>
           <button onClick={onClose} className="text-red-500">
@@ -130,7 +130,7 @@ const ChatModal = ({ show, onClose, order }) => {
           />
           <button
             onClick={handleSend}
-            className="bg-blue-500 text-white px-4 py-2 ml-2 rounded-md"
+            className="bg-blue-600 text-white px-4 py-2 ml-2 rounded-md text-xs sm:text-sm"
           >
             Send
           </button>
@@ -170,16 +170,17 @@ const Orders = () => {
 
   return (
     <Structure>
-      <div className="container mx-auto p-6">
-        <div className="flex">
-          <div className="w-1/3 pr-4">
+      <div className="container mx-auto p-4 sm:p-6">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/3 md:pr-4 mb-4 md:mb-0">
             <UserMenu />
           </div>
-          <div>
+          <div className="w-full md:w-2/3">
             <h2 className="text-2xl font-bold mb-4">Your Orders</h2>
             {orders.length === 0 ? (
               <p>No orders found.</p>
             ) : (
+              <div className="overflow-x-auto">
               <table className="table-auto w-full border-collapse border border-gray-300 shadow-lg">
                 <thead className="bg-blue-600 text-white">
                   <tr>
@@ -229,7 +230,7 @@ const Orders = () => {
                       <td className="border border-gray-300 px-4 py-2 text-center">
                         <button
                           onClick={() => handleChatClick(order)}
-                          className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-200 mr-2"
+                          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2 text-xs sm:text-sm"
                         >
                           Chat
                         </button>
@@ -238,6 +239,8 @@ const Orders = () => {
                   ))}
                 </tbody>
               </table>
+              </div>
+              
             )}
           </div>
         </div>

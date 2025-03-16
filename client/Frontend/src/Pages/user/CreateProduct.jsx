@@ -56,7 +56,7 @@ const CreateProduct = () => {
       const { data } = await axios.post(`${API_BASE_URL}/api/product/create-product`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-         
+        
         },
       });
 
@@ -70,23 +70,23 @@ const CreateProduct = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error('Does not meet with ShareSpace Norms');
+      toast.error('Does not meet with CampusCart Norms');
     } finally {
       setLoading(false); 
     }
   };
 
   return (
-    <Structure title={"Create Product -ShareSpace App"}>
-      <div className="container mx-auto p-6">
-        <div className="flex">
+    <Structure title={"Create Product -CampusCart App"}>
+      <div className="container mx-auto p-4 sm:p-6">
+        <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}
-          <div className="w-1/3 pr-4">
+          <div className="w-full md:w-1/3 md:pr-4 mb-4 md:mb-0">
             <UserMenu />
           </div>
 
           {/* Create Product Form (70%) */}
-          <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+          <div className="w-full md:w-2/3 max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-2xl font-semibold text-gray-800 mb-6">Create Product</h1>
             {loading ? (
               <div className="flex flex-col items-center justify-center p-4">
@@ -130,7 +130,7 @@ const CreateProduct = () => {
                     <img
                       src={URL.createObjectURL(photo)}
                       alt="product_photo"
-                      className="w-60 h-60 object-cover rounded-md shadow-md"
+                      className="w-full sm:w-60 sm:h-60 object-cover rounded-md shadow-md"
                     />
                   </div>
                 )}

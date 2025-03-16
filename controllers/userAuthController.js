@@ -85,7 +85,7 @@ export const sendOTP = async (req, res) => {
     try {
       const mailResponse = await mailSender(
         email,
-        "Verification Email from Sharespace",
+        "Verification Email from CampusCart",
         otpBodyHtml
       );
       console.log("OTP Email send successfully : ", mailResponse);
@@ -302,6 +302,7 @@ export const getOrderController=async(req,res)=>{
 }
 
 // ---------------------------------------add order--------------------------------------------
+
 export const addOrderController = async (req, res) => {
   try {
     const { productId } = req.body;
@@ -331,12 +332,12 @@ export const addOrderController = async (req, res) => {
     const productBodyHtml = `<p style="color: #333;">An order was placed for the following product of yours:</p>
         <h3 style="color: #555;">Name: ${productName}</h3>
   <p>Description: ${productDesc}</p>
-  <p style="font-size: 13px; color: #666;">Open your ShareSpace dashboard to know more and complete the process.</p>`;
+  <p style="font-size: 13px; color: #666;">Open your CampusCart dashboard to know more and complete the process.</p>`;
 
   
   const mailResponse = await mailSender(
     sellerEmail,
-    "ShareSpace - Order placed for your Product",
+    "CampusCart - Order placed for your Product",
     productBodyHtml
   );
   console.log("Order placed Email sent successfully : ", mailResponse);

@@ -140,21 +140,21 @@ const ProductDetails = () => {
 
   return (
     <Structure>
-      <div className="container mx-auto p-8">
-        <div className="flex flex-col lg:flex-row gap-60">
+      <div className="container mx-auto p-4 sm:p-8">
+        <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-16">
           <div className="w-full lg:w-1/3">
             <img
               src={`${API_BASE_URL}/api/product/product-photo/${product._id}`}
               alt={product.name}
-              className="w-80 h-80 object-cover rounded-md mb-5"
+              className="w-full sm:w-80 sm:h-80 object-cover rounded-md mb-5"
             />
           </div>
-          <div className="w-full lg:w-6/4">
+          <div className="w-full lg:w-2/3">
             <h1 className="text-3xl font-semibold">{product.name}</h1>
             <p className="text-2xl font-bold text-gray-800">₹{product.price}</p>
             <p className="text-gray-700 mt-4 mb-6">{product.description}</p>
             <button
-              className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 mr-4"
+              className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 mr-4 text-sm sm:text-base"
               onClick={handleBuyNow}
             >
               Buy Now
@@ -190,7 +190,7 @@ const ProductDetails = () => {
               >
                 <img
                   src={`${API_BASE_URL}/api/product/product-photo/${p._id}`}
-                  className="w-60 h-60 object-cover"
+                  className="w-full sm:w-60 sm:h-60 object-cover"
                   alt={p.name}
                 />
                 <h3 className="text-lg font-semibold">{p.name}</h3>
