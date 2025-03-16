@@ -1,6 +1,7 @@
 import RatingAndReview from '../models/RatingAndReview.js';
 import userModel from '../models/userModel.js';
 import productModel from '../models/productModel.js';
+import Point from '../models/pointModel.js';
 import mongoose from 'mongoose';
 
 // Create a new rating and review
@@ -30,6 +31,20 @@ export const createRating = async (req, res) => {
             review
         });
 
+        // Add points for creating review
+        let userPoints = await Point.findOne({ userId });
+        if (!userPoints) {
+            userPoints = new Point({ userId, totalPoints: 0, history: [] });
+        }
+        userPoints.totalPoints += 10;
+        userPoints.history.push({
+            action: 'Review Added',
+            points: 10,
+            productId,
+            date: new Date()
+        });
+        await userPoints.save();
+
         // Populate user details
         const populatedRating = await RatingAndReview.findById(newRating._id)
             .populate('user', 'name email')
@@ -38,7 +53,8 @@ export const createRating = async (req, res) => {
         res.status(201).json({
             success: true,
             message: "Rating added successfully",
-            rating: populatedRating
+            rating: populatedRating,
+            pointsAdded: 10
         });
 
     } catch (error) {

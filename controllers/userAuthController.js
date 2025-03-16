@@ -3,13 +3,15 @@ import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js"
 import { z } from "zod";
 import JWT from "jsonwebtoken";
-import { message } from "antd";
+import axios from "axios";
+import message from "antd";
 import OTP from "../models/OTP.js";
 import mailSender from "../utils/mailSender.js";
+import productModel from "../models/productModel.js";
+import Point from "../models/pointModel.js";
 // require("dotenv").config();
 // const OTP = require("../models/OTP.js");
 import otpGenerator from "otp-generator";
-import productModel from "../models/productModel.js";
 // ---------------------input validation schema zod ka use--------------
 
 const signupSchema = z.object({
@@ -409,16 +411,35 @@ export const updateOrderStatus = async (req, res) => {
       orderId,
       { status },
       { new: true }
-    );
+    ).populate('products');
 
     if (!updatedOrder) {
       return res.status(404).json({ success: false, message: "Order not found" });
+    }
+
+    // Add points if order is marked as delivered
+    if (status === 'delivered') {
+      // Add points for the seller
+      const sellerId = updatedOrder.products[0].userId; // Assuming single product order for now
+      let userPoints = await Point.findOne({ userId: sellerId });
+      if (!userPoints) {
+        userPoints = new Point({ userId: sellerId, totalPoints: 0, history: [] });
+      }
+      userPoints.totalPoints += 20;
+      userPoints.history.push({
+        action: 'Product Delivered',
+        points: 20,
+        productId: updatedOrder.products[0]._id,
+        date: new Date()
+      });
+      await userPoints.save();
     }
 
     res.status(200).json({
       success: true,
       message: "Order status updated successfully",
       data: updatedOrder,
+      pointsAdded: status === 'delivered' ? 20 : 0
     });
   } catch (error) {
     console.error("Error updating order status:", error.message);
@@ -428,10 +449,3 @@ export const updateOrderStatus = async (req, res) => {
     });
   }
 };
-
-
-
-
-
-
-

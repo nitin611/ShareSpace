@@ -5,7 +5,7 @@ import FormData from 'form-data';
 import Order from '../models/orderModel.js'
 import Chat from '../models/messageModel.js'
 import Product from '../models/productModel.js'
-
+import Point from '../models/pointModel.js'
 
 // crud operation on products-
 export const createProductController = async (req, res) => {
@@ -40,7 +40,24 @@ export const createProductController = async (req, res) => {
         );
 
         if (!complianceResponse.data.compliant) {
-            return res.status(400).send({ success: false, msg: "Product does not meet compliance standards" });
+            // Deduct points for non-compliant product
+            let userPoints = await Point.findOne({ userId: req.user._id });
+            if (!userPoints) {
+                userPoints = new Point({ userId: req.user._id, totalPoints: 0, history: [] });
+            }
+            userPoints.totalPoints -= 20;
+            userPoints.history.push({
+                action: 'Non-compliant Product',
+                points: -20,
+                date: new Date()
+            });
+            await userPoints.save();
+
+            return res.status(400).send({ 
+                success: false, 
+                msg: "Product does not meet compliance standards",
+                pointsDeducted: 20
+            });
         }
 
         // Create product
@@ -52,14 +69,42 @@ export const createProductController = async (req, res) => {
         }
         
         await product.save();
+
+        // Add points based on conditions
+        let pointsToAdd = 0;
+        let pointMessage = '';
+
+        if (parseFloat(price) === 0) {
+            pointsToAdd += 100;
+            pointMessage += '100 points for free product, ';
+        }
+
+        pointsToAdd += 10;
+        pointMessage += '10 points for creating product';
+
+        // Update user points
+        let userPoints = await Point.findOne({ userId: req.user._id });
+        if (!userPoints) {
+            userPoints = new Point({ userId: req.user._id, totalPoints: 0, history: [] });
+        }
+        userPoints.totalPoints += pointsToAdd;
+        userPoints.history.push({
+            action: 'Product Created',
+            points: pointsToAdd,
+            productId: product._id,
+            date: new Date()
+        });
+        await userPoints.save();
         
         res.status(200).send({
             success: true,
             msg: "Product created successfully",
-            product
+            product,
+            pointsAdded: pointsToAdd,
+            pointMessage
         });
     } catch (err) {
-        console.error("Error in creating product:", err); // Log error for debugging
+        console.error("Error in creating product:", err);
         res.status(500).send({
             success: false,
             msg: 'Error in creating product',
@@ -201,23 +246,33 @@ async function deleteChatsForProduct(orderIds) {
       }
   
      
-      const deletedProduct = await Product.findByIdAndDelete(productId).select("-photo");
-      if (!deletedProduct) {
-        return res.status(404).json({
-          success: false,
-          msg: "Product not found.",
+      const product = await productModel.findByIdAndDelete(productId);
+        
+        // Deduct points for deleting product
+        let userPoints = await Point.findOne({ userId: req.user._id });
+        if (!userPoints) {
+            userPoints = new Point({ userId: req.user._id, totalPoints: 0, history: [] });
+        }
+        userPoints.totalPoints -= 10;
+        userPoints.history.push({
+            action: 'Product Deleted',
+            points: -10,
+            productId: productId,
+            date: new Date()
         });
-      }
-  
-      res.status(200).json({
-        success: true,
-        msg: "Product, associated orders, and chats deleted successfully.",
-      });
+        await userPoints.save();
+
+        res.status(200).send({
+            success: true,
+            msg: "Product deleted successfully",
+            pointsDeducted: 10
+        });
     } catch (err) {
       console.log(err);
-      res.status(500).json({
+      res.status(500).send({
         success: false,
-        msg: "Error in deleting the product.",
+        msg: "Error while deleting product",
+        err,
       });
     }
   };
