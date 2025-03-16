@@ -1,6 +1,5 @@
 const Point = require('../models/pointModel');
 
-
 export const getUserPoints = async (req, res) => {
     const { userId } = req.params;
     try {

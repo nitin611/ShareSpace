@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const PointSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -24,5 +25,7 @@ const PointSchema = new mongoose.Schema({
   ],
 
 });
+
+
 
 module.exports = mongoose.model('Point', PointSchema);
