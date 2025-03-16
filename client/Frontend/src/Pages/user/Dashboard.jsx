@@ -4,7 +4,6 @@ import { usePoints } from "../../context/points";
 import Structure from "../../Components/structure/Structure";
 import UserMenu from "../../Components/structure/UserMenu";
 import { FaBitcoin, FaArrowUp, FaArrowDown, FaSync } from "react-icons/fa";
-import { toast } from "react-hot-toast";
 
 const Dashboard = () => {
   const [auth] = useAuth();
@@ -13,9 +12,8 @@ const Dashboard = () => {
   const handleRefreshPoints = async () => {
     try {
       await getUserPoints();
-      toast.success("Points refreshed!");
     } catch (error) {
-      toast.error("Failed to refresh points");
+      console.error("Error refreshing points:", error);
     }
   };
 

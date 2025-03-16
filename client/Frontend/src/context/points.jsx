@@ -1,7 +1,6 @@
 import { useState, useContext, createContext, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useAuth } from "./auth";
-import { toast } from "react-hot-toast";
 
 const PointContext = createContext();
 
@@ -32,7 +31,6 @@ const PointProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching points:", error);
-      toast.error(error.response?.data?.message || "Error fetching points");
     }
   }, [auth?.user?._id, auth?.token]);
 
