@@ -54,7 +54,6 @@ const ConfirmationModal = ({ show, onConfirm, onCancel }) => {
       <div className="bg-white p-8 rounded-md w-11/12 sm:w-96">
         <h2 className="text-2xl font-semibold mb-4">Are You Sure?</h2>
         <div className="flex justify-end gap-4">
-          
           <button
             className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
             onClick={onConfirm}
@@ -73,6 +72,26 @@ const ConfirmationModal = ({ show, onConfirm, onCancel }) => {
   );
 };
 
+// New Modal Component for Out Of Stock message
+const OutOfStockModal = ({ show, onClose }) => {
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white p-8 rounded-md w-11/12 sm:w-96">
+        <h2 className="text-2xl font-semibold mb-4">Out Of Stock</h2>
+        <p className="mb-4">Product will be there Very Soon</p>
+        <button
+          className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Product Details Component
 const ProductDetails = () => {
   const params = useParams();
@@ -82,6 +101,8 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  // New state for Out Of Stock modal
+  const [showOutOfStockModal, setShowOutOfStockModal] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
@@ -183,18 +204,31 @@ const ProductDetails = () => {
             <h1 className="text-3xl font-semibold">{product.name}</h1>
             <p className="text-2xl font-bold text-gray-800">₹{product.price}</p>
             <p className="text-gray-700 mt-4 mb-6">{product.description}</p>
-            <button
-              className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 mr-4 text-sm sm:text-base transform hover:scale-105 transition-transform duration-200"
-              onClick={handleBuyNow}
-            >
-              Buy Now
-            </button>
-            <button
-              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transform hover:scale-105 transition-transform duration-200"
-              onClick={() => setShowConfirmationModal(true)}
-            >
-              Contact Product Owner
-            </button>
+            
+            {/* Conditional Rendering based on product status */}
+            {product.status === "available" ? (
+              <>
+                <button
+                  className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 mr-4 text-sm sm:text-base transform hover:scale-105 transition-transform duration-200"
+                  onClick={handleBuyNow}
+                >
+                  Buy Now
+                </button>
+                <button
+                  className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transform hover:scale-105 transition-transform duration-200"
+                  onClick={() => setShowConfirmationModal(true)}
+                >
+                  Contact Product Owner
+                </button>
+              </>
+            ) : (
+              <button
+                className="bg-gray-500 text-white px-6 py-2 rounded-md text-sm sm:text-base transform hover:scale-105 transition-transform duration-200"
+                onClick={() => setShowOutOfStockModal(true)}
+              >
+                Out Of Stock
+              </button>
+            )}
           </div>
         </div>
 
@@ -206,6 +240,12 @@ const ProductDetails = () => {
           show={showConfirmationModal}
           onConfirm={handleContactOwner}
           onCancel={() => setShowConfirmationModal(false)}
+        />
+
+        {/* New Out Of Stock Modal */}
+        <OutOfStockModal
+          show={showOutOfStockModal}
+          onClose={() => setShowOutOfStockModal(false)}
         />
 
         {/* Related Products Section */}
