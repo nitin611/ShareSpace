@@ -281,11 +281,6 @@ async function deleteChatsForProduct(orderIds) {
 
 
 
-
-
-
-
-
 //---------------------------------------- update product------------------
 export const updateProductController=async(req,res)=>{
     try {
@@ -297,20 +292,30 @@ export const updateProductController=async(req,res)=>{
         if (!description) return res.status(400).send({ success: false, msg: "Description is required" });
         if (!price || isNaN(price) || price <= 0) return res.status(400).send({ success: false, msg: "Valid price is required" });
         if (!category) return res.status(400).send({ success: false, msg: "Category is required" });
-        if (!quantity || isNaN(quantity) || quantity <= 0) return res.status(400).send({ success: false, msg: "Valid quantity is required" });
+        if (!quantity || isNaN(quantity)) return res.status(400).send({ success: false, msg: "Valid quantity is required" });
+        if (quantity < 0) return res.status(400).send({ success: false, msg: "Quantity cannot be negative" });
         if (typeof shipping === 'undefined') return res.status(400).send({ success: false, msg: "Shipping information is required" });
         if (photo && photo.size > 1 * 1024 * 1024) { // 1MB limit
             return res.status(400).send({ success: false, msg: "Photo size should be less than 1MB" });
         }
 
-        const product = await productModel.findByIdAndUpdate(req.params.pid,{
-            ...req.fields},{new:true}
-        )
+        // Get current product to verify quantity change
+        const currentProduct = await productModel.findById(req.params.pid);
+        if (!currentProduct) {
+            return res.status(404).send({ success: false, msg: "Product not found" });
+        }
+
+        const product = await productModel.findByIdAndUpdate(
+            req.params.pid,
+            { ...req.fields },
+            { new: true }
+        );
+
         if (photo) {
             product.photo.data = fs.readFileSync(photo.path);
             product.photo.contentType = photo.type;
-
         }
+
         await product.save();
         res.status(200).send({
             success: true,
@@ -318,11 +323,11 @@ export const updateProductController=async(req,res)=>{
             product
         });
     } catch (err) {
-        console.log(err)
+        console.log(err);
         res.status(500).send({
-            success:false,
-            msg:"error in updating the product"
-        })
+            success: false,
+            msg: "Error in updating the product"
+        });
     }
 }
 

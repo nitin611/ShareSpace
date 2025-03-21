@@ -157,7 +157,15 @@ const ProductDetails = () => {
       navigate('/signin');
       return;
     }
+
+    // Check if quantity is already 0
+    if (product.quantity <= 0) {
+      toast.error('This product is out of stock');
+      return;
+    }
+
     try {
+      // First, add the order
       const { data } = await axios.post(
         `${API_BASE_URL}/api/auth/add-order`,
         { productId: product._id },
@@ -168,14 +176,34 @@ const ProductDetails = () => {
         }
       );
 
-      // Update the product quantity in the UI
-      setProduct(prev => ({
-        ...prev,
-        quantity: prev.quantity - 1
-      }));
+      const newQuantity = product.quantity - 1;
       
-      toast.success('Thanks for buying this product!');
-      setShowConfirmationModal(false);
+      // Then, update the product quantity in the database
+      const updateResponse = await axios.put(
+        `${API_BASE_URL}/api/product/update-product/${product._id}`,
+        { 
+          ...product, 
+          quantity: newQuantity 
+        },
+        {
+          headers: {
+            Authorization: `${auth.token}`,
+          },
+        }
+      );
+
+      if (updateResponse.data.success) {
+        // Update the product quantity in the UI
+        setProduct(prev => ({
+          ...prev,
+          quantity: newQuantity
+        }));
+        
+        toast.success('Thanks for buying this product!');
+        setShowConfirmationModal(false);
+      } else {
+        toast.error('Error updating product quantity');
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || 'Error placing the order.');
