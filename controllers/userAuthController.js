@@ -308,48 +308,59 @@ export const getOrderController=async(req,res)=>{
 export const addOrderController = async (req, res) => {
   try {
     const { productId } = req.body;
-     // Check if the product exists and its status
-     const productDes = await productModel.findById(productId);
-     if (!productDes) {
-       return res.status(404).json({ success: false, message: "Product not found" });
-     }
- 
-     if (productDes.status === "unavailable") {
-       return res.status(400).json({ success: false, message: "Product is unavailable for purchase" });
-     }
+    
+    // Check if the product exists
+    const product = await productModel.findById(productId);
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+    
+    // Check quantity
+    if (product.quantity <= 0) {
+      return res.status(400).json({ success: false, message: "Product is out of stock" });
+    }
 
+    // Create the order
     const order = new orderModel({
       products: [productId],
       buyer: req.user._id,
     });
     await order.save();
 
-    //Send email notification of order placed
-    const product = await productModel.findById(productId);
-    const productName = product.name;
-    const productDesc = product.description;
+    // Get seller information
     const seller = await userModel.findById(product.userId);
-    const sellerEmail = seller.email;
+    
+    // Try to send email, but don't let failure block the order process
+    try {
+      const productBodyHtml = `<p style="color: #333;">An order was placed for the following product of yours:</p>
+        <h3 style="color: #555;">Name: ${product.name}</h3>
+        <p>Description: ${product.description}</p>
+        <p style="font-size: 13px; color: #666;">Open your CampusCart dashboard to know more and complete the process.</p>`;
+      
+      const mailResponse = await mailSender(
+        seller.email,
+        "CampusCart - Order placed for your Product",
+        productBodyHtml
+      );
+      console.log("Order placed Email sent successfully : ", mailResponse);
+    } catch (emailError) {
+      // Log the error but don't fail the order
+      console.error("Email sending failed, but order created:", emailError);
+    }
 
-    const productBodyHtml = `<p style="color: #333;">An order was placed for the following product of yours:</p>
-        <h3 style="color: #555;">Name: ${productName}</h3>
-  <p>Description: ${productDesc}</p>
-  <p style="font-size: 13px; color: #666;">Open your CampusCart dashboard to know more and complete the process.</p>`;
-
-  
-  const mailResponse = await mailSender(
-    sellerEmail,
-    "CampusCart - Order placed for your Product",
-    productBodyHtml
-  );
-  console.log("Order placed Email sent successfully : ", mailResponse);
-
-    // Mark the product as unavailable
-    const productDetails=await productModel.findById(productId)
-     productDetails.status = "unavailable";
-     await productDetails.save();
-    res.status(201).json({ success: true, order });
+    // Update product quantity
+    product.quantity = Math.max(0, product.quantity - 1);
+    await product.save();
+    
+    // Return success with updated product
+    res.status(201).json({ 
+      success: true, 
+      order,
+      product,
+      message: "Order placed successfully"
+    });
   } catch (err) {
+    console.error("Error in add-order:", err);
     res.status(400).json({ success: false, error: err.message });
   }
 };

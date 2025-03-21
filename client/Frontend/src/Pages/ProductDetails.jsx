@@ -106,6 +106,7 @@ const ProductDetails = () => {
   const [userDetails, setUserDetails] = useState({});
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (params?.id) {
@@ -160,12 +161,13 @@ const ProductDetails = () => {
 
     // Check if quantity is already 0
     if (product.quantity <= 0) {
-      toast.error('This product is out of stock');
+      setShowOutOfStockModal(true);
       return;
     }
 
+    setLoading(true);
     try {
-      // First, add the order
+      // Create order and update quantity in one API call
       const { data } = await axios.post(
         `${API_BASE_URL}/api/auth/add-order`,
         { productId: product._id },
@@ -176,37 +178,19 @@ const ProductDetails = () => {
         }
       );
 
-      const newQuantity = product.quantity - 1;
-      
-      // Then, update the product quantity in the database
-      const updateResponse = await axios.put(
-        `${API_BASE_URL}/api/product/update-product/${product._id}`,
-        { 
-          ...product, 
-          quantity: newQuantity 
-        },
-        {
-          headers: {
-            Authorization: `${auth.token}`,
-          },
-        }
-      );
-
-      if (updateResponse.data.success) {
-        // Update the product quantity in the UI
-        setProduct(prev => ({
-          ...prev,
-          quantity: newQuantity
-        }));
-        
-        toast.success('Thanks for buying this product!');
+      if (data.success) {
+        // Update the product in UI with the data returned from the API
+        setProduct(data.product);
+        toast.success(data.message || 'Thanks for buying this product!');
         setShowConfirmationModal(false);
       } else {
-        toast.error('Error updating product quantity');
+        toast.error(data.message || 'Error placing the order');
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message || 'Error placing the order.');
+      console.error("Error in handleContactOwner:", error);
+      toast.error(error.response?.data?.message || error.message || 'Error placing the order.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -280,6 +264,9 @@ const ProductDetails = () => {
           onConfirm={handleContactOwner}
           onCancel={() => setShowConfirmationModal(false)}
         />
+
+        {/* Out Of Stock Modal */}
+        <OutOfStockModal show={showOutOfStockModal} onClose={() => setShowOutOfStockModal(false)} />
 
         {/* Rating and Review Section */}
         <div className="mt-12">
