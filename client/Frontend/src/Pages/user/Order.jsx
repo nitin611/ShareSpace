@@ -189,21 +189,19 @@ const Orders = () => {
   const orderStatusHandler = async (orderId, newStatus) => {
     try {
       const { data } = await axios.put(
-        `/api/v1/order/update-status/${orderId}`,
+        `${API_BASE_URL}/api/auth/orders/${orderId}/status`,
         { status: newStatus },
-        { headers: { Authorization: `${auth?.token}` } }
+        { headers: { Authorization: auth?.token } }
       );
       if (data.success) {
         toast.success("Order status updated successfully");
-        fetchAllOrders();
+        fetchAllOrders(); // Refresh orders list
       } else {
         toast.error(data.message || "Failed to update order status");
       }
     } catch (error) {
-      console.error(error);
-      toast.error(
-        error.response?.data?.message || "Error updating order status"
-      );
+      console.error("Error updating order status:", error);
+      toast.error(error.response?.data?.message || "Error updating order status");
     }
   };
 
@@ -224,95 +222,58 @@ const Orders = () => {
             <UserMenu />
           </div>
           <div className="w-full md:w-2/3">
-          <div className={`${orderStyles.orders_container} overflow-x-auto`}>
-              <table className={orderStyles.orders_table}>
-                <thead className={orderStyles.orders_header}>
+            <h2 className="text-2xl font-bold mb-4">All Orders</h2>
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full border-collapse border border-gray-300 shadow-lg">
+                <thead className="bg-blue-600 text-white">
                   <tr>
-                    <th>Order ID</th>
-                    <th>Products</th>
-                    <th>Buyer</th>
-                    <th>Total Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                    <th>Chat With</th>
+                    <th className="border border-gray-300 px-4 py-2">#</th>
+                    <th className="border border-gray-300 px-4 py-2">Products</th>
+                    <th className="border border-gray-300 px-4 py-2">Buyer</th>
+                    <th className="border border-gray-300 px-4 py-2">Status</th>
+                    <th className="border border-gray-300 px-4 py-2">Actions</th>
+                    <th className="border border-gray-300 px-4 py-2">Chat</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order) => (
-                    <tr
-                      key={order._id}
-                      className={orderStyles.orders_row}
-                    >
-                      <td>
-                        {order._id?.slice(-6) || "N/A"}
+                  {orders.map((order, index) => (
+                    <tr key={order._id}>
+                      <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {order.products?.map((p) => (
+                          <div key={p._id} className="mb-2">
+                            {p.name} x {p.quantity}
+                          </div>
+                        ))}
                       </td>
-                      <td>
-                        {order.products && order.products.length > 0
-                          ? order.products
-                              .map(
-                                (product) =>
-                                  `${product.name || "Unknown Product"} (x${
-                                    product.quantity || 1
-                                  })`
-                              )
-                              .join(", ")
-                          : "No Products"}
+                      <td className="border border-gray-300 px-4 py-2">
+                        {order.buyer?.name}
                       </td>
-                      <td>
-                        {order.buyer?.name || "Unknown Buyer"}
-                      </td>
-                      <td>
-                        ₹
-                        {order.products
-                          ? order.products.reduce(
-                              (total, product) =>
-                                total +
-                                (product.price || 0) *
-                                  (product.quantity || 1),
-                              0
-                            )
-                          : 0}
-                      </td>
-                      <td>
-                        <span
-                          className={`${orderStyles.status_badge} ${getStatusClass(
-                            order.status
-                          )}`}
-                        >
-                          {order.status || "Unknown Status"}
+                      <td className="border border-gray-300 px-4 py-2">
+                        <span className={getStatusClass(order.status)}>
+                          {order.status}
                         </span>
                       </td>
-                      <td>
+                      <td className="border border-gray-300 px-4 py-2">
                         <select
-                          value={order.status || ""}
-                          onChange={(e) =>
-                            orderStatusHandler(
-                              order._id,
-                              e.target.value
-                            )
-                          }
-                          disabled={order.status === "Delivered"}
-                          className={orderStyles.action_select}
+                          className="border rounded p-1"
+                          value={order.status}
+                          onChange={(e) => orderStatusHandler(order._id, e.target.value)}
                         >
-                          <option value="Not Process">
-                            Not Processed
-                          </option>
-                          <option value="Processing">
-                            Processing
-                          </option>
+                          <option value="Not Process">Not Processed</option>
+                          <option value="Processing">Processing</option>
                           <option value="Shipped">Shipped</option>
-                          <option value="Delivered">
-                            Delivered
-                          </option>
-                          <option value="Cancelled">
-                            Cancelled
-                          </option>
+                          <option value="Delivered">Delivered</option>
+                          <option value="Cancelled">Cancelled</option>
                         </select>
                       </td>
-                      <td>
+                      <td className="border border-gray-300 px-4 py-2">
                         <button
-                          onClick={() => handleChatClick(order)}
-                          className="bg-blue-500 text-white px-4 py-2 text-xs sm:text-sm rounded-md hover:bg-blue-200 mr-2"
+                          onClick={() => {
+                            setSelectedOrder(order);
+                            setIsChatModalOpen(true);
+                          }}
+                          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                         >
                           Chat
                         </button>
@@ -325,12 +286,16 @@ const Orders = () => {
           </div>
         </div>
       </div>
-      {/* Render Chat Modal */}
-      <ChatModal
-        show={isChatModalOpen}
-        onClose={() => setIsChatModalOpen(false)}
-        order={selectedOrder}
-      />
+      {selectedOrder && (
+        <ChatModal
+          show={isChatModalOpen}
+          onClose={() => {
+            setIsChatModalOpen(false);
+            setSelectedOrder(null);
+          }}
+          order={selectedOrder}
+        />
+      )}
     </Structure>
   );
 };

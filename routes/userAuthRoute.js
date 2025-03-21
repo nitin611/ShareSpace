@@ -1,5 +1,5 @@
 import express from "express";
-import { signupController,loginController, sendOTP, edituserProfileController, getOrderController, addOrderController, getOrderReceived, updateOrderStatus } from "../controllers/userAuthController.js";
+import { signupController,loginController, sendOTP, edituserProfileController, getOrderController, addOrderController, getOrderReceived, updateOrderStatus, deleteOrderController } from "../controllers/userAuthController.js";
 import {isAdmin,jwtverification} from "../middlewares/authMiddleware.js"
 
 // router object create karo-
@@ -49,6 +49,9 @@ router.get("/allOrders", jwtverification, getOrderReceived);
 
 // update order status - seller-
 router.put("/orders/:orderId/status", jwtverification , updateOrderStatus);
+
+// delete order - buyer
+router.delete("/orders/:orderId", jwtverification, deleteOrderController);
 
 
 export default router

@@ -397,55 +397,93 @@ export const getOrderReceived = async (req, res) => {
 // Update Order Status (Delivered, Cancelled, etc.)
 export const updateOrderStatus = async (req, res) => {
   try {
-    const { orderId } = req.params; // Get order ID from URL
-    const { status } = req.body;    // Get new status from request body
+    const { orderId } = req.params;
+    const { status } = req.body;
 
     // Validate status
-    const validStatuses = ["Not Process", "delivered", "cancelled"];
+    const validStatuses = ["Not Process", "Processing", "Shipped", "Delivered", "Cancelled"];
     if (!validStatuses.includes(status)) {
-      return res.status(400).json({ success: false, message: "Invalid status" });
-    }
-
-    // Update the order status
-    const updatedOrder = await orderModel.findByIdAndUpdate(
-      orderId,
-      { status },
-      { new: true }
-    ).populate('products');
-
-    if (!updatedOrder) {
-      return res.status(404).json({ success: false, message: "Order not found" });
-    }
-
-    // Add points if order is marked as delivered
-    if (status === 'delivered') {
-      // Add points for the seller
-      const sellerId = updatedOrder.products[0].userId; // Assuming single product order for now
-      let userPoints = await Point.findOne({ userId: sellerId });
-      if (!userPoints) {
-        userPoints = new Point({ userId: sellerId, totalPoints: 0, history: [] });
-      }
-      userPoints.totalPoints += 20;
-      userPoints.history.push({
-        action: 'Product Delivered',
-        points: 20,
-        productId: updatedOrder.products[0]._id,
-        date: new Date()
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status value",
       });
-      await userPoints.save();
+    }
+
+    const order = await orderModel.findById(orderId);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // Update order status
+    order.status = status;
+    await order.save();
+
+    // If order is marked as Delivered, give points to seller
+    if (status === "Delivered") {
+      const product = await productModel.findById(order.products[0]);
+      if (product) {
+        const sellerId = product.userId;
+        const points = await Point.findOne({ userId: sellerId });
+        
+        if (points) {
+          points.points += 100;
+          await points.save();
+        } else {
+          await Point.create({
+            userId: sellerId,
+            points: 100
+          });
+        }
+      }
     }
 
     res.status(200).json({
       success: true,
       message: "Order status updated successfully",
-      data: updatedOrder,
-      pointsAdded: status === 'delivered' ? 20 : 0
+      data: order,
     });
   } catch (error) {
-    console.error("Error updating order status:", error.message);
+    console.error(error);
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Error in updating order status",
+      error: error.message,
+    });
+  }
+};
+
+// Delete order controller
+export const deleteOrderController = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const userId = req.user._id;
+
+    // Find the order and check if it belongs to the user
+    const order = await orderModel.findOne({ _id: orderId, buyer: userId });
+    
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found or unauthorized",
+      });
+    }
+
+    // Delete the order
+    await orderModel.findByIdAndDelete(orderId);
+
+    res.status(200).json({
+      success: true,
+      message: "Order deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error in deleting order",
+      error: error.message,
     });
   }
 };

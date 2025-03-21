@@ -21,34 +21,24 @@ const productSchema=new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
         required: true
-      },
+    },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'category',  // Lowercase 'category' to match export
+        ref: 'category',
         required: true
     },
-    
     quantity:{
         type:Number,
-        required:true
-        
+        required:true,
+        min: 0
     },
-    // photo ko aws me store karne ke liye-
     photo:{
         data:Buffer,
         contentType:String,
-
     },
-    // order status show karne ke liye-
     shipping:{
         type:Boolean,
-    },
-    status: {
-        type: String,
-        enum: ["available", "unavailable"],
-        default: "available",
-      },
-
+    }
 },{timestamps:true});
 
 export default mongoose.model("Products",productSchema);

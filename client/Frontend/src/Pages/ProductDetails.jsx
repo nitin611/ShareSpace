@@ -146,11 +146,18 @@ const ProductDetails = () => {
           },
         }
       );
+
+      // Update the product quantity in the UI
+      setProduct(prev => ({
+        ...prev,
+        quantity: prev.quantity - 1
+      }));
+      
       toast.success('Thanks for buying this product!');
-      setShowConfirmationModal(false); // Close confirmation modal
+      setShowConfirmationModal(false);
     } catch (error) {
       console.log(error);
-      toast.error('Error placing the order.');
+      toast.error(error.response?.data?.message || 'Error placing the order.');
     }
   };
 
@@ -172,16 +179,26 @@ const ProductDetails = () => {
           </motion.div>
 
           <div className="w-full lg:w-1/3">
-            <img
-              src={`${API_BASE_URL}/api/product/product-photo/${product._id}`}
-              alt={product.name}
-              className="w-full sm:w-80 sm:h-80 object-cover rounded-md mb-5"
-            />
+            {product?._id && (
+              <img
+                src={`${API_BASE_URL}/api/product/product-photo/${product._id}`}
+                alt={product.name}
+                className="w-full sm:w-80 sm:h-80 object-cover rounded-md mb-5"
+              />
+            )}
           </div>
           
           <div className="w-full lg:w-2/3">
             <h1 className="text-3xl font-semibold">{product.name}</h1>
             <p className="text-2xl font-bold text-gray-800">₹{product.price}</p>
+            <div className="flex items-center mt-2 mb-4">
+              <span className="text-lg font-medium text-gray-700">Quantity Available:</span>
+              <span className={`ml-2 px-3 py-1 rounded-full ${
+                product.quantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+              }`}>
+                {product.quantity}
+              </span>
+            </div>
             <p className="text-gray-700 mt-4 mb-6">{product.description}</p>
             <button
               className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 mr-4 text-sm sm:text-base transform hover:scale-105 transition-transform duration-200"
@@ -190,10 +207,17 @@ const ProductDetails = () => {
               Buy Now
             </button>
             <button
-              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transform hover:scale-105 transition-transform duration-200"
-              onClick={() => setShowConfirmationModal(true)}
+              className={`${
+                product.quantity > 0
+                  ? 'bg-blue-500 hover:bg-blue-600'
+                  : 'bg-gray-400 cursor-not-allowed'
+              } text-white px-6 py-2 rounded-md transform transition-transform duration-200 ${
+                product.quantity > 0 ? 'hover:scale-105' : ''
+              }`}
+              onClick={() => product.quantity > 0 && setShowConfirmationModal(true)}
+              disabled={product.quantity === 0}
             >
-              Contact Product Owner
+              {product.quantity > 0 ? 'Contact Product Owner' : 'Not Available'}
             </button>
           </div>
         </div>
@@ -208,39 +232,10 @@ const ProductDetails = () => {
           onCancel={() => setShowConfirmationModal(false)}
         />
 
-        {/* Related Products Section */}
+        {/* Rating and Review Section */}
         <div className="mt-12">
-          <h2 className="text-4xl font-semibold mb-4 text-center text-red-600">Related Products</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {relatedProducts?.map((p) => (
-              <motion.div
-                key={p._id}
-                whileHover={{ scale: 1.05 }}
-                className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition cursor-pointer"
-                onClick={() => navigate(`/product/${p._id}`)}
-              >
-                <img
-                  src={`${API_BASE_URL}/api/product/product-photo/${p._id}`}
-                  className="w-full sm:w-60 sm:h-60 object-cover rounded-md"
-                  alt={p.name}
-                />
-                <h3 className="text-lg font-semibold mt-2">{p.name}</h3>
-                <p className="text-red-500 font-bold">₹{p.price}</p>
-              </motion.div>
-            ))}
-          </div>
+          <RatingAndReview productId={params.id} onNewReview={fetchAverageRating} />
         </div>
-
-        {/* Ratings and Reviews Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mt-16"
-        >
-          <h2 className="text-4xl font-semibold mb-8 text-center text-red-600">Ratings & Reviews</h2>
-          <RatingAndReview productId={params.id} />
-        </motion.div>
       </div>
     </Structure>
   );
