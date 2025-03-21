@@ -15,15 +15,18 @@ const generateEmailTemplate = (bodyhtml) => {
 const mailSender = async (email, subject, bodyhtml) => {
     try {
         let transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER,
+                user: 'sharespacestore@gmail.com',
                 pass: process.env.EMAIL_PASS,
             }
         });
 
         let info = await transporter.sendMail({
-            from: `"CampusCart || Sharing Platform" <${process.env.EMAIL_USER}>`,
+            from: '"CampusCart || Sharing Platform" <sharespacestore@gmail.com>',
             to: email,
             subject: subject,
             html: generateEmailTemplate(bodyhtml),
@@ -35,5 +38,7 @@ const mailSender = async (email, subject, bodyhtml) => {
         throw new Error(error.message);
     }
 };
+
+
 
 export default mailSender;
