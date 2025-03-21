@@ -43,7 +43,12 @@ const Signup = () => {
 
   const handleOtpSend = async () => {
     const { email, password, collegeId } = formData;
-  
+    
+    if (!email.endsWith('@vitstudent.ac.in')) {
+      toast.error('Enter the correct email (Only Vit mail id allowed)');
+      return;
+    }
+    
     if (!email || !password || !collegeId) {
       toast.error('Please fill all required fields');
       return;
