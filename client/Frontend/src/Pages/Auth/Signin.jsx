@@ -15,13 +15,13 @@ const SignIn = () => {
   const location = useLocation();
   const [auth, setAuth] = useAuth();
 
-  // Handler for input change
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
   };
 
-  // Submit handler for the sign-in form
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -67,14 +67,14 @@ const SignIn = () => {
   return (
     <Structure>
       <div className="min-h-screen flex flex-col md:flex-row">
-        {/* LEFT SIDE: Video (remains unchanged) */}
+        {/* LEFT SIDE: Video  */}
         <div className="relative w-full md:w-1/2 flex justify-center items-center mb-4 md:mb-0">
           <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
             <source src="/SigninF.mp4" type="video/mp4" />
           </video>
         </div>
 
-        {/* RIGHT SIDE: Sign-In Form with Color Theme & Hover Effects */}
+        {/* RIGHT SIDE: */}
         <div className="w-full md:w-1/2 flex justify-center items-center p-6 md:p-10 bg-[#F2EFE7]">
           <div className="w-full max-w-sm bg-white rounded-xl shadow-lg p-6 border border-[#9ACBD0] hover:shadow-2xl hover:scale-105 transition-transform duration-300">
             <div className="mb-6 text-center">
