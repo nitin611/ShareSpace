@@ -13,6 +13,7 @@ import productRoutes from './routes/productRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import ratingRoutes from './routes/ratingAndReviewRoutes.js';
 import pointRoutes from './routes/pointRoutes.js';
+import chatbotRoutes from './routes/chatbotRoutes.js';
 
 // Database config
 Dbconnection();
@@ -35,6 +36,7 @@ app.use('/api/product', productRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/ratings', ratingRoutes);
 app.use('/api/points', pointRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 // Rest api
 app.get('/', (req, res) => {

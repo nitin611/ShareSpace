@@ -8,6 +8,7 @@ import API_BASE_URL from '../apiConfig';
 import RatingAndReview from '../Components/RatingAndReview';
 import { FaStar } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import Chatbot from "../Components/Chatbot/Chatbot";
 
 // Modal Component for User Details
 const Modal = ({ show, onClose, userDetails }) => {
@@ -272,6 +273,9 @@ const ProductDetails = () => {
         <div className="mt-12">
           <RatingAndReview productId={params.id} onNewReview={fetchAverageRating} />
         </div>
+
+        {/* Add Chatbot component with product ID */}
+        <Chatbot productId={product?._id} />
       </div>
     </Structure>
   );

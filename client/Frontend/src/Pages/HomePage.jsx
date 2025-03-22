@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { AiOutlineReload } from "react-icons/ai";
 import Structure from "../Components/structure/Structure";
 import API_BASE_URL from '../apiConfig';
+import Chatbot from "../Components/Chatbot/Chatbot";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -239,6 +240,10 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      
+      {/* Add Chatbot component */}
+      <Chatbot />
+      
     </Structure>
   );
 };
