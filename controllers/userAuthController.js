@@ -428,33 +428,56 @@ export const updateOrderStatus = async (req, res) => {
       });
     }
 
+    // Prevent changing status if already delivered
+    if (order.status === "Delivered") {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot change status of an order that has already been marked as delivered",
+      });
+    }
+
     // Update order status
     order.status = status;
     await order.save();
 
     // If order is marked as Delivered, give points to seller
+    let pointsAwarded = 0;
     if (status === "Delivered") {
       const product = await productModel.findById(order.products[0]);
       if (product) {
         const sellerId = product.userId;
         const points = await Point.findOne({ userId: sellerId });
+        pointsAwarded = 100;
         
         if (points) {
-          points.points += 100;
+          points.totalPoints += pointsAwarded;
+          points.history.push({
+            action: 'Order Delivered',
+            points: pointsAwarded,
+            productId: product._id,
+            date: new Date()
+          });
           await points.save();
         } else {
           await Point.create({
             userId: sellerId,
-            points: 100
+            totalPoints: pointsAwarded,
+            history: [{
+              action: 'Order Delivered',
+              points: pointsAwarded,
+              productId: product._id,
+              date: new Date()
+            }]
           });
         }
       }
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "Order status updated successfully",
-      data: order,
+      message: `Order status updated to ${status}`,
+      pointsAwarded: pointsAwarded,
+      order,
     });
   } catch (error) {
     console.error(error);

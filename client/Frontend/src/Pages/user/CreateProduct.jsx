@@ -21,6 +21,7 @@ const CreateProduct = () => {
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
   const [loading, setLoading] = useState(false); 
+  const [validationStep, setValidationStep] = useState("");
 
   const getAllCategories = async () => {
     try {
@@ -38,9 +39,33 @@ const CreateProduct = () => {
     getAllCategories();
   }, []);
 
+  // Validation steps animation
+  useEffect(() => {
+    if (loading) {
+      const steps = [
+        "Checking product with CampusCart norms...",
+        "Validating product image with AI...",
+        "Analyzing product description with AI...",
+        "Ensuring compliance with marketplace standards...",
+        "Final verification in progress..."
+      ];
+      
+      let currentStep = 0;
+      
+      const interval = setInterval(() => {
+        setValidationStep(steps[currentStep]);
+        currentStep = (currentStep + 1) % steps.length;
+      }, 2000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [loading]);
+
   const handleCreate = async (e) => {
     e.preventDefault();
     setLoading(true); 
+    setValidationStep("Checking product with CampusCart norms...");
+    
     try {
       const formData = new FormData();
       formData.append('name', name);
@@ -56,7 +81,6 @@ const CreateProduct = () => {
       const { data } = await axios.post(`${API_BASE_URL}/api/product/create-product`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-        
         },
       });
 
@@ -70,14 +94,15 @@ const CreateProduct = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error('Does not meet with CampusCart Norms');
+      toast.error(err.response?.data?.msg || 'Does not meet with CampusCart Norms');
     } finally {
       setLoading(false); 
+      setValidationStep("");
     }
   };
 
   return (
-    <Structure title={"Create Product -CampusCart App"}>
+    <Structure title={"Create Product - CampusCart App"}>
       <div className="container mx-auto p-4 sm:p-6">
         <div className="flex flex-col md:flex-row">
           {/* User Menu (30%) */}
@@ -90,8 +115,16 @@ const CreateProduct = () => {
             <h1 className="text-2xl font-semibold text-gray-800 mb-6">Create Product</h1>
             {loading ? (
               <div className="flex flex-col items-center justify-center p-4">
-                <img src={loadingGif} alt="Loading" className="w-full h-full mb-1" />
-                <p className="text-blue-500 font-semibold text-lg">Scanning your product with AI...</p>
+                <img src={loadingGif} alt="Loading" className="w-full max-w-md h-auto mb-4" />
+                <div className="text-center">
+                  <p className="text-blue-600 font-semibold text-xl mb-2">{validationStep}</p>
+                  <p className="text-gray-500 text-sm">Our AI is carefully reviewing your product to ensure it meets community standards</p>
+                  <div className="mt-4 flex justify-center space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></div>
+                    <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse delay-100"></div>
+                    <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse delay-200"></div>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">

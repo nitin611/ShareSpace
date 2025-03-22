@@ -1,45 +1,49 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import morgan from 'morgan'
-import Dbconnection from './config/db.js';
-import userAuthRoute from './routes/userAuthRoute.js'
-import cors from 'cors'
-import categoryRoutes from './routes/categoryRoutes.js'
-import productRoutes from './routes/productRoutes.js'
-import chatRoutes from './routes/chatRoutes.js'
-import ratingRoutes from './routes/ratingAndReviewRoutes.js'
-import pointRoutes from './routes/pointRoutes.js'
+// Import our custom environment loader first
+import { ENV } from './utils/loadEnv.js';
 
-// yaha .env root me hai so we dont have to define path-
-dotenv.config();
-// databse config-
-Dbconnection()
+// Now load all other imports
+import express from 'express';
+import colors from 'colors';
+import morgan from 'morgan';
+import Dbconnection from './config/db.js';
+import cors from 'cors';
+import userAuthRoute from './routes/userAuthRoute.js';
+import categoryRoutes from './routes/categoryRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
+import ratingRoutes from './routes/ratingAndReviewRoutes.js';
+import pointRoutes from './routes/pointRoutes.js';
+
+// Database config
+Dbconnection();
+
+// Rest object
 const app = express();
 
-// -------------------------------middleware------------
+// Middlewares
 app.use(cors({
   origin: 'http://localhost:5173', // Frontend URL
   credentials: true
 }));
-app.use(morgan('dev'))
-app.use(express.json())
+app.use(morgan('dev'));
+app.use(express.json());
 
-// -----------------------------routes------------------
-app.use('/api/auth', userAuthRoute)
-app.use('/api/category', categoryRoutes)
-app.use('/api/product', productRoutes)
-app.use('/api/chat', chatRoutes)
-app.use('/api/ratings', ratingRoutes)
-app.use('/api/points', pointRoutes)
+// Routes
+app.use('/api/auth', userAuthRoute);
+app.use('/api/category', categoryRoutes);
+app.use('/api/product', productRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/ratings', ratingRoutes);
+app.use('/api/points', pointRoutes);
 
-// rest modules-
+// Rest api
 app.get('/', (req, res) => {
-  res.send("<h1>Welcome to ShareSpace</h1>")
-})
+  res.send("<h1>Welcome to ShareSpace</h1>");
+});
 
-// port-agar ush port pe nahi chala to bydefault 8080 pe chalega-
-const port = process.env.PORT || 8080;
+// Port configuration
+const port = ENV.PORT || 8080;
 
 app.listen(port, () => {
-  console.log(`server running on ${port}`.bgMagenta.white)
+  console.log(`Server running on ${port}`.bgMagenta.white);
 });

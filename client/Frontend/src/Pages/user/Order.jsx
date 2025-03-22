@@ -194,7 +194,11 @@ const Orders = () => {
         { headers: { Authorization: auth?.token } }
       );
       if (data.success) {
-        toast.success("Order status updated successfully");
+        if (data.pointsAwarded > 0) {
+          toast.success(`Order status updated to ${newStatus}. You earned ${data.pointsAwarded} points!`);
+        } else {
+          toast.success(`Order status updated to ${newStatus}`);
+        }
         fetchAllOrders(); // Refresh orders list
       } else {
         toast.error(data.message || "Failed to update order status");
