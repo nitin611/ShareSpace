@@ -8,7 +8,7 @@ import API_BASE_URL from '../../apiConfig';
 const SignIn = () => {
   const [loginData, setLoginData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
 
   const navigate = useNavigate();
@@ -37,75 +37,102 @@ const SignIn = () => {
       const data = await res.json();
 
       if (res.status >= 200 && res.status < 300) {
-        // Show success toast on successful login
-        toast.success("Login successful");
-        localStorage.setItem('token', data.token); // Storing JWT token
+        toast.success('Login successful');
+        localStorage.setItem('token', data.token);
 
         setTimeout(() => {
           setAuth({
             ...auth,
             user: data.user,
-            token: data.token
+            token: data.token,
           });
-          localStorage.setItem('auth', JSON.stringify({
-            user: data.user,
-            token: data.token
-          }));
+          localStorage.setItem(
+            'auth',
+            JSON.stringify({
+              user: data.user,
+              token: data.token,
+            })
+          );
           navigate(location.state || '/');
         }, 500);
       } else {
-        // Handle errors
-        toast.error(data.msg || "Login failed");
+        toast.error(data.msg || 'Login failed');
       }
     } catch (err) {
-      console.error("Error:", err);
-      toast.error("An error occurred while logging in.");
+      console.error('Error:', err);
+      toast.error('An error occurred while logging in.');
     }
   };
 
   return (
     <Structure>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 bg-cover bg-center px-4 sm:px-6" style={{ backgroundImage: 'url(/path/to/your/background-image.jpg)' }}>
-      <div className="bg-gray-300 shadow-lg rounded-lg p-6 sm:p-8 max-w-md w-full opacity-95">
-          <div className="flex justify-center mb-6">
-          <img src="/logo1.png" alt="Logo" className="w-full max-w-xs sm:max-w-md h-auto" />
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-center text-blue-600 mb-6">Welcome Back!</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={loginData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
+      <div className="min-h-screen flex flex-col md:flex-row">
+        {/* LEFT SIDE: Video (remains unchanged) */}
+        <div className="relative w-full md:w-1/2 flex justify-center items-center mb-4 md:mb-0">
+          <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover">
+            <source src="/SigninF.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        {/* RIGHT SIDE: Sign-In Form with Color Theme & Hover Effects */}
+        <div className="w-full md:w-1/2 flex justify-center items-center p-6 md:p-10 bg-[#F2EFE7]">
+          <div className="w-full max-w-sm bg-white rounded-xl shadow-lg p-6 border border-[#9ACBD0] hover:shadow-2xl hover:scale-105 transition-transform duration-300">
+            <div className="mb-6 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#2973B2]">
+                Welcome Back
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Please login to your account
+              </p>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Password</label>
-              <input
-                type="password"
-                name="password"
-                value={loginData.password}
-                onChange={handleChange}
-                className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all duration-300"
-            >
-              Sign In
-            </button>
-          </form>
-          <div className="mt-4 text-center">
-            <a href="/forgot-password" className="text-blue-500 hover:text-blue-700 text-sm">Forgot Password?</a>
-          </div>
-          <div className="mt-4 text-center">
-            <p className="text-sm">Don't have an account? <a href="/signup" className="text-blue-500 hover:text-blue-700">Sign up</a></p>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={loginData.email}
+                  onChange={handleChange}
+                  className="w-full mt-2 px-4 py-3 border border-[#9ACBD0] rounded-md focus:outline-none focus:ring-2 focus:ring-[#2973B2] transition hover:border-[#2973B2]"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={loginData.password}
+                  onChange={handleChange}
+                  className="w-full mt-2 px-4 py-3 border border-[#9ACBD0] rounded-md focus:outline-none focus:ring-2 focus:ring-[#2973B2] transition hover:border-[#2973B2]"
+                  required
+                />
+              </div>
+              <div className="text-right mb-6">
+                <a
+                  href="/forgot-password"
+                  className="text-sm text-[#2973B2] hover:underline"
+                >
+                  Forgot Password?
+                </a>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-[#48A6A7] text-white py-3 rounded-md hover:bg-[#2973B2] transition-all duration-300"
+              >
+                Login
+              </button>
+            </form>
+            <p className="mt-6 text-center text-sm text-gray-600">
+              Don’t have an account?{' '}
+              <a href="/signup" className="text-[#2973B2] hover:underline">
+                Sign up
+              </a>
+            </p>
           </div>
         </div>
       </div>
