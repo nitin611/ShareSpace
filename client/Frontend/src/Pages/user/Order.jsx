@@ -37,7 +37,7 @@ const ChatModal = ({ show, onClose, order }) => {
     if (!order) return;
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/chat/chats/${order._id}`,
+        `${API_BASE_URL}/api/chat/chats/${order._id}`,
         { headers: { Authorization: auth?.token } }
       );
       if (response.data && response.data.data) {
@@ -73,9 +73,9 @@ const ChatModal = ({ show, onClose, order }) => {
 
     let apiEndpoint = "";
     if (currentUserId === buyerId) {
-      apiEndpoint = `http://localhost:8080/api/chat/BuyerSend/${order._id}`;
+      apiEndpoint = `${API_BASE_URL}/api/chat/BuyerSend/${order._id}`;
     } else if (currentUserId === sellerId) {
-      apiEndpoint = `http://localhost:8080/api/chat/SellerSend/${order._id}`;
+      apiEndpoint = `${API_BASE_URL}/api/chat/SellerSend/${order._id}`;
     } else {
       console.error("User is neither buyer nor seller for this order");
       return;

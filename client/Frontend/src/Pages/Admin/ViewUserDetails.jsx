@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import Structure from "../../Components/structure/Structure";
 import AdminMenu from "../../Components/structure/AdminMenu";
 import axios from "axios";
+import API_BASE_URL from '../../apiConfig';
 
-const API_BASE_URL = "http://localhost:8080";
+
 
 const ViewUserDetails = () => {
   const { id } = useParams();

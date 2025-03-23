@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import API_BASE_URL from '../apiConfig';
 
 // Set default base URL
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = `${API_BASE_URL}`;
 
 // Add response interceptor
 axios.interceptors.response.use(

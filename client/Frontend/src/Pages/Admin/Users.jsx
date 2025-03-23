@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Structure from '../../Components/structure/Structure';
 import AdminMenu from '../../Components/structure/AdminMenu';
 import axios from 'axios';
+import API_BASE_URL from '../../apiConfig';
+
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -17,7 +19,7 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/category/allUsers');
+      const response = await axios.get(`${API_BASE_URL}/api/category/allUsers`);
       
       setUsers(response.data.users);
     } catch (error) {
@@ -33,7 +35,7 @@ const Users = () => {
         fetchUsers();
         return;
       }
-      const response = await axios.get(`http://localhost:8080/api/category/searchUsers?query=${searchQuery}`);
+      const response = await axios.get(`${API_BASE_URL}/api/category/searchUsers?query=${searchQuery}`);
       
       setUsers(response.data.data);
     } catch (error) {
@@ -43,7 +45,7 @@ const Users = () => {
   
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/api/category/deleteUsers/${selectedUserId}`);
+      await axios.delete(`${API_BASE_URL}/api/category/deleteUsers/${selectedUserId}`);
       setUsers(users.filter(user => user._id !== selectedUserId));
       setShowModal(false);
     } catch (error) {
